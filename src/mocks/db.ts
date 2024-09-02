@@ -1,6 +1,6 @@
 import { IDBPDatabase, openDB } from "idb";
 
-import { GROUPS_DB } from "./model";
+import { GROUPS_DB } from "./models";
 
 export const KEY_GROUPS = "groups";
 
