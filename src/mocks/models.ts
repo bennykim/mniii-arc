@@ -1,5 +1,7 @@
 import { DBSchema } from "idb";
 
+import { KEY_GROUPS } from "../constants";
+
 export interface Item {
   id: string;
   name: string;
@@ -13,7 +15,7 @@ export interface Group {
 }
 
 export interface GROUPS_DB extends DBSchema {
-  groups: {
+  [KEY_GROUPS]: {
     key: string;
     value: Group;
   };

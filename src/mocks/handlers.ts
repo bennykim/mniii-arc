@@ -1,6 +1,7 @@
 import { http, HttpResponse } from "msw";
 
-import { db, initDB, KEY_GROUPS } from "./db";
+import { KEY_GROUPS } from "../constants";
+import { db, initDB } from "./db";
 import { Group, Item } from "./models";
 
 initDB();
