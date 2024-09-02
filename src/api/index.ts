@@ -1,9 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 
-import { Group, Item } from "../mocks/models";
-
 const api = axios.create({
   baseURL: "/api",
+  withCredentials: true,
 });
 
 export const apiService = {

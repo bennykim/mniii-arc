@@ -1,8 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { apiService } from "../api";
-import { KEY_GROUP, KEY_ITEM, KEY_ITEMS } from "../constants";
-import { Item } from "../mocks/models";
+import { apiService } from "@/api";
+import { KEY_GROUP, KEY_ITEM, KEY_ITEMS } from "@/constants";
 
 export const useCreateItem = (groupId: string) => {
   const queryClient = useQueryClient();
@@ -20,6 +19,7 @@ export const useItems = (groupId: string) => {
   return useQuery<Item[], Error>({
     queryKey: [KEY_ITEMS, groupId],
     queryFn: () => apiService.getAllItems(groupId),
+    enabled: !!groupId,
   });
 };
 
