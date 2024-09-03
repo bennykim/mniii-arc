@@ -1,5 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 
+import type { Group, Item } from "@/mocks/model";
+
 const api = axios.create({
   baseURL: "/api",
   withCredentials: true,

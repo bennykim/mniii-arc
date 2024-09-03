@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Spinner } from "@/components/Spinner";
+import { Spinner } from "@/components/Shared/Spinner";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,22 +9,29 @@ import { Input } from "@/components/ui/input";
 import { useDeleteGroup, useUpdateGroup } from "@/hooks";
 
 interface GroupCardProps {
-  group: Group;
-  onSelect: (group: Group) => void;
+  group: UIGroup;
+  onSelect: (group: UIGroup) => void;
 }
 
 export const GroupCard: React.FC<GroupCardProps> = ({ group, onSelect }) => {
   const [editGroupName, setEditGroupName] = useState("");
   const [error, setError] = useState<string | null>(null);
+
   const updateGroup = useUpdateGroup();
   const deleteGroup = useDeleteGroup();
 
   const handleUpdateGroup = () => {
-    updateGroup.mutate({
-      id: group.id,
-      group: { ...group, name: editGroupName },
-    });
-    setEditGroupName("");
+    updateGroup.mutate(
+      {
+        ...group,
+        title: editGroupName,
+      },
+      {
+        onSuccess: () => {
+          setEditGroupName("");
+        },
+      }
+    );
   };
 
   const handleDeleteGroup = async () => {
@@ -39,7 +46,7 @@ export const GroupCard: React.FC<GroupCardProps> = ({ group, onSelect }) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{group.name}</CardTitle>
+        <CardTitle>{group.title}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex space-x-2">

@@ -5,6 +5,8 @@ import { KEY_GROUPS } from "@/constants";
 import { db, initDB } from "@/mocks/db";
 import { withStatus } from "@/mocks/withStatus";
 
+import type { Group, Item } from "@/mocks/model";
+
 function isGroupParams(params: PathParams): params is { id: string } {
   return "id" in params;
 }
@@ -224,7 +226,7 @@ export const handlers = [
           );
         }
         const { groupId, itemId } = params;
-        const group = await db.get(KEY_GROUPS, groupId);
+        const group = (await db.get(KEY_GROUPS, groupId)) as Group;
         if (!group) {
           return HttpResponse.json(
             { error: "Group not found" },
@@ -262,7 +264,7 @@ export const handlers = [
         }
         const { groupId, itemId } = params;
         const updatedItem = (await request.json()) as Item;
-        const group = await db.get(KEY_GROUPS, groupId);
+        const group = (await db.get(KEY_GROUPS, groupId)) as Group;
         if (!group) {
           return HttpResponse.json(
             { error: "Group not found" },
@@ -305,7 +307,7 @@ export const handlers = [
           );
         }
         const { groupId, itemId } = params;
-        const group = await db.get(KEY_GROUPS, groupId);
+        const group = (await db.get(KEY_GROUPS, groupId)) as Group;
         if (!group) {
           return HttpResponse.json(
             { error: "Group not found" },

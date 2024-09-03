@@ -3,7 +3,13 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import DashboardScreen from "@/screen/DashboardScreen";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+    },
+  },
+});
 
 function App() {
   return (

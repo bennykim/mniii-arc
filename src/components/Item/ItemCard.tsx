@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Spinner } from "@/components/Spinner";
+import { Spinner } from "@/components/Shared/Spinner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -9,26 +9,33 @@ import { useDeleteItem, useUpdateItem } from "@/hooks";
 
 interface ItemCardProps {
   groupId: string;
-  item: Item;
+  item: UIItem;
 }
 
 export const ItemCard: React.FC<ItemCardProps> = ({ groupId, item }) => {
   const [editItemName, setEditItemName] = useState("");
+
   const updateItem = useUpdateItem(groupId);
   const deleteItem = useDeleteItem(groupId);
 
   const handleUpdateItem = () => {
-    updateItem.mutate({
-      itemId: item.id,
-      item: { ...item, name: editItemName },
-    });
-    setEditItemName("");
+    updateItem.mutate(
+      {
+        ...item,
+        title: editItemName,
+      },
+      {
+        onSuccess: () => {
+          setEditItemName("");
+        },
+      }
+    );
   };
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{item.name}</CardTitle>
+        <CardTitle>{item.title}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex space-x-2">

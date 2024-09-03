@@ -1,10 +1,16 @@
-type Group = {
+type UIItem = {
   id: string;
-  name: string;
-  items: Item[];
+  title: string;
 };
 
-type Item = {
-  id: string;
-  name: string;
+type UIItems = {
+  list: UIItem[];
 };
+
+type UIGroup = {
+  id: string;
+  title: string;
+  list: UIItem[];
+};
+
+type UIGroups = UIGroup[];

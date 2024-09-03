@@ -1,25 +1,32 @@
 import React, { useState } from "react";
 
-import { Spinner } from "@/components/Spinner";
+import { ItemCard } from "@/components/Item";
+import { Spinner } from "@/components/Shared/Spinner";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ItemCard } from "./ItemCard";
 
 import { useCreateItem, useItems } from "@/hooks";
 
 interface ItemListProps {
-  selectedGroup: Group;
+  selectedGroup: UIGroup;
 }
 
 export const ItemList: React.FC<ItemListProps> = ({ selectedGroup }) => {
   const [newItemName, setNewItemName] = useState("");
-  const { data: items, isLoading, error } = useItems(selectedGroup.id);
+
+  const { data, isLoading, error } = useItems(selectedGroup.id);
   const createItem = useCreateItem(selectedGroup.id);
 
   const handleCreateItem = () => {
-    createItem.mutate({ name: newItemName });
-    setNewItemName("");
+    createItem.mutate(
+      { title: newItemName },
+      {
+        onSuccess: () => {
+          setNewItemName("");
+        },
+      }
+    );
   };
 
   if (isLoading)
@@ -39,7 +46,7 @@ export const ItemList: React.FC<ItemListProps> = ({ selectedGroup }) => {
   return (
     <div className="space-y-4">
       <Alert>
-        <AlertTitle>Selected Group: {selectedGroup.name}</AlertTitle>
+        <AlertTitle>Selected Group: {selectedGroup.title}</AlertTitle>
       </Alert>
       <div className="flex p-1 space-x-2">
         <Input
@@ -54,7 +61,7 @@ export const ItemList: React.FC<ItemListProps> = ({ selectedGroup }) => {
           {createItem.isPending ? <Spinner /> : "Create Item"}
         </Button>
       </div>
-      {items?.map((item) => (
+      {data?.list.map((item) => (
         <ItemCard key={item.id} groupId={selectedGroup.id} item={item} />
       ))}
     </div>

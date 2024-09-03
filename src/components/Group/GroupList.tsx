@@ -1,25 +1,32 @@
 import React, { useState } from "react";
 
-import { Spinner } from "@/components/Spinner";
+import { GroupCard } from "@/components/Group";
+import { Spinner } from "@/components/Shared/Spinner";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { GroupCard } from "./GroupCard";
 
 import { useCreateGroup, useGroups } from "@/hooks";
 
 interface GroupListProps {
-  onSelectGroup: (group: Group) => void;
+  onSelectGroup: (group: UIGroup) => void;
 }
 
 export const GroupList: React.FC<GroupListProps> = ({ onSelectGroup }) => {
   const [newGroupName, setNewGroupName] = useState("");
   const { data: groups, isLoading, error } = useGroups();
+
   const createGroup = useCreateGroup();
 
   const handleCreateGroup = () => {
-    createGroup.mutate({ name: newGroupName, items: [] });
-    setNewGroupName("");
+    createGroup.mutate(
+      { title: newGroupName, list: [] },
+      {
+        onSuccess: () => {
+          setNewGroupName("");
+        },
+      }
+    );
   };
 
   if (isLoading)

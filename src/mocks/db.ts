@@ -1,6 +1,8 @@
 import { DBSchema, IDBPDatabase, openDB } from "idb";
 
-import { KEY_GROUPS } from "../constants";
+import { KEY_GROUPS } from "@/constants";
+
+import type { Group } from "@/mocks/model";
 
 export interface GROUPS_DB extends DBSchema {
   [KEY_GROUPS]: {
