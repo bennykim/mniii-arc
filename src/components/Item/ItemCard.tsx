@@ -1,6 +1,6 @@
+import { Save, Trash2 } from "lucide-react";
 import React, { useState } from "react";
 
-import { Spinner } from "@/components/Shared/Spinner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -48,14 +48,14 @@ export const ItemCard: React.FC<ItemCardProps> = ({ groupId, item }) => {
             onClick={handleUpdateItem}
             disabled={updateItem.isPending || !editItemName}
           >
-            {updateItem.isPending ? <Spinner /> : "Update"}
+            <Save size={16} />
           </Button>
           <Button
             variant="destructive"
             onClick={() => deleteItem.mutate(item.id)}
             disabled={deleteItem.isPending}
           >
-            {deleteItem.isPending ? <Spinner /> : "Delete"}
+            <Trash2 size={16} />
           </Button>
         </div>
       </CardContent>

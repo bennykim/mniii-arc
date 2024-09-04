@@ -1,3 +1,4 @@
+import { RefreshCcw } from "lucide-react";
 import React, { useState } from "react";
 
 import { GroupList } from "@/components/Group";
@@ -26,12 +27,13 @@ import {
 } from "@/components/ui/dialog";
 
 import { useGroups, useItems } from "@/hooks";
+import { cn } from "@/lib/utils";
 
 const DashboardScreen: React.FC = () => {
   const [openItems, setOpenItems] = useState<string[]>(["groups", "items"]);
   const [selectedGroup, setSelectedGroup] = useState<UIGroup | null>(null);
 
-  const { data: groups, refetch } = useGroups();
+  const { data: groups, isLoading, isRefetching, refetch } = useGroups();
   const { data: items } = useItems(selectedGroup?.id ?? "");
 
   const handleAccordionChange = (value: string) => {
@@ -43,63 +45,69 @@ const DashboardScreen: React.FC = () => {
   };
 
   return (
-    <>
-      <Button variant="outline" className="m-3" onClick={() => refetch()}>
-        Refetch
-      </Button>
-      <Card className="w-full max-w-4xl mx-auto mt-8">
-        <CardHeader>
-          <CardTitle>Groups Testing</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Accordion
-            type="multiple"
-            value={openItems}
-            onValueChange={setOpenItems}
-          >
-            <AccordionItem value="groups">
-              <AccordionTrigger onClick={() => handleAccordionChange("groups")}>
-                Groups
-              </AccordionTrigger>
-              <AccordionContent>
-                <GroupList onSelectGroup={setSelectedGroup} />
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="items">
-              <AccordionTrigger onClick={() => handleAccordionChange("items")}>
-                Items
-              </AccordionTrigger>
-              <AccordionContent>
-                {selectedGroup ? (
-                  <ItemList selectedGroup={selectedGroup} />
-                ) : (
-                  <Alert>
-                    <AlertDescription>
-                      Please select a group to manage items
-                    </AlertDescription>
-                  </Alert>
-                )}
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </CardContent>
-        <CardFooter>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="outline">View Response</Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>API Response</DialogTitle>
-              </DialogHeader>
-              <pre className="p-4 overflow-auto text-sm rounded-md">
-                {JSON.stringify({ groups, items }, null, 2)}
-              </pre>
-            </DialogContent>
-          </Dialog>
-        </CardFooter>
-      </Card>
-    </>
+    <Card className="w-full max-w-4xl mx-auto mt-8">
+      <CardHeader className="flex flex-row items-center">
+        <CardTitle className="flex-1">Groups Testing</CardTitle>
+        <Button variant="outline" className="m-3" onClick={() => refetch()}>
+          <RefreshCcw
+            size={16}
+            className={cn({
+              "animate-spin": isLoading || isRefetching,
+            })}
+          />
+        </Button>
+      </CardHeader>
+      <CardContent>
+        <Accordion
+          type="multiple"
+          value={openItems}
+          onValueChange={setOpenItems}
+        >
+          <AccordionItem value="groups">
+            <AccordionTrigger onClick={() => handleAccordionChange("groups")}>
+              Groups
+            </AccordionTrigger>
+            <AccordionContent>
+              <GroupList
+                selectedGroup={selectedGroup}
+                onSelectGroup={setSelectedGroup}
+              />
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="items">
+            <AccordionTrigger onClick={() => handleAccordionChange("items")}>
+              Items
+            </AccordionTrigger>
+            <AccordionContent>
+              {selectedGroup ? (
+                <ItemList selectedGroup={selectedGroup} />
+              ) : (
+                <Alert>
+                  <AlertDescription>
+                    Please select a group to manage items
+                  </AlertDescription>
+                </Alert>
+              )}
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </CardContent>
+      <CardFooter>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="outline">View Response</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>API Response</DialogTitle>
+            </DialogHeader>
+            <pre className="p-4 overflow-auto text-sm rounded-md">
+              {JSON.stringify({ groups, items }, null, 2)}
+            </pre>
+          </DialogContent>
+        </Dialog>
+      </CardFooter>
+    </Card>
   );
 };
 

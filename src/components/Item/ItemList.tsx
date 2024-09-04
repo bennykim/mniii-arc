@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
 import { ItemCard } from "@/components/Item";
-import { Spinner } from "@/components/Shared/Spinner";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import { useCreateItem, useItems } from "@/hooks";
+import { Plus } from "lucide-react";
 
 interface ItemListProps {
   selectedGroup: UIGroup;
@@ -58,11 +58,11 @@ export const ItemList: React.FC<ItemListProps> = ({ selectedGroup }) => {
           onClick={handleCreateItem}
           disabled={createItem.isPending || !newItemName}
         >
-          {createItem.isPending ? <Spinner /> : "Create Item"}
+          <Plus size={16} />
         </Button>
       </div>
-      {data?.list.map((item) => (
-        <ItemCard key={item.id} groupId={selectedGroup.id} item={item} />
+      {data?.list.map((item, index) => (
+        <ItemCard key={index} groupId={selectedGroup.id} item={item} />
       ))}
     </div>
   );

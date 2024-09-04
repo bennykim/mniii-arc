@@ -1,6 +1,6 @@
+import { Circle, CircleCheckBig, Save, Trash2 } from "lucide-react";
 import React, { useState } from "react";
 
-import { Spinner } from "@/components/Shared/Spinner";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,10 +10,15 @@ import { useDeleteGroup, useUpdateGroup } from "@/hooks";
 
 interface GroupCardProps {
   group: UIGroup;
+  selected: boolean;
   onSelect: (group: UIGroup) => void;
 }
 
-export const GroupCard: React.FC<GroupCardProps> = ({ group, onSelect }) => {
+export const GroupCard: React.FC<GroupCardProps> = ({
+  group,
+  selected,
+  onSelect,
+}) => {
   const [editGroupName, setEditGroupName] = useState("");
   const [error, setError] = useState<string | null>(null);
 
@@ -55,17 +60,19 @@ export const GroupCard: React.FC<GroupCardProps> = ({ group, onSelect }) => {
             value={editGroupName}
             onChange={(e) => setEditGroupName(e.target.value)}
           />
-          <Button onClick={handleUpdateGroup} disabled={updateGroup.isPending}>
-            {updateGroup.isPending ? <Spinner /> : "Update"}
+          <Button onClick={handleUpdateGroup} disabled={!editGroupName}>
+            <Save size={16} />
           </Button>
           <Button
             variant="destructive"
             onClick={handleDeleteGroup}
             disabled={deleteGroup.isPending}
           >
-            {deleteGroup.isPending ? <Spinner /> : "Delete"}
+            <Trash2 size={16} />
           </Button>
-          <Button onClick={() => onSelect(group)}>Select</Button>
+          <Button variant="outline" onClick={() => onSelect(group)}>
+            {selected ? <CircleCheckBig size={16} /> : <Circle size={16} />}
+          </Button>
         </div>
         {error && (
           <Alert variant="destructive" className="mt-2">
