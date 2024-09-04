@@ -21,7 +21,10 @@ export const apiService = {
     const response: AxiosResponse<Group> = await api.get(`/groups/${id}`);
     return response.data;
   },
-  updateGroup: async (id: string, updatedGroup: Group): Promise<Group> => {
+  updateGroup: async (
+    id: string,
+    updatedGroup: Omit<Group, "id">
+  ): Promise<Group> => {
     const response: AxiosResponse<Group> = await api.put(
       `/groups/${id}`,
       updatedGroup

@@ -34,3 +34,10 @@ export const toServerGroup = (group: UIGroup): Group => ({
   name: group.title,
   items: group.list.map(toServerItem),
 });
+
+export const toServerGroupExceptId = (
+  group: Omit<UIGroup, "id">
+): Omit<Group, "id"> => ({
+  name: group.title,
+  items: group.list.map(toServerItem),
+});

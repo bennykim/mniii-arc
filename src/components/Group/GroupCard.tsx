@@ -1,7 +1,6 @@
 import { Circle, CircleCheckBig, Save, Trash2 } from "lucide-react";
 import React, { useState } from "react";
 
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -20,7 +19,6 @@ export const GroupCard: React.FC<GroupCardProps> = ({
   onSelect,
 }) => {
   const [editGroupName, setEditGroupName] = useState("");
-  const [error, setError] = useState<string | null>(null);
 
   const updateGroup = useUpdateGroup();
   const deleteGroup = useDeleteGroup();
@@ -39,13 +37,12 @@ export const GroupCard: React.FC<GroupCardProps> = ({
     );
   };
 
-  const handleDeleteGroup = async () => {
-    try {
-      await deleteGroup.mutateAsync(group.id);
-    } catch (err) {
-      console.warn(err);
-      setError("Failed to delete group. Please try again.");
-    }
+  const handleDeleteGroup = () => {
+    deleteGroup.mutateAsync(group.id, {
+      onSuccess: (_, id) => {
+        console.log(`Group with id ${id} deleted`);
+      },
+    });
   };
 
   return (
@@ -74,11 +71,6 @@ export const GroupCard: React.FC<GroupCardProps> = ({
             {selected ? <CircleCheckBig size={16} /> : <Circle size={16} />}
           </Button>
         </div>
-        {error && (
-          <Alert variant="destructive" className="mt-2">
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        )}
       </CardContent>
     </Card>
   );
