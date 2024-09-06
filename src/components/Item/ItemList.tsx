@@ -1,33 +1,22 @@
-import { LoaderPinwheel, Plus } from "lucide-react";
-import React, { useState } from "react";
+import { LoaderPinwheel } from "lucide-react";
 
 import { ItemCard } from "@/components/Item";
+import { CreateEntry } from "@/components/Shared/CreateEntry";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 
-import { useCreateItem, useItems } from "@/hooks";
+import { useCreateEntry, useCreateItem, useGetItems } from "@/hooks";
 
-interface ItemListProps {
+type ItemListProps = {
   selectedGroup: UIGroup;
-}
+};
 
-export const ItemList: React.FC<ItemListProps> = ({ selectedGroup }) => {
-  const [newItemName, setNewItemName] = useState("");
-
-  const { data, isLoading, error } = useItems(selectedGroup.id);
-  const createItem = useCreateItem(selectedGroup.id);
-
-  const handleCreateItem = () => {
-    createItem.mutate(
-      { title: newItemName },
-      {
-        onSuccess: () => {
-          setNewItemName("");
-        },
-      }
-    );
-  };
+export function ItemList({ selectedGroup }: ItemListProps) {
+  const { data, isLoading, error } = useGetItems(selectedGroup.id);
+  const { newTitle, isCreatePending, setNewTitle, handleCreateItem } =
+    useCreateEntry<UIItem>({
+      mutationHook: useCreateItem,
+      groupId: selectedGroup.id,
+    });
 
   if (isLoading)
     return (
@@ -51,22 +40,16 @@ export const ItemList: React.FC<ItemListProps> = ({ selectedGroup }) => {
       <Alert>
         <AlertTitle>Selected Group: {selectedGroup.title}</AlertTitle>
       </Alert>
-      <div className="flex p-1 space-x-2">
-        <Input
-          placeholder="New item name"
-          value={newItemName}
-          onChange={(e) => setNewItemName(e.target.value)}
-        />
-        <Button
-          onClick={handleCreateItem}
-          disabled={createItem.isPending || !newItemName}
-        >
-          <Plus size={16} />
-        </Button>
-      </div>
+      <CreateEntry
+        placeholder="New item title"
+        newTitle={newTitle}
+        setNewTitle={setNewTitle}
+        handleCreateItem={handleCreateItem}
+        isCreatePending={isCreatePending}
+      />
       {data?.list.map((item, index) => (
         <ItemCard key={index} groupId={selectedGroup.id} item={item} />
       ))}
     </div>
   );
-};
+}

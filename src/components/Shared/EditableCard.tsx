@@ -14,32 +14,30 @@ import { Input } from "@/components/ui/input";
 
 import { cn } from "@/lib/utils";
 
-interface EditableCardProps<T> {
+type EditableCardProps<T> = {
   data: T;
   editMode: boolean;
-  editName: string;
-  onEditNameChange: (value: string) => void;
+  EditTitle: string;
+  onEditTitleChange: (value: string) => void;
   onUpdate: () => void;
   onEdit: () => void;
   onCloseEdit: () => void;
   onDelete: () => void;
   isUpdatePending: boolean;
-  isDeletePending: boolean;
   selected?: boolean;
   onSelect?: (data: T) => void;
-}
+};
 
 export function EditableCard<T extends UIItem>({
   data,
   editMode,
-  editName,
-  onEditNameChange,
+  EditTitle,
+  onEditTitleChange,
   onUpdate,
   onEdit,
   onCloseEdit,
   onDelete,
   isUpdatePending,
-  isDeletePending,
   selected,
   onSelect,
 }: EditableCardProps<T>) {
@@ -51,8 +49,8 @@ export function EditableCard<T extends UIItem>({
             <>
               <Input
                 placeholder="Edit name"
-                value={editName}
-                onChange={(e) => onEditNameChange(e.target.value)}
+                value={EditTitle}
+                onChange={(e) => onEditTitleChange(e.target.value)}
               />
               <Button variant="outline" onClick={onCloseEdit}>
                 <X size={16} />
@@ -66,7 +64,7 @@ export function EditableCard<T extends UIItem>({
       <CardContent className="p-6">
         <div className="flex justify-end space-x-2">
           {editMode ? (
-            <Button onClick={onUpdate} disabled={!editName || isUpdatePending}>
+            <Button onClick={onUpdate} disabled={!EditTitle || isUpdatePending}>
               {isUpdatePending ? (
                 <LoaderPinwheel
                   size={16}
@@ -81,11 +79,7 @@ export function EditableCard<T extends UIItem>({
               <Edit size={16} />
             </Button>
           )}
-          <Button
-            variant="destructive"
-            onClick={onDelete}
-            disabled={isDeletePending}
-          >
+          <Button variant="destructive" onClick={onDelete}>
             <Trash2 size={16} />
           </Button>
           {onSelect && (

@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { v4 as uuidv4 } from "uuid";
 
 import { apiService } from "@/api";
 import { KEY_GROUP, KEY_GROUPS } from "@/constants";
@@ -38,7 +37,7 @@ export const useCreateGroup = () => {
 
       const previousGroups = queryClient.getQueryData<Group[]>([KEY_GROUPS]);
 
-      const tempId = `temp-${uuidv4()}`;
+      const tempId = `temp-id`;
       const newTempGroup: Group = {
         ...toServerGroupExceptId({ ...newGroup }),
         id: tempId,

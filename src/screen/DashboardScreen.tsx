@@ -1,5 +1,5 @@
 import { RefreshCcw } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { GroupList } from "@/components/Group";
 import { ItemList } from "@/components/Item";
@@ -26,24 +26,28 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { useGroups, useItems } from "@/hooks";
+import { useGetGroups, useGetItems } from "@/hooks";
 import { cn } from "@/lib/utils";
 import { useSelectedStore } from "@/store";
 
-const DashboardScreen: React.FC = () => {
+function DashboardScreen() {
   const { selectedGroup } = useSelectedStore();
 
   const [openItems, setOpenItems] = useState<string[]>(["groups", "items"]);
 
-  const { data: groups, isLoading, isRefetching, refetch } = useGroups();
-  const { data: items } = useItems(selectedGroup?.id ?? "");
+  const { data: groups, isLoading, isRefetching, refetch } = useGetGroups();
+  const { data: items } = useGetItems(selectedGroup?.id ?? "");
 
   const handleAccordionChange = (value: string) => {
-    setOpenItems((prev) =>
-      prev.includes(value)
-        ? prev.filter((item) => item !== value)
-        : [...prev, value]
-    );
+    setOpenItems((prev) => {
+      const isOpen = prev.includes(value);
+
+      if (isOpen) {
+        return prev.filter((item) => item !== value);
+      } else {
+        return [...prev, value];
+      }
+    });
   };
 
   return (
@@ -108,6 +112,6 @@ const DashboardScreen: React.FC = () => {
       </CardFooter>
     </Card>
   );
-};
+}
 
 export default DashboardScreen;

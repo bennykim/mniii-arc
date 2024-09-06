@@ -1,5 +1,3 @@
-import React from "react";
-
 import { EditableCard } from "@/components/Shared/EditableCard";
 
 import { useDeleteGroup, useEditableCard, useUpdateGroup } from "@/hooks";
@@ -9,20 +7,18 @@ type GroupCardProps = {
   group: UIGroup;
 };
 
-export const GroupCard: React.FC<GroupCardProps> = ({ group }) => {
+export function GroupCard({ group }: GroupCardProps) {
   const { selectedGroup, selectGroup, unselectGroup } = useSelectedStore();
   const isSelected = selectedGroup?.id === group.id;
-
   const {
     editMode,
-    editName,
-    setEditName,
+    EditTitle,
+    setEditTitle,
     handleUpdate,
     handleDelete,
     handleEditClick,
     handleCloseEdit,
-    updateMutation,
-    deleteMutation,
+    isUpdatePending,
   } = useEditableCard<UIGroup>(group, useUpdateGroup, useDeleteGroup);
 
   const handleSelect = () => {
@@ -37,16 +33,15 @@ export const GroupCard: React.FC<GroupCardProps> = ({ group }) => {
     <EditableCard
       data={group}
       editMode={editMode}
-      editName={editName}
-      onEditNameChange={setEditName}
+      EditTitle={EditTitle}
+      onEditTitleChange={setEditTitle}
       onUpdate={handleUpdate}
       onEdit={handleEditClick}
       onCloseEdit={handleCloseEdit}
       onDelete={handleDelete}
-      isUpdatePending={updateMutation.isPending}
-      isDeletePending={deleteMutation.isPending}
+      isUpdatePending={isUpdatePending}
       selected={isSelected}
       onSelect={handleSelect}
     />
   );
-};
+}

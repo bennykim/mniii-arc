@@ -1,5 +1,3 @@
-import React from "react";
-
 import { EditableCard } from "@/components/Shared/EditableCard";
 
 import { useDeleteItem, useEditableCard, useUpdateItem } from "@/hooks";
@@ -9,31 +7,29 @@ type ItemCardProps = {
   item: UIItem;
 };
 
-export const ItemCard: React.FC<ItemCardProps> = ({ groupId, item }) => {
+export function ItemCard({ groupId, item }: ItemCardProps) {
   const {
     editMode,
-    editName,
-    setEditName,
+    EditTitle,
+    setEditTitle,
     handleUpdate,
     handleDelete,
     handleEditClick,
     handleCloseEdit,
-    updateMutation,
-    deleteMutation,
+    isUpdatePending,
   } = useEditableCard<UIItem>(item, useUpdateItem, useDeleteItem, groupId);
 
   return (
     <EditableCard
       data={item}
       editMode={editMode}
-      editName={editName}
-      onEditNameChange={setEditName}
+      EditTitle={EditTitle}
+      onEditTitleChange={setEditTitle}
       onUpdate={handleUpdate}
       onEdit={handleEditClick}
       onCloseEdit={handleCloseEdit}
       onDelete={handleDelete}
-      isUpdatePending={updateMutation.isPending}
-      isDeletePending={deleteMutation.isPending}
+      isUpdatePending={isUpdatePending}
     />
   );
-};
+}

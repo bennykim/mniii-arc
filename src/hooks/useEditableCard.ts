@@ -1,11 +1,11 @@
-import { useToast } from "@/hooks";
-import { Group, Item } from "@/mocks/model";
 import { UseMutationResult } from "@tanstack/react-query";
 import { useState } from "react";
 
+import { useToast } from "@/hooks";
+import { Group, Item } from "@/mocks/model";
+
 type EditableItem = Group | Item;
 type EditableUIItem = UIGroup | UIItem;
-
 type GroupUpdateHook<T> = () => UseMutationResult<
   EditableItem,
   Error,
@@ -15,7 +15,6 @@ type GroupUpdateHook<T> = () => UseMutationResult<
 type ItemUpdateHook<T> = (
   groupId: string
 ) => UseMutationResult<EditableItem, Error, T, unknown>;
-
 type GroupDeleteHook = () => UseMutationResult<
   EditableItem,
   Error,
@@ -25,7 +24,6 @@ type GroupDeleteHook = () => UseMutationResult<
 type ItemDeleteHook = (
   groupId: string
 ) => UseMutationResult<EditableItem, Error, string, unknown>;
-
 type UpdateHook<T extends EditableUIItem> =
   | ItemUpdateHook<T>
   | GroupUpdateHook<T>;
@@ -40,7 +38,7 @@ export function useEditableCard<T extends EditableUIItem>(
   const { toast } = useToast();
 
   const [editMode, setEditMode] = useState(false);
-  const [editName, setEditName] = useState(initialData.title);
+  const [EditTitle, setEditTitle] = useState(initialData.title);
 
   const updateItem = groupId
     ? (updateHook as ItemUpdateHook<T>)(groupId)
@@ -53,7 +51,7 @@ export function useEditableCard<T extends EditableUIItem>(
     try {
       await updateItem.mutateAsync({
         ...initialData,
-        title: editName,
+        title: EditTitle,
       });
       setEditMode(false);
       toast({
@@ -89,23 +87,22 @@ export function useEditableCard<T extends EditableUIItem>(
 
   const handleEditClick = () => {
     setEditMode(true);
-    setEditName(initialData.title);
+    setEditTitle(initialData.title);
   };
 
   const handleCloseEdit = () => {
     setEditMode(false);
-    setEditName(initialData.title);
+    setEditTitle(initialData.title);
   };
 
   return {
     editMode,
-    editName,
-    setEditName,
+    EditTitle,
+    setEditTitle,
     handleUpdate,
     handleDelete,
     handleEditClick,
     handleCloseEdit,
-    updateMutation: updateItem,
-    deleteMutation: deleteItem,
+    isUpdatePending: updateItem.isPending,
   };
 }

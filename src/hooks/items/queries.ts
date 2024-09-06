@@ -6,7 +6,7 @@ import { toUIItem, toUIItems } from "@/lib/utils";
 
 import type { Item } from "@/mocks/model";
 
-export const useItems = (groupId: string) => {
+export const useGetItems = (groupId: string) => {
   const query = useQuery<Item[], Error, UIItems>({
     queryKey: [KEY_ITEMS, groupId],
     queryFn: () => apiService.getAllItems(groupId),
@@ -17,7 +17,7 @@ export const useItems = (groupId: string) => {
   return query;
 };
 
-export const useItem = (groupId: string, itemId: string) => {
+export const useGetItem = (groupId: string, itemId: string) => {
   const query = useQuery<Item, Error, UIItem>({
     queryKey: [KEY_ITEM, groupId, itemId],
     queryFn: () => apiService.getItemById(groupId, itemId),

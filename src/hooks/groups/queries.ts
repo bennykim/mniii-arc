@@ -6,7 +6,7 @@ import { toUIGroup, toUIGroups } from "@/lib/utils";
 
 import type { Group } from "@/mocks/model";
 
-export const useGroups = () => {
+export const useGetGroups = () => {
   const query = useQuery<Group[], Error, UIGroups>({
     queryKey: [KEY_GROUPS],
     queryFn: apiService.getAllGroups,
@@ -16,7 +16,7 @@ export const useGroups = () => {
   return query;
 };
 
-export const useGroup = (id: string) => {
+export const useGetGroup = (id: string) => {
   const query = useQuery<Group, Error, UIGroup>({
     queryKey: [KEY_GROUP, id],
     queryFn: () => apiService.getGroupById(id),

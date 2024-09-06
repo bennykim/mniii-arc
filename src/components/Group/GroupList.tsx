@@ -1,30 +1,13 @@
-import { Plus } from "lucide-react";
-import React, { useState } from "react";
-
 import { GroupCard } from "@/components/Group";
+import { CreateEntry } from "@/components/Shared/CreateEntry";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 
-import { useCreateGroup, useGroups } from "@/hooks";
+import { useCreateEntry, useCreateGroup, useGetGroups } from "@/hooks";
 
-export const GroupList: React.FC = () => {
-  const [newGroupName, setNewGroupName] = useState("");
-
-  const { data: groups, isLoading, error } = useGroups();
-
-  const createGroup = useCreateGroup();
-
-  const handleCreateGroup = () => {
-    createGroup.mutate(
-      { title: newGroupName, list: [] },
-      {
-        onSuccess: () => {
-          setNewGroupName("");
-        },
-      }
-    );
-  };
+export function GroupList() {
+  const { data: groups, isLoading, error } = useGetGroups();
+  const { newTitle, isCreatePending, setNewTitle, handleCreateItem } =
+    useCreateEntry<UIGroup>({ mutationHook: useCreateGroup });
 
   if (isLoading)
     return (
@@ -43,22 +26,16 @@ export const GroupList: React.FC = () => {
 
   return (
     <div className="space-y-4">
-      <div className="flex p-1 space-x-2">
-        <Input
-          placeholder="New group name"
-          value={newGroupName}
-          onChange={(e) => setNewGroupName(e.target.value)}
-        />
-        <Button
-          disabled={!newGroupName || createGroup.isPending}
-          onClick={handleCreateGroup}
-        >
-          <Plus size={16} />
-        </Button>
-      </div>
+      <CreateEntry
+        placeholder="New group title"
+        newTitle={newTitle}
+        setNewTitle={setNewTitle}
+        handleCreateItem={handleCreateItem}
+        isCreatePending={isCreatePending}
+      />
       {groups?.map((group, index) => (
         <GroupCard key={index} group={group} />
       ))}
     </div>
   );
-};
+}

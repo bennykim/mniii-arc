@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { v4 as uuidv4 } from "uuid";
 
 import { apiService } from "@/api";
 import { KEY_GROUP, KEY_ITEM, KEY_ITEMS } from "@/constants";
@@ -36,7 +35,7 @@ export const useCreateItem = (groupId: string) => {
         groupId,
       ]);
 
-      const tempId = `temp-${uuidv4()}`;
+      const tempId = `temp-id`;
       const newTempItem: Item = {
         ...toServerItemExceptId(newItem),
         id: tempId,
