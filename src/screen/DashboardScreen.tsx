@@ -28,10 +28,12 @@ import {
 
 import { useGroups, useItems } from "@/hooks";
 import { cn } from "@/lib/utils";
+import { useSelectedStore } from "@/store";
 
 const DashboardScreen: React.FC = () => {
+  const { selectedGroup } = useSelectedStore();
+
   const [openItems, setOpenItems] = useState<string[]>(["groups", "items"]);
-  const [selectedGroup, setSelectedGroup] = useState<UIGroup | null>(null);
 
   const { data: groups, isLoading, isRefetching, refetch } = useGroups();
   const { data: items } = useItems(selectedGroup?.id ?? "");
@@ -68,10 +70,7 @@ const DashboardScreen: React.FC = () => {
               Groups
             </AccordionTrigger>
             <AccordionContent>
-              <GroupList
-                selectedGroup={selectedGroup}
-                onSelectGroup={setSelectedGroup}
-              />
+              <GroupList />
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="items">

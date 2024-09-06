@@ -8,15 +8,7 @@ import { Input } from "@/components/ui/input";
 
 import { useCreateGroup, useGroups } from "@/hooks";
 
-interface GroupListProps {
-  selectedGroup: UIGroup | null;
-  onSelectGroup: (group: UIGroup) => void;
-}
-
-export const GroupList: React.FC<GroupListProps> = ({
-  selectedGroup,
-  onSelectGroup,
-}) => {
+export const GroupList: React.FC = () => {
   const [newGroupName, setNewGroupName] = useState("");
 
   const { data: groups, isLoading, error } = useGroups();
@@ -65,12 +57,7 @@ export const GroupList: React.FC<GroupListProps> = ({
         </Button>
       </div>
       {groups?.map((group, index) => (
-        <GroupCard
-          key={index}
-          group={group}
-          selected={selectedGroup?.id === group.id}
-          onSelect={onSelectGroup}
-        />
+        <GroupCard key={index} group={group} />
       ))}
     </div>
   );
