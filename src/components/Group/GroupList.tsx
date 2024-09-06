@@ -18,6 +18,7 @@ export const GroupList: React.FC<GroupListProps> = ({
   onSelectGroup,
 }) => {
   const [newGroupName, setNewGroupName] = useState("");
+
   const { data: groups, isLoading, error } = useGroups();
 
   const createGroup = useCreateGroup();

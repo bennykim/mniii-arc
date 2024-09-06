@@ -1,3 +1,4 @@
+import { LoaderPinwheel, Plus } from "lucide-react";
 import React, { useState } from "react";
 
 import { ItemCard } from "@/components/Item";
@@ -6,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import { useCreateItem, useItems } from "@/hooks";
-import { Plus } from "lucide-react";
 
 interface ItemListProps {
   selectedGroup: UIGroup;
@@ -32,9 +32,12 @@ export const ItemList: React.FC<ItemListProps> = ({ selectedGroup }) => {
   if (isLoading)
     return (
       <Alert>
-        <AlertTitle>Loading items...</AlertTitle>
+        <AlertTitle className="text-center ">
+          <LoaderPinwheel size={16} className="animate-spin" />
+        </AlertTitle>
       </Alert>
     );
+
   if (error)
     return (
       <Alert variant="destructive">

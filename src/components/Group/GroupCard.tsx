@@ -1,77 +1,46 @@
-import { Circle, CircleCheckBig, Save, Trash2 } from "lucide-react";
-import React, { useState } from "react";
+import React from "react";
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { EditableCard } from "@/components/Shared/EditableCard";
 
-import { useDeleteGroup, useUpdateGroup } from "@/hooks";
+import { useDeleteGroup, useEditableCard, useUpdateGroup } from "@/hooks";
 
-interface GroupCardProps {
+type GroupCardProps = {
   group: UIGroup;
   selected: boolean;
   onSelect: (group: UIGroup) => void;
-}
+};
 
 export const GroupCard: React.FC<GroupCardProps> = ({
   group,
   selected,
   onSelect,
 }) => {
-  const [editGroupName, setEditGroupName] = useState("");
-
-  const updateGroup = useUpdateGroup();
-  const deleteGroup = useDeleteGroup();
-
-  const handleUpdateGroup = () => {
-    updateGroup.mutate(
-      {
-        ...group,
-        title: editGroupName,
-      },
-      {
-        onSuccess: () => {
-          setEditGroupName("");
-        },
-      }
-    );
-  };
-
-  const handleDeleteGroup = () => {
-    deleteGroup.mutateAsync(group.id, {
-      onSuccess: (_, id) => {
-        console.log(`Group with id ${id} deleted`);
-      },
-    });
-  };
+  const {
+    editMode,
+    editName,
+    setEditName,
+    handleUpdate,
+    handleDelete,
+    handleEditClick,
+    handleCloseEdit,
+    updateMutation,
+    deleteMutation,
+  } = useEditableCard<UIGroup>(group, useUpdateGroup, useDeleteGroup);
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{group.title}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="flex space-x-2">
-          <Input
-            placeholder="Edit group name"
-            value={editGroupName}
-            onChange={(e) => setEditGroupName(e.target.value)}
-          />
-          <Button onClick={handleUpdateGroup} disabled={!editGroupName}>
-            <Save size={16} />
-          </Button>
-          <Button
-            variant="destructive"
-            onClick={handleDeleteGroup}
-            disabled={deleteGroup.isPending}
-          >
-            <Trash2 size={16} />
-          </Button>
-          <Button variant="outline" onClick={() => onSelect(group)}>
-            {selected ? <CircleCheckBig size={16} /> : <Circle size={16} />}
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
+    <EditableCard
+      data={group}
+      editMode={editMode}
+      editName={editName}
+      onEditNameChange={setEditName}
+      onUpdate={handleUpdate}
+      onEdit={handleEditClick}
+      onCloseEdit={handleCloseEdit}
+      onDelete={handleDelete}
+      isUpdatePending={updateMutation.isPending}
+      isDeletePending={deleteMutation.isPending}
+      selected={selected}
+      onSelect={onSelect}
+    />
   );
 };

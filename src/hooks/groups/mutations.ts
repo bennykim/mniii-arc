@@ -137,10 +137,8 @@ export const useUpdateGroup = () => {
 export const useDeleteGroup = () => {
   const queryClient = useQueryClient();
 
-  const mutation = useMutation<void, Error, string, DeleteGroupContext>({
-    mutationFn: async (id: string) => {
-      await apiService.deleteGroup(id);
-    },
+  const mutation = useMutation<Group, Error, string, DeleteGroupContext>({
+    mutationFn: (id: string) => apiService.deleteGroup(id),
 
     onMutate: async (deletedGroupId) => {
       await queryClient.cancelQueries({ queryKey: [KEY_GROUPS] });

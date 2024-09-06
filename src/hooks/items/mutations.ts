@@ -150,10 +150,8 @@ export const useUpdateItem = (groupId: string) => {
 export const useDeleteItem = (groupId: string) => {
   const queryClient = useQueryClient();
 
-  return useMutation<void, Error, UIItem["id"], DeleteItemContext>({
-    mutationFn: async (itemId) => {
-      await apiService.deleteItem(groupId, itemId);
-    },
+  return useMutation<Item, Error, UIItem["id"], DeleteItemContext>({
+    mutationFn: (itemId) => apiService.deleteItem(groupId, itemId),
 
     onMutate: async (deletedItemId) => {
       await queryClient.cancelQueries({ queryKey: [KEY_ITEMS, groupId] });
