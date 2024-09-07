@@ -1,10 +1,9 @@
 import { LoaderPinwheel } from "lucide-react";
 
-import { ItemCard } from "@/components/Item";
 import { CreateEntry } from "@/components/Shared/CreateEntry";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-
 import { useCreateItem, useGetItems } from "@/entities/item/api";
+import { ItemCard } from "@/entities/item/ui";
 import { useCreateEntry } from "@/hooks";
 
 type ItemListProps = {

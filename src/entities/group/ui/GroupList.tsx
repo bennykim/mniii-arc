@@ -1,8 +1,7 @@
-import { GroupCard } from "@/components/Group";
 import { CreateEntry } from "@/components/Shared/CreateEntry";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-
 import { useCreateGroup, useGetGroups } from "@/entities/group/api";
+import { GroupCard } from "@/entities/group/ui";
 import { useCreateEntry } from "@/hooks";
 
 export function GroupList() {

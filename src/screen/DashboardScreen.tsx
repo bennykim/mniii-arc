@@ -1,8 +1,6 @@
 import { RefreshCcw } from "lucide-react";
 import { useState } from "react";
 
-import { GroupList } from "@/components/Group";
-import { ItemList } from "@/components/Item";
 import {
   Accordion,
   AccordionContent,
@@ -25,9 +23,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
 import { useGetGroups } from "@/entities/group/api";
+import { GroupList } from "@/entities/group/ui";
 import { useGetItems } from "@/entities/item/api";
+import { ItemList } from "@/entities/item/ui";
 import { cn } from "@/shared/lib/utils";
 import { useSelectedStore } from "@/store";
 
