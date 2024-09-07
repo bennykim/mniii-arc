@@ -1,6 +1,6 @@
-import { EditableCard } from "@/components/Shared/EditableCard";
 import { useDeleteGroup, useUpdateGroup } from "@/entities/group/api";
 import { useEditableCard } from "@/hooks";
+import { EditableCard } from "@/shared/ui/EditableCard";
 import { useSelectedStore } from "@/store";
 
 type GroupCardProps = {

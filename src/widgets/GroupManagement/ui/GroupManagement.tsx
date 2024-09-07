@@ -1,33 +1,33 @@
 import { RefreshCcw } from "lucide-react";
 import { useState } from "react";
 
+import { useGetGroups } from "@/entities/group/api";
+import { GroupList } from "@/entities/group/ui";
+import { useGetItems } from "@/entities/item/api";
+import { ItemList } from "@/entities/item/ui";
+import { cn } from "@/shared/lib/utils";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
+} from "@/shared/ui/shadcn/accordion";
+import { Alert, AlertDescription } from "@/shared/ui/shadcn/alert";
+import { Button } from "@/shared/ui/shadcn/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/shared/ui/shadcn/card";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { useGetGroups } from "@/entities/group/api";
-import { GroupList } from "@/entities/group/ui";
-import { useGetItems } from "@/entities/item/api";
-import { ItemList } from "@/entities/item/ui";
-import { cn } from "@/shared/lib/utils";
+} from "@/shared/ui/shadcn/dialog";
 import { useSelectedStore } from "@/store";
 
 export function GroupManagement() {

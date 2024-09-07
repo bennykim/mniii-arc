@@ -1,7 +1,7 @@
 import { Plus } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/shared/ui/shadcn/button";
+import { Input } from "@/shared/ui/shadcn/input";
 
 type CreateEntryProps = {
   placeholder: string;

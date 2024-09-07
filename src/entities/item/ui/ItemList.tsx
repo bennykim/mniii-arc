@@ -1,10 +1,10 @@
 import { LoaderPinwheel } from "lucide-react";
 
-import { CreateEntry } from "@/components/Shared/CreateEntry";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useCreateItem, useGetItems } from "@/entities/item/api";
 import { ItemCard } from "@/entities/item/ui";
 import { useCreateEntry } from "@/hooks";
+import { CreateEntry } from "@/shared/ui/CreateEntry";
+import { Alert, AlertDescription, AlertTitle } from "@/shared/ui/shadcn/alert";
 
 type ItemListProps = {
   selectedGroup: UIGroup;

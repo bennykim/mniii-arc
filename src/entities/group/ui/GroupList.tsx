@@ -1,8 +1,8 @@
-import { CreateEntry } from "@/components/Shared/CreateEntry";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useCreateGroup, useGetGroups } from "@/entities/group/api";
 import { GroupCard } from "@/entities/group/ui";
 import { useCreateEntry } from "@/hooks";
+import { CreateEntry } from "@/shared/ui/CreateEntry";
+import { Alert, AlertDescription, AlertTitle } from "@/shared/ui/shadcn/alert";
 
 export function GroupList() {
   const { data: groups, isLoading, error } = useGetGroups();

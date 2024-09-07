@@ -1,4 +1,4 @@
-import { EditableCard } from "@/components/Shared/EditableCard";
+import { EditableCard } from "@/shared/ui/EditableCard";
 
 import { useDeleteItem, useUpdateItem } from "@/entities/item/api";
 import { useEditableCard } from "@/hooks";
