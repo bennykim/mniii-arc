@@ -30,7 +30,7 @@ import { ItemList } from "@/entities/item/ui";
 import { cn } from "@/shared/lib/utils";
 import { useSelectedStore } from "@/store";
 
-function DashboardScreen() {
+export function GroupManagement() {
   const { selectedGroup } = useSelectedStore();
 
   const [openItems, setOpenItems] = useState<string[]>(["groups", "items"]);
@@ -113,5 +113,3 @@ function DashboardScreen() {
     </Card>
   );
 }
-
-export default DashboardScreen;
