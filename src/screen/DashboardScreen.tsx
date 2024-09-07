@@ -26,7 +26,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { useGetGroups, useGetItems } from "@/hooks";
+import { useGetGroups } from "@/entities/group/api";
+import { useGetItems } from "@/entities/item/api";
 import { cn } from "@/shared/lib/utils";
 import { useSelectedStore } from "@/store";
 

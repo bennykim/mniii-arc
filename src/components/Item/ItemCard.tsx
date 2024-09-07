@@ -1,6 +1,7 @@
 import { EditableCard } from "@/components/Shared/EditableCard";
 
-import { useDeleteItem, useEditableCard, useUpdateItem } from "@/hooks";
+import { useDeleteItem, useUpdateItem } from "@/entities/item/api";
+import { useEditableCard } from "@/hooks";
 
 type ItemCardProps = {
   groupId: string;

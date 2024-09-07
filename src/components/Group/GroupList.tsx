@@ -2,7 +2,8 @@ import { GroupCard } from "@/components/Group";
 import { CreateEntry } from "@/components/Shared/CreateEntry";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
-import { useCreateEntry, useCreateGroup, useGetGroups } from "@/hooks";
+import { useCreateGroup, useGetGroups } from "@/entities/group/api";
+import { useCreateEntry } from "@/hooks";
 
 export function GroupList() {
   const { data: groups, isLoading, error } = useGetGroups();

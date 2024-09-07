@@ -4,7 +4,8 @@ import { ItemCard } from "@/components/Item";
 import { CreateEntry } from "@/components/Shared/CreateEntry";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
-import { useCreateEntry, useCreateItem, useGetItems } from "@/hooks";
+import { useCreateItem, useGetItems } from "@/entities/item/api";
+import { useCreateEntry } from "@/hooks";
 
 type ItemListProps = {
   selectedGroup: UIGroup;
