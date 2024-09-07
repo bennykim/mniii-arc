@@ -1,9 +1,9 @@
 import { http, HttpResponse, PathParams } from "msw";
 import { v4 as uuidv4 } from "uuid";
 
-import { KEY_GROUPS } from "@/constants";
 import { db, initDB } from "@/mocks/db";
 import { withStatus } from "@/mocks/withStatus";
+import { KEY_GROUPS } from "@/shared/config/constants";
 
 import type { Group, Item } from "@/mocks/model";
 

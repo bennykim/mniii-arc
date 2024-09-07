@@ -1,6 +1,6 @@
 import { DBSchema, IDBPDatabase, openDB } from "idb";
 
-import { KEY_GROUPS } from "@/constants";
+import { KEY_GROUPS } from "@/shared/config/constants";
 
 import type { Group } from "@/mocks/model";
 

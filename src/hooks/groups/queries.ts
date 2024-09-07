@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { apiService } from "@/api";
-import { KEY_GROUP, KEY_GROUPS } from "@/constants";
-import { toUIGroup, toUIGroups } from "@/lib/utils";
+import { apiService } from "@/shared/api/base";
+import { KEY_GROUP, KEY_GROUPS } from "@/shared/config/constants";
+import { toUIGroup, toUIGroups } from "@/shared/lib/utils";
 
 import type { Group } from "@/mocks/model";
 

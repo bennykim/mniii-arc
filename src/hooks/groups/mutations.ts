@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { apiService } from "@/api";
-import { KEY_GROUP, KEY_GROUPS } from "@/constants";
-import { toServerGroup, toServerGroupExceptId } from "@/lib/utils";
+import { apiService } from "@/shared/api/base";
+import { KEY_GROUP, KEY_GROUPS } from "@/shared/config/constants";
+import { toServerGroup, toServerGroupExceptId } from "@/shared/lib/utils";
 
 import type { Group } from "@/mocks/model";
 

@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/dialog";
 
 import { useGetGroups, useGetItems } from "@/hooks";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import { useSelectedStore } from "@/store";
 
 function DashboardScreen() {

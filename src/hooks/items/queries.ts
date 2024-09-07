@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { apiService } from "@/api";
-import { KEY_ITEM, KEY_ITEMS } from "@/constants";
-import { toUIItem, toUIItems } from "@/lib/utils";
+import { apiService } from "@/shared/api/base";
+import { KEY_ITEM, KEY_ITEMS } from "@/shared/config/constants";
+import { toUIItem, toUIItems } from "@/shared/lib/utils";
 
 import type { Item } from "@/mocks/model";
 
