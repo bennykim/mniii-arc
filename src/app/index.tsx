@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
-import { GroupManagement } from "@/widgets/GroupManagement";
+import DashboardPage from "@/pages/dashboard";
 import { AppProvider } from "./providers";
 
 import "./styles/global.css";
@@ -17,7 +17,7 @@ enableMocking().then(() => {
   createRoot(document.getElementById("root")!).render(
     <StrictMode>
       <AppProvider>
-        <GroupManagement />
+        <DashboardPage />
       </AppProvider>
     </StrictMode>
   );
