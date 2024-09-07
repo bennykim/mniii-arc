@@ -5,7 +5,8 @@ import { db, initDB } from "@/mocks/db";
 import { withStatus } from "@/mocks/withStatus";
 import { KEY_GROUPS } from "@/shared/config/constants";
 
-import type { Group, Item } from "@/mocks/model";
+import type { Group } from "@/entities/group/model/types";
+import type { Item } from "@/entities/item/model/types";
 
 function isGroupParams(params: PathParams): params is { id: string } {
   return "id" in params;

@@ -1,10 +1,9 @@
-export type Group = {
+export type BaseItem = {
   id: string;
   name: string;
-  items: Item[];
 };
 
-export type Item = {
+export type BaseGroup = {
   id: string;
   name: string;
 };

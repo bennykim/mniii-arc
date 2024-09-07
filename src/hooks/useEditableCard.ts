@@ -2,7 +2,9 @@ import { UseMutationResult } from "@tanstack/react-query";
 import { useState } from "react";
 
 import { useToast } from "@/hooks";
-import { Group, Item } from "@/mocks/model";
+
+import type { Group } from "@/entities/group/model/types";
+import type { Item } from "@/entities/item/model/types";
 
 type EditableItem = Group | Item;
 type EditableUIItem = UIGroup | UIItem;

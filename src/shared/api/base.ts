@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 
-import type { Group, Item } from "@/mocks/model";
+import type { Group } from "@/entities/group/model/types";
+import type { Item } from "@/entities/item/model/types";
 
 const api = axios.create({
   baseURL: "/api",

@@ -1,7 +1,8 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-import type { Group, Item } from "@/mocks/model";
+import type { Group } from "@/entities/group/model/types";
+import type { Item } from "@/entities/item/model/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

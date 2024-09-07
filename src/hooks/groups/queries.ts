@@ -4,7 +4,7 @@ import { apiService } from "@/shared/api/base";
 import { KEY_GROUP, KEY_GROUPS } from "@/shared/config/constants";
 import { toUIGroup, toUIGroups } from "@/shared/lib/utils";
 
-import type { Group } from "@/mocks/model";
+import type { Group } from "@/entities/group/model/types";
 
 export const useGetGroups = () => {
   const query = useQuery<Group[], Error, UIGroups>({

@@ -1,7 +1,8 @@
 import { UseMutationResult } from "@tanstack/react-query";
 import { useState } from "react";
 
-import { Group, Item } from "@/mocks/model";
+import type { Group } from "@/entities/group/model/types";
+import type { Item } from "@/entities/item/model/types";
 
 type GroupCreateHook = () => UseMutationResult<
   Group,

@@ -4,7 +4,7 @@ import { apiService } from "@/shared/api/base";
 import { KEY_GROUP, KEY_ITEM, KEY_ITEMS } from "@/shared/config/constants";
 import { toServerItem, toServerItemExceptId } from "@/shared/lib/utils";
 
-import type { Item } from "@/mocks/model";
+import type { Item } from "@/entities/item/model/types";
 
 type CreateItemContext = {
   tempId: string;

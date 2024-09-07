@@ -4,7 +4,7 @@ import { apiService } from "@/shared/api/base";
 import { KEY_ITEM, KEY_ITEMS } from "@/shared/config/constants";
 import { toUIItem, toUIItems } from "@/shared/lib/utils";
 
-import type { Item } from "@/mocks/model";
+import type { Item } from "@/entities/item/model/types";
 
 export const useGetItems = (groupId: string) => {
   const query = useQuery<Item[], Error, UIItems>({
