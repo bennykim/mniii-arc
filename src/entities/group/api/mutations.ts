@@ -95,7 +95,9 @@ export const useUpdateGroupMutation = () => {
       const newGroupData = toServerGroup(newGroup);
       queryClient.setQueryData<Group[]>([KEY_GROUPS], (oldData) => {
         return (
-          oldData?.map((g) => (g.id === newGroup.id ? newGroupData : g)) ?? []
+          oldData?.map((group) =>
+            group.id === newGroup.id ? newGroupData : group
+          ) ?? []
         );
       });
       queryClient.setQueryData<Group>([KEY_GROUP, newGroup.id], newGroupData);
@@ -105,7 +107,10 @@ export const useUpdateGroupMutation = () => {
 
     onSuccess: (data, variables) => {
       queryClient.setQueryData<Group[]>([KEY_GROUPS], (oldData) => {
-        return oldData?.map((g) => (g.id === variables.id ? data : g)) ?? [];
+        return (
+          oldData?.map((group) => (group.id === variables.id ? data : group)) ??
+          []
+        );
       });
       queryClient.setQueryData([KEY_GROUP, variables.id], data);
     },
@@ -120,7 +125,6 @@ export const useUpdateGroupMutation = () => {
           context.previousGroup
         );
       }
-
       console.error(`Failed to update group with id ${variables.id}:`, err);
     },
 
