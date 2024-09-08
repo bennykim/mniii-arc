@@ -1,13 +1,16 @@
-import { useCreateGroup, useGetGroups } from "@/entities/group/api";
+import {
+  useCreateGroup as useCreateGroupApi,
+  useGetGroups,
+} from "@/entities/group/api";
+import { useCreateGroup } from "@/entities/group/hooks";
 import { GroupCard } from "@/entities/group/ui";
-import { useCreateEntry } from "@/hooks";
 import { CreateEntry } from "@/shared/ui/CreateEntry";
 import { Alert, AlertDescription, AlertTitle } from "@/shared/ui/shadcn/alert";
 
 export function GroupList() {
   const { data: groups, isLoading, error } = useGetGroups();
-  const { newTitle, isCreatePending, setNewTitle, handleCreateItem } =
-    useCreateEntry<UIGroup>({ mutationHook: useCreateGroup });
+  const { newTitle, isCreatePending, setNewTitle, handleCreateGroup } =
+    useCreateGroup({ mutationHook: useCreateGroupApi });
 
   if (isLoading)
     return (
@@ -30,7 +33,7 @@ export function GroupList() {
         placeholder="New group title"
         newTitle={newTitle}
         setNewTitle={setNewTitle}
-        handleCreateItem={handleCreateItem}
+        handleCreateItem={handleCreateGroup}
         isCreatePending={isCreatePending}
       />
       {groups?.map((group, index) => (

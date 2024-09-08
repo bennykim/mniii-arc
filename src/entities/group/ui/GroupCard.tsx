@@ -1,7 +1,7 @@
 import { useDeleteGroup, useUpdateGroup } from "@/entities/group/api";
-import { useEditableCard } from "@/hooks";
+import { useEditableGroup } from "@/entities/group/hooks";
+import { useSelectedStore } from "@/entities/group/store";
 import { EditableCard } from "@/shared/ui/EditableCard";
-import { useSelectedStore } from "@/store";
 
 type GroupCardProps = {
   group: UIGroup;
@@ -12,14 +12,14 @@ export function GroupCard({ group }: GroupCardProps) {
   const isSelected = selectedGroup?.id === group.id;
   const {
     editMode,
-    EditTitle,
+    editTitle,
     setEditTitle,
     handleUpdate,
     handleDelete,
     handleEditClick,
     handleCloseEdit,
     isUpdatePending,
-  } = useEditableCard<UIGroup>(group, useUpdateGroup, useDeleteGroup);
+  } = useEditableGroup(group, useUpdateGroup, useDeleteGroup);
 
   const handleSelect = () => {
     if (isSelected) {
@@ -33,7 +33,7 @@ export function GroupCard({ group }: GroupCardProps) {
     <EditableCard
       data={group}
       editMode={editMode}
-      EditTitle={EditTitle}
+      EditTitle={editTitle}
       onEditTitleChange={setEditTitle}
       onUpdate={handleUpdate}
       onEdit={handleEditClick}

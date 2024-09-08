@@ -1,8 +1,11 @@
 import { LoaderPinwheel } from "lucide-react";
 
-import { useCreateItem, useGetItems } from "@/entities/item/api";
+import {
+  useCreateItem as useCreateItemApi,
+  useGetItems,
+} from "@/entities/item/api";
+import { useCreateItem } from "@/entities/item/hooks";
 import { ItemCard } from "@/entities/item/ui";
-import { useCreateEntry } from "@/hooks";
 import { CreateEntry } from "@/shared/ui/CreateEntry";
 import { Alert, AlertDescription, AlertTitle } from "@/shared/ui/shadcn/alert";
 
@@ -13,8 +16,8 @@ type ItemListProps = {
 export function ItemList({ selectedGroup }: ItemListProps) {
   const { data, isLoading, error } = useGetItems(selectedGroup.id);
   const { newTitle, isCreatePending, setNewTitle, handleCreateItem } =
-    useCreateEntry<UIItem>({
-      mutationHook: useCreateItem,
+    useCreateItem({
+      mutationHook: useCreateItemApi,
       groupId: selectedGroup.id,
     });
 

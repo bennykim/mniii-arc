@@ -1,7 +1,6 @@
-import { EditableCard } from "@/shared/ui/EditableCard";
-
 import { useDeleteItem, useUpdateItem } from "@/entities/item/api";
-import { useEditableCard } from "@/hooks";
+import { useEditableItem } from "@/entities/item/hooks";
+import { EditableCard } from "@/shared/ui/EditableCard";
 
 type ItemCardProps = {
   groupId: string;
@@ -11,20 +10,20 @@ type ItemCardProps = {
 export function ItemCard({ groupId, item }: ItemCardProps) {
   const {
     editMode,
-    EditTitle,
+    editTitle,
     setEditTitle,
     handleUpdate,
     handleDelete,
     handleEditClick,
     handleCloseEdit,
     isUpdatePending,
-  } = useEditableCard<UIItem>(item, useUpdateItem, useDeleteItem, groupId);
+  } = useEditableItem(item, useUpdateItem, useDeleteItem, groupId);
 
   return (
     <EditableCard
       data={item}
       editMode={editMode}
-      EditTitle={EditTitle}
+      EditTitle={editTitle}
       onEditTitleChange={setEditTitle}
       onUpdate={handleUpdate}
       onEdit={handleEditClick}

@@ -2,6 +2,7 @@ import { RefreshCcw } from "lucide-react";
 import { useState } from "react";
 
 import { useGetGroups } from "@/entities/group/api";
+import { useSelectedStore } from "@/entities/group/store";
 import { GroupList } from "@/entities/group/ui";
 import { useGetItems } from "@/entities/item/api";
 import { ItemList } from "@/entities/item/ui";
@@ -28,7 +29,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/shared/ui/shadcn/dialog";
-import { useSelectedStore } from "@/store";
 
 export function GroupManagement() {
   const { selectedGroup } = useSelectedStore();
