@@ -1,6 +1,6 @@
 import {
-  useCreateGroup as useCreateGroupApi,
-  useGetGroups,
+  useCreateGroupMutation,
+  useGetGroupsQuery,
 } from "@/entities/group/api";
 import { useCreateGroup } from "@/entities/group/hooks";
 import { GroupCard } from "@/entities/group/ui";
@@ -8,9 +8,9 @@ import { CreateEntry } from "@/shared/ui/CreateEntry";
 import { Alert, AlertDescription, AlertTitle } from "@/shared/ui/shadcn/alert";
 
 export function GroupList() {
-  const { data: groups, isLoading, error } = useGetGroups();
+  const { data: groups, isLoading, error } = useGetGroupsQuery();
   const { newTitle, isCreatePending, setNewTitle, handleCreateGroup } =
-    useCreateGroup({ mutationHook: useCreateGroupApi });
+    useCreateGroup({ mutationHook: useCreateGroupMutation });
 
   if (isLoading)
     return (

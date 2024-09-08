@@ -20,7 +20,7 @@ type DeleteItemContext = {
   previousItems: Item[] | undefined;
 };
 
-export const useCreateItem = (groupId: string) => {
+export const useCreateItemMutation = (groupId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation<Item, Error, Omit<UIItem, "id">, CreateItemContext>({
@@ -72,7 +72,7 @@ export const useCreateItem = (groupId: string) => {
   });
 };
 
-export const useUpdateItem = (groupId: string) => {
+export const useUpdateItemMutation = (groupId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation<Item, Error, UIItem, UpdateItemContext>({
@@ -146,7 +146,7 @@ export const useUpdateItem = (groupId: string) => {
   });
 };
 
-export const useDeleteItem = (groupId: string) => {
+export const useDeleteItemMutation = (groupId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation<Item, Error, UIItem["id"], DeleteItemContext>({

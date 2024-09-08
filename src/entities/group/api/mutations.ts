@@ -20,7 +20,7 @@ type DeleteGroupContext = {
   previousGroups: Group[] | undefined;
 };
 
-export const useCreateGroup = () => {
+export const useCreateGroupMutation = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation<
@@ -75,7 +75,7 @@ export const useCreateGroup = () => {
   return mutation;
 };
 
-export const useUpdateGroup = () => {
+export const useUpdateGroupMutation = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation<Group, Error, UIGroup, UpdateGroupContext>({
@@ -133,7 +133,7 @@ export const useUpdateGroup = () => {
   return mutation;
 };
 
-export const useDeleteGroup = () => {
+export const useDeleteGroupMutation = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation<Group, Error, string, DeleteGroupContext>({

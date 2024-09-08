@@ -6,7 +6,7 @@ import { toUIItem, toUIItems } from "@/shared/lib/utils";
 
 import type { Item } from "@/entities/item/model/types";
 
-export const useGetItems = (groupId: string) => {
+export const useGetItemsQuery = (groupId: string) => {
   const query = useQuery<Item[], Error, UIItems>({
     queryKey: [KEY_ITEMS, groupId],
     queryFn: () => apiService.getAllItems(groupId),
@@ -17,7 +17,7 @@ export const useGetItems = (groupId: string) => {
   return query;
 };
 
-export const useGetItem = (groupId: string, itemId: string) => {
+export const useGetItemQuery = (groupId: string, itemId: string) => {
   const query = useQuery<Item, Error, UIItem>({
     queryKey: [KEY_ITEM, groupId, itemId],
     queryFn: () => apiService.getItemById(groupId, itemId),

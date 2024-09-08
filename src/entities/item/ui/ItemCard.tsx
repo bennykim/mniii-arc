@@ -1,4 +1,7 @@
-import { useDeleteItem, useUpdateItem } from "@/entities/item/api";
+import {
+  useDeleteItemMutation,
+  useUpdateItemMutation,
+} from "@/entities/item/api";
 import { useEditableItem } from "@/entities/item/hooks";
 import { EditableCard } from "@/shared/ui/EditableCard";
 
@@ -17,7 +20,12 @@ export function ItemCard({ groupId, item }: ItemCardProps) {
     handleEditClick,
     handleCloseEdit,
     isUpdatePending,
-  } = useEditableItem(item, useUpdateItem, useDeleteItem, groupId);
+  } = useEditableItem(
+    item,
+    useUpdateItemMutation,
+    useDeleteItemMutation,
+    groupId
+  );
 
   return (
     <EditableCard

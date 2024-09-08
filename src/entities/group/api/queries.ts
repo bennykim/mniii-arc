@@ -6,7 +6,7 @@ import { toUIGroup, toUIGroups } from "@/shared/lib/utils";
 
 import type { Group } from "@/entities/group/model/types";
 
-export const useGetGroups = () => {
+export const useGetGroupsQuery = () => {
   const query = useQuery<Group[], Error, UIGroups>({
     queryKey: [KEY_GROUPS],
     queryFn: apiService.getAllGroups,
@@ -16,7 +16,7 @@ export const useGetGroups = () => {
   return query;
 };
 
-export const useGetGroup = (id: string) => {
+export const useGetGroupQuery = (id: string) => {
   const query = useQuery<Group, Error, UIGroup>({
     queryKey: [KEY_GROUP, id],
     queryFn: () => apiService.getGroupById(id),

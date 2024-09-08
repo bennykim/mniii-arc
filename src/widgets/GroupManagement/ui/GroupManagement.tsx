@@ -1,10 +1,10 @@
 import { RefreshCcw } from "lucide-react";
 import { useState } from "react";
 
-import { useGetGroups } from "@/entities/group/api";
+import { useGetGroupsQuery } from "@/entities/group/api";
 import { useSelectedStore } from "@/entities/group/store";
 import { GroupList } from "@/entities/group/ui";
-import { useGetItems } from "@/entities/item/api";
+import { useGetItemsQuery } from "@/entities/item/api";
 import { ItemList } from "@/entities/item/ui";
 import { cn } from "@/shared/lib/utils";
 import {
@@ -35,8 +35,13 @@ export function GroupManagement() {
 
   const [openItems, setOpenItems] = useState<string[]>(["groups", "items"]);
 
-  const { data: groups, isLoading, isRefetching, refetch } = useGetGroups();
-  const { data: items } = useGetItems(selectedGroup?.id ?? "");
+  const {
+    data: groups,
+    isLoading,
+    isRefetching,
+    refetch,
+  } = useGetGroupsQuery();
+  const { data: items } = useGetItemsQuery(selectedGroup?.id ?? "");
 
   const handleAccordionChange = (value: string) => {
     setOpenItems((prev) => {
