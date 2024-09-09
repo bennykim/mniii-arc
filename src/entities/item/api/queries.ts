@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { apiService } from "@/shared/api/base";
+import { apiService } from "@/entities/item/api/base";
 import { KEY_ITEM, KEY_ITEMS } from "@/shared/config/constants";
 import { toUIItem, toUIItems } from "@/shared/lib/utils";
 
