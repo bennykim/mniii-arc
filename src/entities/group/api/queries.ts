@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { apiService } from "@/entities/group/api/base";
 import { KEY_GROUP, KEY_GROUPS } from "@/shared/config/constants";
-import { toUIGroup, toUIGroups } from "@/shared/lib/utils";
+import { toUIGroup, toUIGroups } from "@/shared/lib/transform";
 
 import type { Group } from "@/entities/group/model/types";
 

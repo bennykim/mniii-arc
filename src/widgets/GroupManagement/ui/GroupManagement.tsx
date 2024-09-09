@@ -15,6 +15,8 @@ import {
   DeleteItemButton,
   UpdateItemForm,
 } from "@/features/itemActions/ui";
+import { SORT_DIRECTION } from "@/shared/config/constants";
+import { useSortedData } from "@/shared/hooks/useSortedData";
 import { cn } from "@/shared/lib/utils";
 import {
   Accordion,
@@ -37,6 +39,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/shared/ui/shadcn/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/ui/shadcn/select";
 import { TypographyP, TypographySpan } from "@/shared/ui/typography";
 
 export function GroupManagement() {
@@ -52,6 +62,11 @@ export function GroupManagement() {
   const { data: items } = useGetItemsQuery(selectedGroup?.id ?? "");
   const [openItems, setOpenItems] = useState<string[]>(["groups", "items"]);
 
+  const { sortedData: sortedGroups, setSortDirection: setGroupSortDirection } =
+    useSortedData<UIGroup>({ initialData: groups });
+  const { sortedData: sortedItems, setSortDirection: setItemSortDirection } =
+    useSortedData<UIItem>({ initialData: items?.list });
+
   const handleAccordionChange = (value: string) => {
     setOpenItems((prev) => {
       const isOpen = prev.includes(value);
@@ -66,12 +81,32 @@ export function GroupManagement() {
   const isEditing = (
     editingEntity: UIGroup | UIItem | null,
     entity: UIGroup | UIItem
-  ) => typeof editingEntity?.id === "string" && editingEntity?.id === entity.id;
+  ) => editingEntity?.id === entity.id;
 
   return (
     <Card className="w-full max-w-4xl mx-auto mt-8">
       <CardHeader className="flex flex-row items-center">
         <CardTitle className="flex-1">Groups Management</CardTitle>
+        <Select
+          onValueChange={(select) => {
+            setGroupSortDirection(select);
+            setItemSortDirection(select);
+          }}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select a sort" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value={SORT_DIRECTION.ASC}>
+                {SORT_DIRECTION.ASC}
+              </SelectItem>
+              <SelectItem value={SORT_DIRECTION.DESC}>
+                {SORT_DIRECTION.DESC}
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
         <Button variant="outline" className="m-3" onClick={() => refetch()}>
           <RefreshCcw
             size={16}
@@ -96,7 +131,7 @@ export function GroupManagement() {
             </AccordionTrigger>
             <AccordionContent>
               <CreateGroupForm />
-              {groups?.map((group, index) => (
+              {sortedGroups.map((group, index) => (
                 <div
                   key={`${group.id}-${index}`}
                   className="flex items-center justify-between mt-4"
@@ -143,7 +178,7 @@ export function GroupManagement() {
               {selectedGroup ? (
                 <>
                   <CreateItemForm groupId={selectedGroup.id} />
-                  {items?.list.map((item, index) => (
+                  {sortedItems.map((item, index) => (
                     <div
                       key={`${item.id}-${index}`}
                       className="flex items-center justify-between mt-4"

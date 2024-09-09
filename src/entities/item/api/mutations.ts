@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { apiService } from "@/entities/item/api/base";
 import { KEY_GROUP, KEY_ITEM, KEY_ITEMS } from "@/shared/config/constants";
-import { toServerItem, toServerItemExceptId } from "@/shared/lib/utils";
+import { toServerItem, toServerItemExceptId } from "@/shared/lib/transform";
 
 import type { Item } from "@/entities/item/model/types";
 
@@ -44,7 +44,7 @@ export const useCreateItemMutation = (groupId: string) => {
       const newTempItem: Item = {
         ...toServerItemExceptId(newItem),
         id: tempId,
-        createdAt: "",
+        createdAt: new Date().toISOString(),
       };
 
       queryClient.setQueryData<Item[]>([KEY_ITEMS, groupId], (oldData) => {
@@ -118,12 +118,18 @@ export const useUpdateItemMutation = (groupId: string) => {
     },
 
     onSuccess: (data, variables) => {
+      const updatedItem = { ...variables, ...data };
       queryClient.setQueryData<Item[]>([KEY_ITEMS, groupId], (oldData) => {
         return (
-          oldData?.map((item) => (item.id === variables.id ? data : item)) ?? []
+          oldData?.map((item) =>
+            item.id === updatedItem.id ? updatedItem : item
+          ) ?? []
         );
       });
-      queryClient.setQueryData([KEY_ITEM, groupId, variables.id], data);
+      queryClient.setQueryData(
+        [KEY_ITEM, groupId, updatedItem.id],
+        updatedItem
+      );
     },
 
     onError: (err, variables, context) => {

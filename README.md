@@ -59,15 +59,15 @@ This initial feature will lay the foundation for further expansion of management
 
 ### Installation
 
-1. Install dependencies using pnpm:
-   ```bash
-   pnpm install
-   ```
+Install dependencies using pnpm:
+
+```bash
+pnpm install
+```
 
 ### Running the Application
 
 Start the development server:
-s
 
 ```bash
 pnpm run dev
