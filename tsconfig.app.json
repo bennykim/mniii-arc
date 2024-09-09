@@ -9,6 +9,7 @@
     ],
     "module": "ESNext",
     "skipLibCheck": true,
+    /* Path aliases */
     "baseUrl": ".",
     "paths": {
       "@/*": [
@@ -19,6 +20,7 @@
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
+    "resolveJsonModule": true,
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
@@ -26,9 +28,20 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    /* Testing */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "types": [
+      "jest",
+      "node",
+      "msw",
+      "@testing-library/jest-dom"
+    ],
   },
   "include": [
-    "src"
-  ]
+    "src",
+    "**/*.test.ts",
+    "**/*.test.tsx"
+  ],
 }
