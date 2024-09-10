@@ -93,15 +93,15 @@ export function GroupManagement() {
             setItemSortDirection(select);
           }}
         >
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-[180px]" data-cy="sort-trigger">
             <SelectValue placeholder="Select a sort" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem value={SORT_DIRECTION.ASC}>
+              <SelectItem value={SORT_DIRECTION.ASC} data-cy="select-asc">
                 {SORT_DIRECTION.ASC}
               </SelectItem>
-              <SelectItem value={SORT_DIRECTION.DESC}>
+              <SelectItem value={SORT_DIRECTION.DESC} data-cy="select-desc">
                 {SORT_DIRECTION.DESC}
               </SelectItem>
             </SelectGroup>
@@ -129,12 +129,13 @@ export function GroupManagement() {
             >
               Groups
             </AccordionTrigger>
-            <AccordionContent>
+            <AccordionContent data-cy="groups-accordion">
               <CreateGroupForm />
               {sortedGroups.map((group, index) => (
                 <div
                   key={`${group.id}-${index}`}
                   className="flex items-center justify-between mt-4"
+                  data-cy="group-item"
                 >
                   {isEditing(editingGroup, group) ? (
                     <UpdateGroupForm />
@@ -146,6 +147,7 @@ export function GroupManagement() {
                           variant="ghost"
                           size="icon"
                           onClick={() => selectGroup(group)}
+                          data-cy="select-group-button"
                         >
                           {selectedGroup?.id === group.id ? (
                             <CircleCheckBig size={16} />
@@ -156,7 +158,11 @@ export function GroupManagement() {
                         <TypographySpan text={group.title} />
                       </div>
                       <div className="space-x-2">
-                        <Button type="button" onClick={() => editGroup(group)}>
+                        <Button
+                          type="button"
+                          onClick={() => editGroup(group)}
+                          data-cy="edit-group-button"
+                        >
                           <Edit size={16} />
                         </Button>
                         <DeleteGroupButton groupId={group.id} />
@@ -174,7 +180,7 @@ export function GroupManagement() {
             >
               Items
             </AccordionTrigger>
-            <AccordionContent>
+            <AccordionContent data-cy="items-accordion">
               {selectedGroup ? (
                 <>
                   <CreateItemForm groupId={selectedGroup.id} />
@@ -182,6 +188,7 @@ export function GroupManagement() {
                     <div
                       key={`${item.id}-${index}`}
                       className="flex items-center justify-between mt-4"
+                      data-cy="item-item"
                     >
                       {isEditing(editingItem, item) ? (
                         <UpdateItemForm groupId={selectedGroup.id} />
@@ -192,6 +199,7 @@ export function GroupManagement() {
                             <Button
                               type="button"
                               onClick={() => editItem(item)}
+                              data-cy="edit-item-button"
                             >
                               <Edit size={16} />
                             </Button>

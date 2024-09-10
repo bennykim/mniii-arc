@@ -39,8 +39,13 @@ export function UpdateItemForm({ groupId }: UpdateItemFormProps) {
         value={newTitle}
         onChange={(e) => setNewTitle(e.target.value)}
         placeholder="Edit name"
+        data-cy="edit-item-input"
       />
-      <Button type="submit" disabled={!newTitle || isUpdatePending}>
+      <Button
+        type="submit"
+        disabled={!newTitle || isUpdatePending}
+        data-cy="save-item-button"
+      >
         {isUpdatePending ? (
           <LoaderPinwheel size={16} className="animate-spin" />
         ) : (

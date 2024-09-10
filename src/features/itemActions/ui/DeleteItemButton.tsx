@@ -17,6 +17,7 @@ export function DeleteItemButton({ groupId, itemId }: DeleteItemButtonProps) {
       variant="destructive"
       onClick={() => handleDeleteItem(itemId)}
       disabled={isDeletePending}
+      data-cy="del-item-button"
     >
       <Trash2 size={16} />
     </Button>

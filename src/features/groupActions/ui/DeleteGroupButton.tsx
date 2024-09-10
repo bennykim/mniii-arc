@@ -16,6 +16,7 @@ export function DeleteGroupButton({ groupId }: DeleteGroupButtonProps) {
       variant="destructive"
       onClick={() => handleDeleteGroup(groupId)}
       disabled={isDeletePending}
+      data-cy="del-group-button"
     >
       <Trash2 size={16} />
     </Button>

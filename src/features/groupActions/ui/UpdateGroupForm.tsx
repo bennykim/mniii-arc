@@ -35,8 +35,13 @@ export function UpdateGroupForm() {
         value={newTitle}
         onChange={(e) => setNewTitle(e.target.value)}
         placeholder="Edit name"
+        data-cy="edit-group-input"
       />
-      <Button type="submit" disabled={!newTitle || isUpdatePending}>
+      <Button
+        type="submit"
+        disabled={!newTitle || isUpdatePending}
+        data-cy="save-group-button"
+      >
         {isUpdatePending ? (
           <LoaderPinwheel size={16} className="animate-spin" />
         ) : (

@@ -26,7 +26,11 @@ export function CreateGroupForm() {
         onChange={(e) => setNewGroupTitle(e.target.value)}
         placeholder="New group title"
       />
-      <Button type="submit" disabled={!newGroupTitle}>
+      <Button
+        type="submit"
+        disabled={!newGroupTitle}
+        data-cy="add-group-button"
+      >
         <Plus size={16} />
       </Button>
     </form>

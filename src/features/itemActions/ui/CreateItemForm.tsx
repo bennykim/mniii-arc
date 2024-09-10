@@ -30,7 +30,7 @@ export function CreateItemForm({ groupId }: CreateItemFormProps) {
         onChange={(e) => setNewItemTitle(e.target.value)}
         placeholder="New item title"
       />
-      <Button type="submit" disabled={!newItemTitle}>
+      <Button type="submit" disabled={!newItemTitle} data-cy="add-item-button">
         <Plus size={16} />
       </Button>
     </form>
