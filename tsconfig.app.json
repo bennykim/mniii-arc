@@ -36,6 +36,7 @@
       "jest",
       "node",
       "msw",
+      "cypress",
       "@testing-library/jest-dom"
     ],
   },

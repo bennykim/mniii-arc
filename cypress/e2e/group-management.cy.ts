@@ -110,7 +110,7 @@ describe("Group Management", () => {
       .within(() => {
         cy.get('[data-cy="edit-item-button"]').click();
       });
-    cy.wait(250);
+    cy.wait(1000);
 
     cy.get('[data-cy="edit-item-input"]').clear().type(editedItemName);
     cy.get('[data-cy="save-item-button"]').click();

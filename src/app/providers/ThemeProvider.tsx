@@ -52,6 +52,7 @@ export function ThemeProvider({
         onCheckedChange={() =>
           setTheme((prev) => (prev === THEME.LIGHT ? THEME.DARK : THEME.LIGHT))
         }
+        data-cy="theme-switch"
       />
       {children}
     </ThemeProviderContext.Provider>
