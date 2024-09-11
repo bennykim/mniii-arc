@@ -7,3 +7,9 @@ export const SORT_DIRECTION = {
   ASC: "asc",
   DESC: "desc",
 };
+
+export const STORAGE_KEY = "ui-theme";
+export const THEME = {
+  LIGHT: "light",
+  DARK: "dark",
+} as const;

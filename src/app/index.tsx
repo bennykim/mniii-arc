@@ -1,8 +1,9 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
+import { AppProvider, ThemeProvider } from "@/app/providers";
 import DashboardPage from "@/pages/dashboard";
-import { AppProvider } from "./providers";
+import { STORAGE_KEY, THEME } from "@/shared/config/constants";
 
 import "./styles/global.css";
 
@@ -16,9 +17,11 @@ async function enableMocking() {
 enableMocking().then(() => {
   createRoot(document.getElementById("root")!).render(
     <StrictMode>
-      <AppProvider>
-        <DashboardPage />
-      </AppProvider>
+      <ThemeProvider defaultTheme={THEME.DARK} storageKey={STORAGE_KEY}>
+        <AppProvider>
+          <DashboardPage />
+        </AppProvider>
+      </ThemeProvider>
     </StrictMode>
   );
 });
