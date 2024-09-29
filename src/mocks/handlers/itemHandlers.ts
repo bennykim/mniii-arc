@@ -1,7 +1,7 @@
 import { http, HttpResponse, PathParams } from "msw";
 import { v4 as uuidv4 } from "uuid";
 
-import { db } from "@/mocks/db";
+import { db } from "@/mocks/db/groupsDB";
 import { withStatus } from "@/mocks/withStatus";
 import { KEY_GROUPS } from "@/shared/config/constants";
 

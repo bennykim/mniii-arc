@@ -13,7 +13,7 @@ export interface GROUPS_DB extends DBSchema {
 
 export let db: IDBPDatabase<GROUPS_DB>;
 
-export const initDB = async () => {
+export const initGroupsDB = async () => {
   db = await openDB<GROUPS_DB>("GROUPS_DB", 1, {
     upgrade(db) {
       db.createObjectStore(KEY_GROUPS, {
