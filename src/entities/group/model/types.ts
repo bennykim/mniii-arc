@@ -1,5 +1,5 @@
-import { BaseGroup, BaseItem } from "@/entities/base";
+import { BaseEntity } from "@/entities/base";
 
-export interface Group extends BaseGroup {
-  items: BaseItem[];
+export interface Group<T extends BaseEntity = BaseEntity> extends BaseEntity {
+  items: T[];
 }

@@ -16,3 +16,12 @@ type UIGroup = {
 };
 
 type UIGroups = UIGroup[];
+
+type UIHistory = {
+  id: string;
+  title: string;
+  content: string;
+  createdAt: string;
+};
+
+type UIHistories = UIHistory[];

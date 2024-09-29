@@ -1,4 +1,5 @@
 import type { Group } from "@/entities/group/model/types";
+import type { History } from "@/entities/history/model/types";
 import type { Item } from "@/entities/item/model/types";
 
 export const toUIItem = (item: Item): UIItem => ({
@@ -45,3 +46,12 @@ export const toServerItemExceptId = (
 ): Omit<Item, "id" | "createdAt"> => ({
   name: group.title,
 });
+
+export const toUIHistory = (history: History[]): UIHistories => {
+  return history.map((item) => ({
+    id: item.id,
+    title: item.name,
+    content: item.description,
+    createdAt: item.createdAt,
+  }));
+};

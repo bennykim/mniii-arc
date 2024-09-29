@@ -1,12 +1,6 @@
 import axios from "axios";
 
-export type BaseItem = {
-  id: string;
-  name: string;
-  createdAt: string;
-};
-
-export type BaseGroup = {
+export type BaseEntity = {
   id: string;
   name: string;
   createdAt: string;

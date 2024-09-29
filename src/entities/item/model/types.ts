@@ -1,3 +1,3 @@
-import { BaseItem } from "@/entities/base";
+import { BaseEntity } from "@/entities/base";
 
-export interface Item extends BaseItem {}
+export interface Item extends BaseEntity {}
