@@ -2,17 +2,26 @@ import { AxiosResponse } from "axios";
 
 import { http } from "@/entities/base";
 
-import type { History } from "@/entities/history/model/types";
+import type { History } from "@/entities/timeline/model/types";
+
+export type HistoryResponse = {
+  data: History[];
+  nextCursor: string | null;
+  prevCursor: string | null;
+};
 
 export const apiService = {
   getHistory: async (params: {
-    id?: string;
-    offset?: number;
+    cursor: string | null;
     limit?: number;
-  }): Promise<History[]> => {
-    const response: AxiosResponse<History[]> = await http.get("/api/history", {
-      params,
-    });
+    direction?: "next" | "prev";
+  }): Promise<HistoryResponse> => {
+    const response: AxiosResponse<HistoryResponse> = await http.get(
+      "/history",
+      {
+        params,
+      }
+    );
     return response.data;
   },
 
@@ -21,7 +30,7 @@ export const apiService = {
     interval?: number;
   }): Promise<{ success: boolean }> => {
     const response: AxiosResponse<{ success: boolean }> = await http.put(
-      "/api/status",
+      "/status",
       null,
       { params }
     );
@@ -35,7 +44,7 @@ export const apiService = {
     const response: AxiosResponse<{
       realtime: "on" | "off";
       interval: number;
-    }> = await http.get("/api/status");
+    }> = await http.get("/status");
     return response.data;
   },
 };

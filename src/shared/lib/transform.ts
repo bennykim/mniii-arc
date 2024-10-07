@@ -1,6 +1,6 @@
 import type { Group } from "@/entities/group/model/types";
-import type { History } from "@/entities/history/model/types";
 import type { Item } from "@/entities/item/model/types";
+import type { History } from "@/entities/timeline/model/types";
 
 export const toUIItem = (item: Item): UIItem => ({
   id: item.id,

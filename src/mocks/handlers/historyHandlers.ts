@@ -9,12 +9,21 @@ export const historyHandlers = [
     withStatus(async ({ request }) => {
       try {
         const url = new URL(request.url);
-        const id = url.searchParams.get("id");
-        const offset = parseInt(url.searchParams.get("offset") || "0", 10);
+        const cursor = url.searchParams.get("cursor");
         const limit = parseInt(url.searchParams.get("limit") || "30", 10);
+        const direction = (url.searchParams.get("direction") || "next") as
+          | "next"
+          | "prev";
 
-        const data = await getHistoryData(id, offset, limit);
-        return HttpResponse.json(data, { status: 200 });
+        const { data, nextCursor, prevCursor } = await getHistoryData(
+          cursor,
+          limit,
+          direction
+        );
+        return HttpResponse.json(
+          { data, nextCursor, prevCursor },
+          { status: 200 }
+        );
       } catch (error) {
         console.error("Failed to fetch history:", error);
         return HttpResponse.json(

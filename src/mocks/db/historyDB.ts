@@ -12,6 +12,7 @@ interface HistoryDB extends DBSchema {
   history: {
     key: string;
     value: HistoryItem;
+    indexes: { "by-date": string };
   };
   status: {
     key: string;
@@ -54,7 +55,8 @@ function generateRandomData(count: number): HistoryItem[] {
 export const initHistoryDB = async () => {
   db = await openDB<HistoryDB>("HISTORY_DB", 1, {
     upgrade(db) {
-      db.createObjectStore("history", { keyPath: "id" });
+      const historyStore = db.createObjectStore("history", { keyPath: "id" });
+      historyStore.createIndex("by-date", "createdAt");
       db.createObjectStore("status", { keyPath: "id" });
     },
   });
@@ -83,26 +85,51 @@ export const initHistoryDB = async () => {
 };
 
 export const getHistoryData = async (
-  startId: string | null,
-  offset: number,
-  limit: number
-): Promise<HistoryItem[]> => {
+  cursorId: string | null,
+  limit: number,
+  direction: "next" | "prev" = "next"
+): Promise<{
+  data: HistoryItem[];
+  nextCursor: string | null;
+  prevCursor: string | null;
+}> => {
   const historyStore = db
     .transaction("history", "readonly")
     .objectStore("history");
-  let allData = await historyStore.getAll();
-  allData.sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-  );
 
-  if (startId) {
-    const startIndex = allData.findIndex((item) => item.id === startId);
-    if (startIndex !== -1) {
-      allData = allData.slice(startIndex);
+  let data: HistoryItem[] = [];
+  let nextCursor: string | null = null;
+  let prevCursor: string | null = null;
+
+  try {
+    let allData = await historyStore.getAll();
+    allData.sort((a, b) =>
+      direction === "next"
+        ? new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        : new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+    );
+
+    if (cursorId) {
+      const startIndex = allData.findIndex((item) => item.id === cursorId);
+      if (startIndex !== -1) {
+        allData = allData.slice(startIndex + 1);
+      }
     }
+
+    data = allData.slice(0, limit);
+
+    if (data.length === limit && allData.length > limit) {
+      nextCursor = data[data.length - 1].id;
+    }
+    if (cursorId) {
+      prevCursor = cursorId;
+    }
+  } catch (error) {
+    console.error("Error in getHistoryData:", error);
+    throw error;
   }
 
-  return allData.slice(offset, offset + limit);
+  return { data, nextCursor, prevCursor };
 };
 
 let intervalId: NodeJS.Timeout | null = null;
