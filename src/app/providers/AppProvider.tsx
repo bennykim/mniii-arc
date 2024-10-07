@@ -17,7 +17,7 @@ export const AppProvider = ({ children }: PropsWithChildren) => {
     <QueryClientProvider client={queryClient}>
       {children}
       <Toaster />
-      <ReactQueryDevtools initialIsOpen={false} />
+      <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
     </QueryClientProvider>
   );
 };
