@@ -1,30 +1,34 @@
 import { LoaderPinwheel, Save, X } from "lucide-react";
 import { useState } from "react";
 
-import { useGroupStore } from "@/entities/group/store";
-import { useGroupActions } from "@/features/groupActions/hooks/useGroupActions";
+import { useItemStore } from "@/entities/item/store";
+import { useItemActions } from "@/features/itemManagement/hooks/useItemActions";
 import { Button } from "@/shared/ui/shadcn/button";
 import { Input } from "@/shared/ui/shadcn/input";
 
-export function UpdateGroupForm() {
-  const { editingGroup: group, editGroup } = useGroupStore();
-  const [newTitle, setNewTitle] = useState(group?.title || "");
-  const { handleUpdateGroup, isUpdatePending } = useGroupActions();
+type UpdateItemFormProps = {
+  groupId: string;
+};
+
+export function UpdateItemForm({ groupId }: UpdateItemFormProps) {
+  const { editingItem: item, editItem } = useItemStore();
+  const [newTitle, setNewTitle] = useState(item?.title || "");
+  const { handleUpdateItem, isUpdatePending } = useItemActions(groupId);
 
   const onCancel = () => {
-    editGroup(null);
+    editItem(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!group) return;
+    if (!item) return;
 
     try {
-      await handleUpdateGroup(group, newTitle);
+      await handleUpdateItem(item, newTitle);
       onCancel();
     } catch (err) {
-      console.error(`Failed to update group with id: ${group.id}.`, err);
+      console.error(`Failed to update item with id: ${item.id}.`, err);
     }
   };
 
@@ -35,12 +39,12 @@ export function UpdateGroupForm() {
         value={newTitle}
         onChange={(e) => setNewTitle(e.target.value)}
         placeholder="Edit name"
-        data-cy="edit-group-input"
+        data-cy="edit-item-input"
       />
       <Button
         type="submit"
         disabled={!newTitle || isUpdatePending}
-        data-cy="save-group-button"
+        data-cy="save-item-button"
       >
         {isUpdatePending ? (
           <LoaderPinwheel size={16} className="animate-spin" />

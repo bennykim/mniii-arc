@@ -9,12 +9,12 @@ import {
   CreateGroupForm,
   DeleteGroupButton,
   UpdateGroupForm,
-} from "@/features/groupActions/ui";
+} from "@/features/groupManagement/ui";
 import {
   CreateItemForm,
   DeleteItemButton,
   UpdateItemForm,
-} from "@/features/itemActions/ui";
+} from "@/features/itemManagement/ui";
 import { SORT_DIRECTION } from "@/shared/config/constants";
 import { useSortedData } from "@/shared/hooks/useSortedData";
 import { cn } from "@/shared/lib/utils";
@@ -49,7 +49,7 @@ import {
 } from "@/shared/ui/shadcn/select";
 import { TypographyP, TypographySpan } from "@/shared/ui/typography";
 
-export function GroupManagement() {
+export function GroupDashboard() {
   const { selectedGroup, editingGroup, selectGroup, editGroup } =
     useGroupStore();
   const { editingItem, editItem } = useItemStore();
@@ -86,7 +86,7 @@ export function GroupManagement() {
   return (
     <Card className="w-full max-w-4xl mx-auto mt-8">
       <CardHeader className="flex flex-row items-center">
-        <CardTitle className="flex-1">Groups Management</CardTitle>
+        <CardTitle className="flex-1">Group Dashboard</CardTitle>
         <Select
           onValueChange={(select) => {
             setGroupSortDirection(select);

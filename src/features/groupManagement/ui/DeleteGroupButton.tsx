@@ -1,6 +1,6 @@
 import { Trash2 } from "lucide-react";
 
-import { useGroupActions } from "@/features/groupActions/hooks/useGroupActions";
+import { useGroupActions } from "@/features/groupManagement/hooks/useGroupActions";
 import { Button } from "@/shared/ui/shadcn/button";
 
 type DeleteGroupButtonProps = {

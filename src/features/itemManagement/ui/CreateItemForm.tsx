@@ -1,6 +1,6 @@
 import { Plus } from "lucide-react";
 
-import { useItemActions } from "@/features/itemActions/hooks/useItemActions";
+import { useItemActions } from "@/features/itemManagement/hooks/useItemActions";
 import { Button } from "@/shared/ui/shadcn/button";
 import { Input } from "@/shared/ui/shadcn/input";
 

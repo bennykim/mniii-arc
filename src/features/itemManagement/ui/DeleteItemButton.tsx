@@ -1,6 +1,6 @@
 import { Trash2 } from "lucide-react";
 
-import { useItemActions } from "@/features/itemActions/hooks/useItemActions";
+import { useItemActions } from "@/features/itemManagement/hooks/useItemActions";
 import { Button } from "@/shared/ui/shadcn/button";
 
 type DeleteItemButtonProps = {
