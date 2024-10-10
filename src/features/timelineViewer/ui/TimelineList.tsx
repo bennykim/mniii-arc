@@ -1,54 +1,119 @@
-import { Fragment } from "react";
-
-import { ScrollArea } from "@/shared/ui/shadcn/scroll-area";
-
+import { InfiniteData } from "@tanstack/react-query";
 import { LoaderPinwheel } from "lucide-react";
-import { useInfiniteTimeline } from "../hooks/useInfiniteTimeline";
-import { TimelineItem } from "./TimelineItem";
-import { TimelineItemSkeleton } from "./TimelineItemSkeleton";
+import { Fragment, useCallback, useEffect, useRef } from "react";
 
-const DEFAULTLIMIT = 20;
+import { useInfiniteTimeline } from "@/features/timelineViewer/hooks/useInfiniteTimeline";
+import {
+  LoadMoreTrigger,
+  TimelineItem,
+  TimelineItemSkeleton,
+} from "@/features/timelineViewer/ui";
+import { ScrollArea } from "@/shared/ui/shadcn/scroll-area";
 
 export function TimelineList() {
   const { infiniteQuery } = useInfiniteTimeline();
+  const loadMoreTriggerRef = useRef<HTMLDivElement>(null);
 
-  const renderContent = () => {
-    if (infiniteQuery.isLoading) {
-      return (
-        <div className="flex items-center justify-center h-full">
-          <LoaderPinwheel size={22} className="animate-spin" />
-        </div>
-      );
+  const handleIntersection = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      const [entry] = entries;
+      if (
+        entry.isIntersecting &&
+        infiniteQuery.hasNextPage &&
+        !infiniteQuery.isFetchingNextPage
+      ) {
+        infiniteQuery.fetchNextPage();
+      }
+    },
+    [infiniteQuery]
+  );
+
+  useEffect(() => {
+    const currentTriggerElement = loadMoreTriggerRef.current;
+    const observer = new IntersectionObserver(handleIntersection, {
+      root: null,
+      rootMargin: "20px",
+      threshold: 1.0,
+    });
+
+    if (currentTriggerElement) {
+      observer.observe(currentTriggerElement);
     }
 
-    return infiniteQuery.data?.pages.map((page, pageIndex) => (
-      <Fragment key={pageIndex}>
-        {page.data.map((item) => (
-          <TimelineItem key={item.id} item={item} />
-        ))}
-      </Fragment>
-    ));
-  };
+    return () => {
+      if (currentTriggerElement) {
+        observer.unobserve(currentTriggerElement);
+      }
+    };
+  }, [handleIntersection]);
 
-  const renderUpdatedContent = () => {
-    return null;
-  };
-
-  const loadMore = () => {
-    if (infiniteQuery.isFetchingNextPage) {
-      return Array.from({ length: DEFAULTLIMIT }).map((_, index) => (
-        <TimelineItemSkeleton key={index} />
-      ));
-    }
-
-    return null;
-  };
+  if (infiniteQuery.isLoading) {
+    return <InitialLoadingIndicator />;
+  }
 
   return (
     <ScrollArea className="h-[500px]">
-      {renderUpdatedContent()}
-      {renderContent()}
-      {loadMore()}
+      <TimelineItems data={infiniteQuery.data} />
+      {infiniteQuery.hasNextPage ? (
+        <>
+          <LoadMoreTrigger
+            ref={loadMoreTriggerRef}
+            hasNextPage={infiniteQuery.hasNextPage}
+            isFetchingNextPage={infiniteQuery.isFetchingNextPage}
+          />
+          {infiniteQuery.isFetchingNextPage && <LoadingMoreIndicator />}
+        </>
+      ) : (
+        <EndOfListIndicator />
+      )}
     </ScrollArea>
+  );
+}
+
+function InitialLoadingIndicator() {
+  return (
+    <div className="flex items-center justify-center h-full">
+      <LoaderPinwheel size={22} className="animate-spin" />
+    </div>
+  );
+}
+
+type TimelinePageData = {
+  data: UIHistories;
+};
+
+type TimelineItemsProps = {
+  data: InfiniteData<TimelinePageData> | undefined;
+};
+
+function TimelineItems({ data }: TimelineItemsProps) {
+  return (
+    <>
+      {data?.pages.map((page, pageIndex) => (
+        <Fragment key={pageIndex}>
+          {page.data.map((item) => (
+            <TimelineItem key={item.id} item={item} />
+          ))}
+        </Fragment>
+      ))}
+    </>
+  );
+}
+
+function LoadingMoreIndicator() {
+  return (
+    <div className="space-y-4">
+      {Array.from({ length: 3 }).map((_, index) => (
+        <TimelineItemSkeleton key={index} />
+      ))}
+    </div>
+  );
+}
+
+function EndOfListIndicator() {
+  return (
+    <div className="py-8 text-center text-gray-500">
+      <p>Nothing more to load</p>
+    </div>
   );
 }

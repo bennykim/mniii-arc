@@ -1,19 +1,14 @@
 import { useInfiniteTimeline } from "@/features/timelineViewer/hooks/useInfiniteTimeline";
-import {
-  LoadMoreButton,
-  RealtimeToggle,
-  TimelineList,
-} from "@/features/timelineViewer/ui";
+import { RealtimeToggle, TimelineList } from "@/features/timelineViewer/ui";
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/shared/ui/shadcn/card";
 
 export function TimelineDashboard() {
-  const { infiniteQuery, statusQuery, toggleRealtime } = useInfiniteTimeline();
+  const { statusQuery, toggleRealtime } = useInfiniteTimeline();
 
   return (
     <Card className="w-full max-w-4xl mx-auto mt-8">
@@ -28,14 +23,6 @@ export function TimelineDashboard() {
       <CardContent>
         <TimelineList />
       </CardContent>
-      <CardFooter className="justify-center">
-        <LoadMoreButton
-          enabled={!infiniteQuery.isLoading}
-          fetchNextPage={infiniteQuery.fetchNextPage}
-          hasNextPage={infiniteQuery.hasNextPage}
-          isFetchingNextPage={infiniteQuery.isFetchingNextPage}
-        />
-      </CardFooter>
     </Card>
   );
 }
