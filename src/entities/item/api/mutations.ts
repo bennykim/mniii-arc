@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiService } from "@/entities/item/api/base";
 import { KEY_GROUP, KEY_ITEM, KEY_ITEMS } from "@/shared/config/constants";
 import { toServerItem, toServerItemExceptId } from "@/shared/lib/transform";
+import { getISODateString } from "@/shared/lib/utcDate";
 
 import type { Item } from "@/entities/item/model/types";
 
@@ -44,7 +45,7 @@ export const useCreateItemMutation = (groupId: string) => {
       const newTempItem: Item = {
         ...toServerItemExceptId(newItem),
         id: tempId,
-        createdAt: new Date().toISOString(),
+        createdAt: getISODateString(),
       };
 
       queryClient.setQueryData<Item[]>([KEY_ITEMS, groupId], (oldData) => {

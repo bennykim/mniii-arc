@@ -1,6 +1,12 @@
 import { DBSchema, IDBPDatabase, openDB } from "idb";
 import { v4 as uuidv4 } from "uuid";
 
+import {
+  addRandomMinutes,
+  getISODateString,
+  getTimestamp,
+} from "@/shared/lib/utcDate";
+
 interface HistoryItem {
   id: string;
   name: string;
@@ -32,8 +38,7 @@ function generateRandomData(count: number): HistoryItem[] {
   date.setHours(date.getHours() - count);
 
   for (let i = 0; i < count; i++) {
-    const minutesToAdd = 2 + Math.floor(Math.random() * 4);
-    date = new Date(date.getTime() + minutesToAdd * 30000);
+    date = addRandomMinutes(date);
 
     const sentenceCount = 3 + Math.floor(Math.random() * 8);
     let description = "";
@@ -45,7 +50,7 @@ function generateRandomData(count: number): HistoryItem[] {
       id: uuidv4(),
       name: `Random Title ${i + 1}`,
       description: description.trim(),
-      createdAt: date.toISOString(),
+      createdAt: getISODateString(date),
     });
   }
 
@@ -105,8 +110,8 @@ export const getHistoryData = async (
     let allData = await historyStore.getAll();
     allData.sort((a, b) =>
       direction === "next"
-        ? new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        : new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        ? getTimestamp(b.createdAt) - getTimestamp(a.createdAt)
+        : getTimestamp(a.createdAt) - getTimestamp(b.createdAt)
     );
 
     if (cursorId) {

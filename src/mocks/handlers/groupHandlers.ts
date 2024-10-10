@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import { db } from "@/mocks/db/groupsDB";
 import { withStatus } from "@/mocks/withStatus";
 import { KEY_GROUPS } from "@/shared/config/constants";
+import { getISODateString } from "@/shared/lib/utcDate";
 
 import type { Group } from "@/entities/group/model/types";
 
@@ -22,7 +23,7 @@ export const groupHandlers = [
           ...newGroup,
           id: uuidv4(),
           items: [],
-          createdAt: new Date().toISOString(),
+          createdAt: getISODateString(),
         };
         await db.add(KEY_GROUPS, groupWithId);
         return HttpResponse.json(groupWithId, { status: 200 });

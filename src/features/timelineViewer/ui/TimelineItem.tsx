@@ -1,3 +1,4 @@
+import { formatDateLocale } from "@/shared/lib/utcDate";
 import {
   Card,
   CardContent,
@@ -17,7 +18,7 @@ export function TimelineItem({ item }: TimelineItemProps) {
       </CardHeader>
       <CardContent>
         <p className="text-sm text-gray-500">
-          {new Date(item.createdAt).toLocaleString()}
+          {formatDateLocale(item.createdAt, "ko-KR")}
         </p>
         <p className="mt-2">{item.content}</p>
       </CardContent>

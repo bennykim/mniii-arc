@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiService } from "@/entities/group/api/base";
 import { KEY_GROUP, KEY_GROUPS } from "@/shared/config/constants";
 import { toServerGroup, toServerGroupExceptId } from "@/shared/lib/transform";
+import { getISODateString } from "@/shared/lib/utcDate";
 
 import type { Group } from "@/entities/group/model/types";
 
@@ -41,7 +42,7 @@ export const useCreateGroupMutation = () => {
       const newTempGroup: Group = {
         ...toServerGroupExceptId({ ...newGroup }),
         id: tempId,
-        createdAt: new Date().toISOString(),
+        createdAt: getISODateString(),
       };
       queryClient.setQueryData<Group[]>([KEY_GROUPS], (oldData) => {
         return oldData ? [...oldData, newTempGroup] : [newTempGroup];
