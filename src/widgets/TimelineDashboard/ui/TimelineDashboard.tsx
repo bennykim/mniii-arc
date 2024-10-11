@@ -1,5 +1,6 @@
 import { useInfiniteTimeline } from "@/features/timelineViewer/hooks/useInfiniteTimeline";
 import { RealtimeToggle, TimelineList } from "@/features/timelineViewer/ui";
+import { STATUS_ON } from "@/shared/config/constants";
 import {
   Card,
   CardContent,
@@ -15,7 +16,7 @@ export function TimelineDashboard() {
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>Timeline Dashboard</CardTitle>
         <RealtimeToggle
-          isRealtimeOn={statusQuery.data?.realtime === "on"}
+          isRealtimeOn={statusQuery.data?.realtime === STATUS_ON}
           toggleRealtime={toggleRealtime}
           isLoading={statusQuery.isLoading}
         />

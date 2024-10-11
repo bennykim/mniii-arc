@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { KEY_GROUPS } from "../../src/shared/config/constants";
+import { KEY_GROUPS, MOCK_DELAY } from "../../src/shared/config/constants";
 
 Cypress.Commands.add("initAndClearGroupsDB", () => {
   cy.window().then((win) => {
@@ -50,7 +50,7 @@ describe("Group Management", () => {
 
     cy.get('input[placeholder="New group title"]').type(initialGroupName);
     cy.get('[data-cy="add-group-button"]').click();
-    cy.wait(1000);
+    cy.wait(MOCK_DELAY);
 
     cy.contains(initialGroupName)
       .parent()
@@ -62,7 +62,7 @@ describe("Group Management", () => {
 
     cy.get('[data-cy="edit-group-input"]').clear().type(editedGroupName);
     cy.get('[data-cy="save-group-button"]').click();
-    cy.wait(1000);
+    cy.wait(MOCK_DELAY);
     cy.contains(editedGroupName).should("be.visible");
   });
 
@@ -71,7 +71,7 @@ describe("Group Management", () => {
 
     cy.get('input[placeholder="New group title"]').type(groupName);
     cy.get('[data-cy="add-group-button"]').click();
-    cy.wait(1000);
+    cy.wait(MOCK_DELAY);
 
     cy.contains(groupName)
       .parent()
@@ -79,7 +79,7 @@ describe("Group Management", () => {
       .within(() => {
         cy.get('[data-cy="del-group-button"]').click();
       });
-    cy.wait(1000);
+    cy.wait(MOCK_DELAY);
     cy.contains(groupName).should("not.exist");
   });
 
@@ -91,16 +91,16 @@ describe("Group Management", () => {
     // Create a group
     cy.get('input[placeholder="New group title"]').type(groupName);
     cy.get('[data-cy="add-group-button"]').click();
-    cy.wait(1000);
+    cy.wait(MOCK_DELAY);
 
     // Select the group
     cy.get('[data-cy="select-group-button"]').click();
-    cy.wait(1000);
+    cy.wait(MOCK_DELAY);
 
     // Create an item
     cy.get('input[placeholder="New item title"]').type(itemName);
     cy.get('[data-cy="add-item-button"]').click();
-    cy.wait(1000);
+    cy.wait(MOCK_DELAY);
     cy.contains(itemName).should("be.visible");
 
     // Edit the item
@@ -110,11 +110,11 @@ describe("Group Management", () => {
       .within(() => {
         cy.get('[data-cy="edit-item-button"]').click();
       });
-    cy.wait(1000);
+    cy.wait(MOCK_DELAY);
 
     cy.get('[data-cy="edit-item-input"]').clear().type(editedItemName);
     cy.get('[data-cy="save-item-button"]').click();
-    cy.wait(1000);
+    cy.wait(MOCK_DELAY);
     cy.contains(editedItemName).should("be.visible");
 
     // Delete the item
@@ -124,7 +124,7 @@ describe("Group Management", () => {
       .within(() => {
         cy.get('[data-cy="del-item-button"]').click();
       });
-    cy.wait(1000);
+    cy.wait(MOCK_DELAY);
     cy.contains(editedItemName).should("not.exist");
   });
 
@@ -136,7 +136,7 @@ describe("Group Management", () => {
     groups.forEach((groupName) => {
       cy.get('input[placeholder="New group title"]').type(groupName);
       cy.get('[data-cy="add-group-button"]').click();
-      cy.wait(1000);
+      cy.wait(MOCK_DELAY);
     });
 
     // Sort groups
@@ -155,12 +155,12 @@ describe("Group Management", () => {
       .within(() => {
         cy.get('[data-cy="select-group-button"]').click();
       });
-    cy.wait(1000);
+    cy.wait(MOCK_DELAY);
 
     items.forEach((itemName) => {
       cy.get('input[placeholder="New item title"]').type(itemName);
       cy.get('[data-cy="add-item-button"]').click();
-      cy.wait(1000);
+      cy.wait(MOCK_DELAY);
     });
 
     // Sort items

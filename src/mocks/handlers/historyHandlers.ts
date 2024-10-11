@@ -2,6 +2,20 @@ import { http, HttpResponse } from "msw";
 
 import { getHistoryData, getStatus, updateStatus } from "@/mocks/db/historyDB";
 import { withStatus } from "@/mocks/withStatus";
+import {
+  DEFAULT_INTERVAL,
+  DEFAULT_LIMIT,
+  DIRECTION_NEXT,
+  PARAM_CURSOR,
+  PARAM_DIRECTION,
+  PARAM_INTERVAL,
+  PARAM_LIMIT,
+  PARAM_REALTIME,
+  STATUS_OFF,
+  STATUS_ON,
+} from "@/shared/config/constants";
+
+import type { Direction } from "@/entities/timeline/api/base";
 
 export const historyHandlers = [
   http.get(
@@ -9,11 +23,13 @@ export const historyHandlers = [
     withStatus(async ({ request }) => {
       try {
         const url = new URL(request.url);
-        const cursor = url.searchParams.get("cursor");
-        const limit = parseInt(url.searchParams.get("limit") || "30", 10);
-        const direction = (url.searchParams.get("direction") || "next") as
-          | "next"
-          | "prev";
+        const cursor = url.searchParams.get(PARAM_CURSOR);
+        const limit = parseInt(
+          url.searchParams.get(PARAM_LIMIT) || DEFAULT_LIMIT.toString(),
+          10
+        );
+        const direction = (url.searchParams.get(PARAM_DIRECTION) ||
+          DIRECTION_NEXT) as Direction;
 
         const { data, nextCursor, prevCursor } = await getHistoryData(
           cursor,
@@ -39,13 +55,15 @@ export const historyHandlers = [
     withStatus(async ({ request }) => {
       try {
         const url = new URL(request.url);
-        const realtime = url.searchParams.get("realtime") as "on" | "off";
+        const realtime = url.searchParams.get(PARAM_REALTIME) as
+          | typeof STATUS_ON
+          | typeof STATUS_OFF;
         const interval = parseInt(
-          url.searchParams.get("interval") || "30000",
+          url.searchParams.get(PARAM_INTERVAL) || DEFAULT_INTERVAL.toString(),
           10
         );
 
-        if (realtime !== "on" && realtime !== "off") {
+        if (realtime !== STATUS_ON && realtime !== STATUS_OFF) {
           return HttpResponse.json(
             { error: "Invalid realtime value" },
             { status: 400 }

@@ -3,7 +3,13 @@ import { renderHook, waitFor } from "@testing-library/react";
 import React from "react";
 
 import { initHistoryDB } from "@/mocks/db/historyDB";
-import { apiService } from "../base";
+import {
+  DEFAULT_INTERVAL,
+  DIRECTION_NEXT,
+  STATUS_OFF,
+  STATUS_ON,
+} from "@/shared/config/constants";
+import { apiService, type RealTime } from "../base";
 import { useUpdateStatusMutation } from "../mutations";
 import { useGetInfiniteHistoryQuery, useGetStatusQuery } from "../queries";
 
@@ -65,7 +71,8 @@ describe("Timeline API", () => {
       );
 
       const { result } = renderHook(
-        () => useGetInfiniteHistoryQuery({ limit: 2, direction: "next" }),
+        () =>
+          useGetInfiniteHistoryQuery({ limit: 2, direction: DIRECTION_NEXT }),
         { wrapper }
       );
 
@@ -102,14 +109,14 @@ describe("Timeline API", () => {
       expect(apiService.getHistory).toHaveBeenCalledWith({
         cursor: null,
         limit: 2,
-        direction: "next",
+        direction: DIRECTION_NEXT,
       });
     });
   });
 
   describe("useGetStatusQuery", () => {
     it("fetches status data", async () => {
-      const mockStatus = { realtime: "off" as const, interval: 60000 };
+      const mockStatus = { realtime: STATUS_OFF as RealTime, interval: 60000 };
       (apiService.getStatus as jest.Mock).mockResolvedValue(mockStatus);
 
       const { result } = renderHook(() => useGetStatusQuery(), { wrapper });
@@ -122,7 +129,10 @@ describe("Timeline API", () => {
 
   describe("useUpdateStatusMutation", () => {
     it("updates status", async () => {
-      const newStatus = { realtime: "on" as const, interval: 30000 };
+      const newStatus = {
+        realtime: STATUS_ON as RealTime,
+        interval: DEFAULT_INTERVAL,
+      };
       (apiService.updateStatus as jest.Mock).mockResolvedValue({
         success: true,
       });

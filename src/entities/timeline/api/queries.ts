@@ -6,7 +6,11 @@ import {
   type UseInfiniteQueryResult,
 } from "@tanstack/react-query";
 
-import { apiService, type HistoryResponse } from "@/entities/timeline/api/base";
+import {
+  apiService,
+  type Direction,
+  type HistoryResponse,
+} from "@/entities/timeline/api/base";
 import { KEY_HISTORY, KEY_STATUS } from "@/shared/config/constants";
 import { toUIHistory } from "@/shared/lib/transform";
 
@@ -18,7 +22,7 @@ type UIHistoryRespons = {
 
 type UseInfiniteHistoryQueryParams = {
   limit?: number;
-  direction?: "next" | "prev";
+  direction?: Direction;
 };
 
 export const useGetInfiniteHistoryQuery = (

@@ -2,6 +2,13 @@ import { DBSchema, IDBPDatabase, openDB } from "idb";
 import { v4 as uuidv4 } from "uuid";
 
 import {
+  DEFAULT_INTERVAL,
+  DIRECTION_NEXT,
+  DIRECTION_PREV,
+  STATUS_OFF,
+  STATUS_ON,
+} from "@/shared/config/constants";
+import {
   addRandomMinutes,
   getISODateString,
   getTimestamp,
@@ -24,7 +31,7 @@ interface HistoryDB extends DBSchema {
     key: string;
     value: {
       id: string;
-      realtime: "on" | "off";
+      realtime: typeof STATUS_ON | typeof STATUS_OFF;
       interval: number;
     };
   };
@@ -84,15 +91,15 @@ export const initHistoryDB = async () => {
     .objectStore("status");
   await statusStore.put({
     id: "config",
-    realtime: "off" as const,
-    interval: 30000,
+    realtime: STATUS_OFF,
+    interval: DEFAULT_INTERVAL,
   });
 };
 
 export const getHistoryData = async (
   cursorId: string | null,
   limit: number,
-  direction: "next" | "prev" = "next"
+  direction: typeof DIRECTION_NEXT | typeof DIRECTION_PREV
 ): Promise<{
   data: HistoryItem[];
   nextCursor: string | null;
@@ -109,7 +116,7 @@ export const getHistoryData = async (
   try {
     let allData = await historyStore.getAll();
     allData.sort((a, b) =>
-      direction === "next"
+      direction === DIRECTION_NEXT
         ? getTimestamp(b.createdAt) - getTimestamp(a.createdAt)
         : getTimestamp(a.createdAt) - getTimestamp(b.createdAt)
     );
@@ -140,15 +147,15 @@ export const getHistoryData = async (
 let intervalId: NodeJS.Timeout | null = null;
 
 export const updateStatus = async (
-  realtime: "on" | "off",
-  interval: number = 30000
+  realtime: typeof STATUS_ON | typeof STATUS_OFF,
+  interval: number = DEFAULT_INTERVAL
 ) => {
   const statusStore = db
     .transaction("status", "readwrite")
     .objectStore("status");
   await statusStore.put({ id: "config", realtime, interval });
 
-  if (realtime === "on") {
+  if (realtime === STATUS_ON) {
     if (intervalId) clearInterval(intervalId);
     intervalId = setInterval(async () => {
       const historyStore = db
