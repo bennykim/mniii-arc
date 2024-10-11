@@ -1,6 +1,11 @@
 import { http, HttpResponse } from "msw";
 
-import { getHistoryData, getStatus, updateStatus } from "@/mocks/db/historyDB";
+import {
+  createSSEStream,
+  getHistoryData,
+  getStatus,
+  updateStatus,
+} from "@/mocks/db/historyDB";
 import { withStatus } from "@/mocks/withStatus";
 import {
   DEFAULT_INTERVAL,
@@ -97,4 +102,16 @@ export const historyHandlers = [
       }
     }, false)
   ),
+
+  http.get("/api/sse", async () => {
+    const stream = createSSEStream();
+
+    return new HttpResponse(stream, {
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+    });
+  }),
 ];
