@@ -1,10 +1,11 @@
 import { InfiniteData } from "@tanstack/react-query";
 import { LoaderPinwheel } from "lucide-react";
-import { Fragment, useCallback, useEffect, useRef } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 
 import { useInfiniteTimeline } from "@/features/timelineViewer/hooks/useInfiniteTimeline";
 import {
   LoadMoreTrigger,
+  ScrollToTop,
   TimelineItem,
   TimelineItemSkeleton,
 } from "@/features/timelineViewer/ui";
@@ -13,6 +14,9 @@ import { ScrollArea } from "@/shared/ui/shadcn/scroll-area";
 export function TimelineList() {
   const { infiniteQuery } = useInfiniteTimeline();
   const loadMoreTriggerRef = useRef<HTMLDivElement>(null);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
+  const [unreadCount] = useState(1);
 
   const handleIntersection = useCallback(
     (entries: IntersectionObserverEntry[]) => {
@@ -47,12 +51,21 @@ export function TimelineList() {
     };
   }, [handleIntersection]);
 
+  const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
+    const target = event.target as HTMLDivElement;
+    setShowScrollToTop(target.scrollTop > 300);
+  };
+
   if (infiniteQuery.isLoading) {
     return <InitialLoadingIndicator />;
   }
 
   return (
-    <ScrollArea className="h-[500px]">
+    <ScrollArea
+      className="h-[500px] relative"
+      ref={scrollAreaRef}
+      onScrollCapture={handleScroll}
+    >
       <TimelineItems data={infiniteQuery.data} />
       {infiniteQuery.hasNextPage ? (
         <>
@@ -66,6 +79,9 @@ export function TimelineList() {
       ) : (
         <EndOfListIndicator />
       )}
+      {showScrollToTop && (
+        <ScrollToTop scrollAreaRef={scrollAreaRef} unreadCount={unreadCount} />
+      )}{" "}
     </ScrollArea>
   );
 }
