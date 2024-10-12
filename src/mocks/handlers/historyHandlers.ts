@@ -103,7 +103,7 @@ export const historyHandlers = [
     }, false)
   ),
 
-  http.get("/api/sse", async () => {
+  http.get("/realtime", async () => {
     const stream = createSSEStream();
 
     return new HttpResponse(stream, {

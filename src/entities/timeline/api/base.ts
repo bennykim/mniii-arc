@@ -20,6 +20,11 @@ export type RealTime = typeof STATUS_ON | typeof STATUS_OFF;
 
 export type Direction = typeof DIRECTION_NEXT | typeof DIRECTION_PREV;
 
+export type RealTimeHandlers = {
+  onMessage?: (event: MessageEvent) => void;
+  onError?: (event: Event) => void;
+};
+
 export const apiService = {
   getHistory: async (params: {
     cursor: string | null;
@@ -56,5 +61,27 @@ export const apiService = {
       interval: number;
     }> = await http.get("/status");
     return response.data;
+  },
+
+  createRealtimeConnection: (
+    handlers: RealTimeHandlers
+  ): {
+    eventSource: EventSource;
+    close: () => void;
+  } => {
+    const eventSource = new EventSource("/realtime");
+
+    if (handlers.onMessage) {
+      eventSource.onmessage = handlers.onMessage;
+    }
+
+    if (handlers.onError) {
+      eventSource.onerror = handlers.onError;
+    }
+
+    return {
+      eventSource,
+      close: () => eventSource.close(),
+    };
   },
 };
