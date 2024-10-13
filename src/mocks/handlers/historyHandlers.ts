@@ -20,7 +20,7 @@ import {
   STATUS_ON,
 } from "@/shared/config/constants";
 
-import type { Direction } from "@/entities/timeline/api/base";
+import type { Direction } from "@/entities/history/api/base";
 
 export const historyHandlers = [
   http.get(

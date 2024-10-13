@@ -8,7 +8,7 @@ import {
   STATUS_ON,
 } from "@/shared/config/constants";
 
-import type { History } from "@/entities/timeline/model/types";
+import type { History } from "@/entities/history/model/types";
 
 export type HistoryResponse = {
   data: History[];

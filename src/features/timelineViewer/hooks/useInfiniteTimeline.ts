@@ -2,7 +2,7 @@ import {
   useGetInfiniteHistoryQuery,
   useGetStatusQuery,
   useUpdateStatusMutation,
-} from "@/entities/timeline/api";
+} from "@/entities/history/api";
 import { STATUS_OFF, STATUS_ON } from "@/shared/config/constants";
 
 export const useInfiniteTimeline = (limit: number = 20) => {

@@ -10,7 +10,7 @@ import {
   apiService,
   type Direction,
   type HistoryResponse,
-} from "@/entities/timeline/api/base";
+} from "@/entities/history/api/base";
 import { KEY_HISTORY, KEY_STATUS } from "@/shared/config/constants";
 import { toUIHistory } from "@/shared/lib/transform";
 

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { apiService, type RealTime } from "@/entities/timeline/api/base";
+import { apiService, type RealTime } from "@/entities/history/api/base";
 import { KEY_STATUS } from "@/shared/config/constants";
 
 export const useUpdateStatusMutation = () => {

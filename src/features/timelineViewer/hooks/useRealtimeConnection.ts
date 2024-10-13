@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { apiService } from "@/entities/timeline/api/base";
+import { apiService } from "@/entities/history/api/base";
 
 type UseRealtimeConnectionProps = {
   isEnabled: boolean;
