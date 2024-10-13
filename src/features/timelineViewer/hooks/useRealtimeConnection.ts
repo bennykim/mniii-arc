@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { apiService } from "@/entities/history/api/base";
+import { useHistoryStore } from "@/entities/history/store";
+import { toUIHistory } from "@/shared/lib/transform";
+
+import type { History } from "@/entities/history/model/types";
 
 type UseRealtimeConnectionProps = {
   isEnabled: boolean;
@@ -13,6 +17,7 @@ export const useRealtimeConnection = ({
   onMessage,
   onError,
 }: UseRealtimeConnectionProps) => {
+  const { addRealtimeHistory } = useHistoryStore();
   const realtimeConnectionRef = useRef<{ close: () => void } | null>(null);
   const [isConnected, setIsConnected] = useState(false);
 
@@ -22,7 +27,9 @@ export const useRealtimeConnection = ({
     }
 
     const { eventSource, close } = apiService.createRealtimeConnection({
-      onMessage: (event) => {
+      onMessage: (event: MessageEvent<string>) => {
+        const historyData = JSON.parse(event.data) as History;
+        addRealtimeHistory(toUIHistory([historyData]));
         onMessage?.(event);
       },
       onError: (error) => {
@@ -39,7 +46,7 @@ export const useRealtimeConnection = ({
     };
 
     realtimeConnectionRef.current = { close };
-  }, [onMessage, onError]);
+  }, [onMessage, onError, addRealtimeHistory]);
 
   useEffect(() => {
     if (isEnabled) {

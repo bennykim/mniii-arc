@@ -2,12 +2,14 @@ import { InfiniteData } from "@tanstack/react-query";
 import { LoaderPinwheel } from "lucide-react";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 
+import { useHistoryStore } from "@/entities/history/store";
 import { useInfiniteTimeline } from "@/features/timelineViewer/hooks/useInfiniteTimeline";
 import { Timeline } from "@/features/timelineViewer/ui";
 import { ScrollArea } from "@/shared/ui/shadcn/scroll-area";
 
 export function TimelineListContainer() {
   const { infiniteQuery } = useInfiniteTimeline();
+  const realtimeData = useHistoryStore((state) => state.realtimeHistory);
   const loadMoreTriggerRef = useRef<HTMLDivElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
@@ -61,6 +63,7 @@ export function TimelineListContainer() {
       ref={scrollAreaRef}
       onScrollCapture={handleScroll}
     >
+      <RealtimeItems data={realtimeData} />
       <InfiniteItems data={infiniteQuery.data} />
       {infiniteQuery.hasNextPage ? (
         <>
@@ -79,22 +82,24 @@ export function TimelineListContainer() {
           scrollAreaRef={scrollAreaRef}
           unreadCount={unreadCount}
         />
-      )}{" "}
+      )}
     </ScrollArea>
-  );
-}
-
-function InitialLoadingIndicator() {
-  return (
-    <div className="flex items-center justify-center h-full">
-      <LoaderPinwheel size={22} className="animate-spin" />
-    </div>
   );
 }
 
 type TimelinePageData = {
   data: UIHistories;
 };
+
+function RealtimeItems({ data }: TimelinePageData) {
+  return (
+    <>
+      {data
+        .map((item) => <Timeline.Item.Content key={item.id} item={item} />)
+        .reverse()}
+    </>
+  );
+}
 
 type InfiniteItemsProps = {
   data: InfiniteData<TimelinePageData> | undefined;
@@ -111,6 +116,14 @@ function InfiniteItems({ data }: InfiniteItemsProps) {
         </Fragment>
       ))}
     </>
+  );
+}
+
+function InitialLoadingIndicator() {
+  return (
+    <div className="flex items-center justify-center h-full">
+      <LoaderPinwheel size={22} className="animate-spin" />
+    </div>
   );
 }
 

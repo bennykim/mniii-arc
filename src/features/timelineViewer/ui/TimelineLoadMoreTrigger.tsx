@@ -10,6 +10,7 @@ export const TimelineLoadMoreTrigger = forwardRef<
   TimelineLoadMoreTriggerProps
 >(({ hasNextPage, isFetchingNextPage }, ref) => {
   if (!hasNextPage && !isFetchingNextPage) return null;
+
   return <div ref={ref} className="h-10" />;
 });
 TimelineLoadMoreTrigger.displayName = "LoadMoreTrigger";
