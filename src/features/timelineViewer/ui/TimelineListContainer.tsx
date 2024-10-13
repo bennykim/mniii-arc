@@ -3,15 +3,10 @@ import { LoaderPinwheel } from "lucide-react";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 
 import { useInfiniteTimeline } from "@/features/timelineViewer/hooks/useInfiniteTimeline";
-import {
-  LoadMoreTrigger,
-  ScrollToTop,
-  TimelineItem,
-  TimelineItemSkeleton,
-} from "@/features/timelineViewer/ui";
+import { Timeline } from "@/features/timelineViewer/ui";
 import { ScrollArea } from "@/shared/ui/shadcn/scroll-area";
 
-export function TimelineList() {
+export function TimelineListContainer() {
   const { infiniteQuery } = useInfiniteTimeline();
   const loadMoreTriggerRef = useRef<HTMLDivElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -66,10 +61,10 @@ export function TimelineList() {
       ref={scrollAreaRef}
       onScrollCapture={handleScroll}
     >
-      <TimelineItems data={infiniteQuery.data} />
+      <InfiniteItems data={infiniteQuery.data} />
       {infiniteQuery.hasNextPage ? (
         <>
-          <LoadMoreTrigger
+          <Timeline.Controls.LoadMoreTrigger
             ref={loadMoreTriggerRef}
             hasNextPage={infiniteQuery.hasNextPage}
             isFetchingNextPage={infiniteQuery.isFetchingNextPage}
@@ -80,7 +75,10 @@ export function TimelineList() {
         <EndOfListIndicator />
       )}
       {showScrollToTop && (
-        <ScrollToTop scrollAreaRef={scrollAreaRef} unreadCount={unreadCount} />
+        <Timeline.Controls.ScrollToTop
+          scrollAreaRef={scrollAreaRef}
+          unreadCount={unreadCount}
+        />
       )}{" "}
     </ScrollArea>
   );
@@ -98,17 +96,17 @@ type TimelinePageData = {
   data: UIHistories;
 };
 
-type TimelineItemsProps = {
+type InfiniteItemsProps = {
   data: InfiniteData<TimelinePageData> | undefined;
 };
 
-function TimelineItems({ data }: TimelineItemsProps) {
+function InfiniteItems({ data }: InfiniteItemsProps) {
   return (
     <>
       {data?.pages.map((page, pageIndex) => (
         <Fragment key={pageIndex}>
           {page.data.map((item) => (
-            <TimelineItem key={item.id} item={item} />
+            <Timeline.Item.Content key={item.id} item={item} />
           ))}
         </Fragment>
       ))}
@@ -120,7 +118,7 @@ function LoadingMoreIndicator() {
   return (
     <div className="space-y-4">
       {Array.from({ length: 3 }).map((_, index) => (
-        <TimelineItemSkeleton key={index} />
+        <Timeline.Item.Skeleton key={index} />
       ))}
     </div>
   );

@@ -4,17 +4,17 @@ import { useRealtimeConnection } from "@/features/timelineViewer/hooks/useRealti
 import { Button } from "@/shared/ui/shadcn/button";
 import { Label } from "@/shared/ui/shadcn/label";
 
-type RealtimeToggleProps = {
+type TimelineRealtimeToggleProps = {
   isRealtimeOn: boolean;
   toggleRealtime: (checked: boolean) => void;
   isLoading: boolean;
 };
 
-export function RealtimeToggle({
+export function TimelineRealtimeToggle({
   isRealtimeOn,
   toggleRealtime,
   isLoading,
-}: RealtimeToggleProps) {
+}: TimelineRealtimeToggleProps) {
   const { isConnected } = useRealtimeConnection({
     isEnabled: isRealtimeOn,
   });

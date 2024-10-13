@@ -4,15 +4,15 @@ import { useCallback } from "react";
 import { Badge } from "@/shared/ui/shadcn/badge";
 import { Button } from "@/shared/ui/shadcn/button";
 
-type ScrollToTopProps = {
+type TimelineScrollToTopProps = {
   scrollAreaRef: React.RefObject<HTMLDivElement>;
   unreadCount: number;
 };
 
-export const ScrollToTop: React.FC<ScrollToTopProps> = ({
+export function TimelineScrollToTop({
   scrollAreaRef,
   unreadCount,
-}) => {
+}: TimelineScrollToTopProps) {
   const scrollToTop = useCallback(() => {
     if (scrollAreaRef.current) {
       const viewport = scrollAreaRef.current.querySelector(
@@ -47,4 +47,4 @@ export const ScrollToTop: React.FC<ScrollToTopProps> = ({
       )}
     </div>
   );
-};
+}
