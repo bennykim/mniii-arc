@@ -22,6 +22,7 @@ type UIHistory = {
   title: string;
   content: string;
   createdAt: string;
+  isRead: boolean;
 };
 
 type UIHistories = UIHistory[];

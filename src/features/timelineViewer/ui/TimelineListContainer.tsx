@@ -106,12 +106,17 @@ type InfiniteItemsProps = {
 };
 
 function InfiniteItems({ data }: InfiniteItemsProps) {
+  const readState = useHistoryStore((state) => state.readState);
+
   return (
     <>
       {data?.pages.map((page, pageIndex) => (
         <Fragment key={pageIndex}>
           {page.data.map((item) => (
-            <Timeline.Item.Content key={item.id} item={item} />
+            <Timeline.Item.Content
+              key={item.id}
+              item={{ ...item, isRead: readState[item.id] || false }}
+            />
           ))}
         </Fragment>
       ))}

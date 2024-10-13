@@ -53,5 +53,6 @@ export const toUIHistory = (history: History[]): UIHistories => {
     title: item.name,
     content: item.description,
     createdAt: item.createdAt,
+    isRead: false,
   }));
 };
