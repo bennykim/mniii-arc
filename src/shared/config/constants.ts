@@ -22,7 +22,7 @@ export const PARAM_DIRECTION = "direction";
 export const PARAM_REALTIME = "realtime";
 export const PARAM_INTERVAL = "interval";
 
-export const DEFAULT_LIMIT = 30;
+export const DEFAULT_LIMIT = 20;
 export const DEFAULT_INTERVAL = 10000;
 
 export const DIRECTION_NEXT = "next";

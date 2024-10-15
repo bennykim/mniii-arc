@@ -1,4 +1,4 @@
-import { useInfiniteTimeline } from "@/features/timelineViewer/hooks/useInfiniteTimeline";
+import { useInfiniteTimeline } from "@/features/timelineViewer/hooks";
 import { Timeline } from "@/features/timelineViewer/ui";
 import { STATUS_ON } from "@/shared/config/constants";
 import {

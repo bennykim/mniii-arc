@@ -1,6 +1,6 @@
 import { Power, PowerOff } from "lucide-react";
 
-import { useRealtimeConnection } from "@/features/timelineViewer/hooks/useRealtimeConnection";
+import { useRealtimeConnection } from "@/features/timelineViewer/hooks";
 import { Button } from "@/shared/ui/shadcn/button";
 import { Label } from "@/shared/ui/shadcn/label";
 

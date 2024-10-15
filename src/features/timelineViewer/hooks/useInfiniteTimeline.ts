@@ -3,9 +3,13 @@ import {
   useGetStatusQuery,
   useUpdateStatusMutation,
 } from "@/entities/history/api";
-import { STATUS_OFF, STATUS_ON } from "@/shared/config/constants";
+import {
+  DEFAULT_LIMIT,
+  STATUS_OFF,
+  STATUS_ON,
+} from "@/shared/config/constants";
 
-export const useInfiniteTimeline = (limit: number = 20) => {
+export const useInfiniteTimeline = (limit: number = DEFAULT_LIMIT) => {
   const infiniteQuery = useGetInfiniteHistoryQuery({ limit });
   const statusQuery = useGetStatusQuery();
   const updateStatusMutation = useUpdateStatusMutation();
