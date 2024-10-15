@@ -2,10 +2,10 @@ import { useCallback, useEffect, useRef } from "react";
 
 type IntersectionCallback = () => void;
 
-export function useIntersectionTrigger(
+export const useIntersectionTrigger = (
   callback: IntersectionCallback,
   options?: IntersectionObserverInit
-) {
+) => {
   const triggerRef = useRef<HTMLDivElement>(null);
 
   const handleIntersection = useCallback(
@@ -39,4 +39,4 @@ export function useIntersectionTrigger(
   }, [handleIntersection, options]);
 
   return triggerRef;
-}
+};

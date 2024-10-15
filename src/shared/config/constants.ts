@@ -24,6 +24,7 @@ export const PARAM_INTERVAL = "interval";
 
 export const DEFAULT_LIMIT = 20;
 export const DEFAULT_INTERVAL = 10000;
+export const DEFAULT_IDLE_TIME = 10000;
 
 export const DIRECTION_NEXT = "next";
 export const DIRECTION_PREV = "prev";

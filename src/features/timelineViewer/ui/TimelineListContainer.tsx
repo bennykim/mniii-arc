@@ -1,9 +1,10 @@
 import { InfiniteData } from "@tanstack/react-query";
 import { LoaderPinwheel } from "lucide-react";
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 
 import { useHistoryStore } from "@/entities/history/store";
 import {
+  useIdleTimer,
   useInfiniteTimeline,
   useIntersectionTrigger,
   useLastReadItem,
@@ -94,7 +95,17 @@ type InfiniteItemsProps = {
 
 function InfiniteItems({ data }: InfiniteItemsProps) {
   const { readState, lastReadItemId, lastReadTime } = useHistoryStore();
+  const [showReadUpToHere, setShowReadUpToHere] = useState(false);
+  const isIdle = useIdleTimer();
   const elapsedTime = lastReadTime ? getElapsedTime(lastReadTime) : null;
+
+  useEffect(() => {
+    if (isIdle) {
+      setShowReadUpToHere(true);
+    } else {
+      setShowReadUpToHere(false);
+    }
+  }, [isIdle]);
 
   return (
     <div className="flex flex-col gap-6">
@@ -106,15 +117,11 @@ function InfiniteItems({ data }: InfiniteItemsProps) {
                 key={item.id}
                 item={{ ...item, isRead: readState[item.id] || false }}
               />
-              {item.id === lastReadItemId && elapsedTime && (
-                <div className="relative flex items-center justify-center">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-gray-300"></div>
-                  </div>
-                  <div className="relative px-4 text-xs text-center text-gray-500 bg-white">
-                    Read up to here {elapsedTime}
-                  </div>
-                </div>
+              {item.id === lastReadItemId && (
+                <Timeline.Item.ReadUpToHere
+                  elapsedTime={elapsedTime}
+                  isVisible={showReadUpToHere}
+                />
               )}
             </Fragment>
           ))}

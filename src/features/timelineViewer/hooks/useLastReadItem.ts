@@ -9,12 +9,12 @@ interface UseLastReadItemProps {
   setLastReadTime: (time: string | null) => void;
 }
 
-export function useLastReadItem({
+export const useLastReadItem = ({
   scrollAreaRef,
   isFetching,
   setLastReadItemId,
   setLastReadTime,
-}: UseLastReadItemProps) {
+}: UseLastReadItemProps) => {
   const lastItemRef = useRef<IntersectionObserverEntry | null>(null);
 
   useEffect(() => {
@@ -67,4 +67,4 @@ export function useLastReadItem({
       interObs.disconnect();
     };
   }, [scrollAreaRef, isFetching, setLastReadItemId, setLastReadTime]);
-}
+};
