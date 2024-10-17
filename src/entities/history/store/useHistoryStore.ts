@@ -11,6 +11,7 @@ type State = {
 type Actions = {
   addRealtimeHistory: (histories: UIHistory[]) => void;
   clearRealtimeHistory: () => void;
+  getRealtimeHistoryUnReadCount: () => number;
   setHistoryRead: (id: string) => void;
   setLastReadItemId: (id: string | null) => void;
   setLastReadTime: (time: string | null) => void;
@@ -19,7 +20,10 @@ type Actions = {
 type Store = State & Actions;
 
 const createHistoryStore = () => {
-  const store = (set: (fn: (state: State) => State) => void): Store => ({
+  const store = (
+    set: (fn: (state: State) => State) => void,
+    get: () => State
+  ): Store => ({
     realtimeHistory: [],
     readState: {},
     lastReadItemId: null,
@@ -36,6 +40,11 @@ const createHistoryStore = () => {
         ...state,
         realtimeHistory: [],
       })),
+
+    getRealtimeHistoryUnReadCount: () => {
+      const { realtimeHistory, readState } = get();
+      return realtimeHistory.filter((history) => !readState[history.id]).length;
+    },
 
     setHistoryRead: (id: string) =>
       set((state) => ({

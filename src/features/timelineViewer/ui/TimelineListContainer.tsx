@@ -19,10 +19,11 @@ export function TimelineListContainer() {
     realtimeHistory: realtimeData,
     setLastReadItemId,
     setLastReadTime,
+    getRealtimeHistoryUnReadCount,
   } = useHistoryStore();
+  const unreadCount = getRealtimeHistoryUnReadCount();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
-  const [unreadCount] = useState(1);
   const { infiniteQuery } = useInfiniteTimeline();
   const loadMoreTriggerRef = useIntersectionTrigger(() => {
     if (infiniteQuery.hasNextPage && !infiniteQuery.isFetchingNextPage) {
@@ -47,12 +48,12 @@ export function TimelineListContainer() {
 
   return (
     <ScrollArea
-      className="h-[500px] relative"
+      className="h-[550px] relative"
       ref={scrollAreaRef}
       onScrollCapture={handleScroll}
     >
       <RealtimeItems data={realtimeData} />
-      <InfiniteItems data={infiniteQuery.data} />
+      <InfiniteItems data={infiniteQuery.data} />ㅈ
       {infiniteQuery.hasNextPage ? (
         <>
           <Timeline.Controls.LoadMoreTrigger
