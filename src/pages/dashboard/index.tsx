@@ -4,8 +4,8 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/shared/ui/shadcn/tabs";
-import { GroupDashboard } from "@/widgets/GroupDashboard";
-import { TimelineDashboard } from "@/widgets/TimelineDashboard";
+import { GroupManagerWidget } from "@/widgets/GroupManagerWidget/ui";
+import { TimelineWidget } from "@/widgets/TimelineWidget/ui";
 
 function DashboardPage() {
   return (
@@ -17,10 +17,10 @@ function DashboardPage() {
             <TabsTrigger value="menuB">Menu B</TabsTrigger>
           </TabsList>
           <TabsContent value="menuA">
-            <GroupDashboard />
+            <GroupManagerWidget />
           </TabsContent>
           <TabsContent value="menuB">
-            <TimelineDashboard />
+            <TimelineWidget />
           </TabsContent>
         </Tabs>
       </div>

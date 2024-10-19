@@ -49,7 +49,7 @@ import {
 } from "@/shared/ui/shadcn/select";
 import { TypographyP, TypographySpan } from "@/shared/ui/typography";
 
-export function GroupDashboard() {
+export function GroupManagerWidget() {
   const { selectedGroup, editingGroup, selectGroup, editGroup } =
     useGroupStore();
   const { editingItem, editItem } = useItemStore();

@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/shared/ui/shadcn/card";
 
-export function TimelineDashboard() {
+export function TimelineWidget() {
   const { statusQuery, toggleRealtime } = useInfiniteTimeline();
 
   return (
