@@ -4,23 +4,28 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/shared/ui/shadcn/tabs";
-import { GroupManagerWidget } from "@/widgets/GroupManagerWidget/ui";
-import { TimelineWidget } from "@/widgets/TimelineWidget/ui";
+import { GroupManagerWidget } from "@/widgets/groupManagerWidget/ui";
+import { OptimizedListWidget } from "@/widgets/optimizedListWidget/ui";
+import { TimelineWidget } from "@/widgets/timelineWidget/ui";
 
 function DashboardPage() {
   return (
     <div className="h-screen bg-gradient-to-t from-blue-600 to-yellow-50 dark:to-blue-600 dark:from-yellow-50">
       <div className="container p-4 mx-auto">
-        <Tabs defaultValue="menuA">
+        <Tabs defaultValue="GroupManager">
           <TabsList>
-            <TabsTrigger value="menuA">Menu A</TabsTrigger>
-            <TabsTrigger value="menuB">Menu B</TabsTrigger>
+            <TabsTrigger value="GroupManager">Group Manager</TabsTrigger>
+            <TabsTrigger value="Timeline">Timeline</TabsTrigger>
+            <TabsTrigger value="OptimizedList">Optimized List</TabsTrigger>
           </TabsList>
-          <TabsContent value="menuA">
+          <TabsContent value="GroupManager">
             <GroupManagerWidget />
           </TabsContent>
-          <TabsContent value="menuB">
+          <TabsContent value="Timeline">
             <TimelineWidget />
+          </TabsContent>
+          <TabsContent value="OptimizedList">
+            <OptimizedListWidget />
           </TabsContent>
         </Tabs>
       </div>
