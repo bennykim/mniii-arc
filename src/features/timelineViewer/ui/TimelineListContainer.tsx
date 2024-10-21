@@ -53,7 +53,7 @@ export function TimelineListContainer() {
       onScrollCapture={handleScroll}
     >
       <RealtimeItems data={realtimeData} />
-      <InfiniteItems data={infiniteQuery.data} />ㅈ
+      <InfiniteItems data={infiniteQuery.data} />
       {infiniteQuery.hasNextPage ? (
         <>
           <Timeline.Controls.LoadMoreTrigger

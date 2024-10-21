@@ -27,6 +27,7 @@ export const useIdleTimer = (idleTime = DEFAULT_IDLE_TIME) => {
     window.addEventListener("keydown", onActivity);
     window.addEventListener("scroll", onActivity);
     window.addEventListener("touchstart", onActivity);
+    window.addEventListener("wheel", onActivity);
 
     resetTimer();
 
@@ -35,6 +36,7 @@ export const useIdleTimer = (idleTime = DEFAULT_IDLE_TIME) => {
       window.removeEventListener("keydown", onActivity);
       window.removeEventListener("scroll", onActivity);
       window.removeEventListener("touchstart", onActivity);
+      window.removeEventListener("wheel", onActivity);
 
       if (timeoutId.current) {
         clearTimeout(timeoutId.current);

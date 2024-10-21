@@ -1,6 +1,7 @@
 import { ChevronUp } from "lucide-react";
 import { useCallback } from "react";
 
+import { SCROLL_AREA_VIEWPORT_ATTR } from "@/shared/config/constants";
 import { Badge } from "@/shared/ui/shadcn/badge";
 import { Button } from "@/shared/ui/shadcn/button";
 
@@ -16,7 +17,7 @@ export function TimelineScrollToTop({
   const scrollToTop = useCallback(() => {
     if (scrollAreaRef.current) {
       const viewport = scrollAreaRef.current.querySelector(
-        "[data-radix-scroll-area-viewport]"
+        `[${SCROLL_AREA_VIEWPORT_ATTR}]`
       );
       if (viewport) {
         viewport.scrollTo({

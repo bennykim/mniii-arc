@@ -7,8 +7,16 @@ type OptimizedListProps = {
 };
 
 export function OptimizedList({ items }: OptimizedListProps) {
-  const { visibleRange, containerRef, handleScroll, totalHeight, ITEM_HEIGHT } =
-    useOptimizedView(items.length);
+  const {
+    visibleRange,
+    containerRef,
+    handleScroll,
+    totalHeight,
+    getItemOffset,
+    updateItemHeight,
+    toggleItemExpanded,
+    isItemExpanded,
+  } = useOptimizedView(items.length);
 
   return (
     <ScrollArea
@@ -16,22 +24,23 @@ export function OptimizedList({ items }: OptimizedListProps) {
       className="w-full h-full"
       onScrollCapture={handleScroll}
     >
-      <div className="relative" style={{ height: totalHeight }}>
+      <ul className="relative divide-y-2" style={{ height: totalHeight }}>
         {items
           .slice(visibleRange.start, visibleRange.end)
           .map((item, index) => (
             <OptimizedListItem
               key={item}
               index={item}
+              className="absolute left-0 right-0"
               style={{
-                position: "absolute",
-                top: (visibleRange.start + index) * ITEM_HEIGHT,
-                left: 0,
-                right: 0,
+                top: getItemOffset(visibleRange.start + index),
               }}
+              updateItemHeight={updateItemHeight}
+              toggleItemExpanded={toggleItemExpanded}
+              isExpanded={isItemExpanded(item)}
             />
           ))}
-      </div>
+      </ul>
     </ScrollArea>
   );
 }

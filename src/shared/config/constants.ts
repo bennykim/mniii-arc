@@ -33,3 +33,5 @@ export const STATUS_ON = "on";
 export const STATUS_OFF = "off";
 
 export const MOCK_DELAY = 1000;
+
+export const SCROLL_AREA_VIEWPORT_ATTR = "data-radix-scroll-area-viewport";
