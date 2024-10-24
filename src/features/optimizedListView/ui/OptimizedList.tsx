@@ -1,5 +1,5 @@
+import { useOptimizedView } from "@/features/optimizedListView/hooks/useOptimizedView";
 import { ScrollArea } from "@/shared/ui/shadcn/scroll-area";
-import { useOptimizedView } from "../hooks/useOptimizedView";
 import { OptimizedListItem } from "./OptimizedListItem";
 
 type OptimizedListProps = {
@@ -16,7 +16,11 @@ export function OptimizedList({ items }: OptimizedListProps) {
     updateItemHeight,
     toggleItemExpanded,
     isItemExpanded,
-  } = useOptimizedView(items.length);
+  } = useOptimizedView({
+    totalItems: items.length,
+    itemHeight: 150,
+    bufferSize: 3,
+  });
 
   return (
     <ScrollArea

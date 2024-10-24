@@ -2,15 +2,24 @@ import { useCallback, useMemo, useRef, useState } from "react";
 
 import { SCROLL_AREA_VIEWPORT_ATTR } from "@/shared/config/constants";
 
-const DEFAULT_ITEM_HEIGHT = 200;
-const BUFFER_SIZE = 2;
 const INITIAL_RANGE = { start: 0, end: 4 };
 
-export const useOptimizedView = (totalItems: number) => {
+type UseOptimizedViewProps = {
+  totalItems: number;
+  itemHeight: number;
+  bufferSize?: number;
+};
+
+export const useOptimizedView = ({
+  totalItems,
+  itemHeight,
+  bufferSize = 2,
+}: UseOptimizedViewProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
+
   const [visibleRange, setVisibleRange] = useState(INITIAL_RANGE);
   const [itemHeights, setItemHeights] = useState<number[]>(() =>
-    new Array(totalItems).fill(DEFAULT_ITEM_HEIGHT)
+    new Array(totalItems).fill(itemHeight)
   );
   const [expandedItems, setExpandedItems] = useState<boolean[]>(() =>
     new Array(totalItems).fill(false)
@@ -48,7 +57,7 @@ export const useOptimizedView = (totalItems: number) => {
     });
   }, []);
 
-  const calculateVisibleRange = useCallback(() => {
+  const calculateVisibleRangeChunked = useCallback(() => {
     const scrollElement = containerRef.current?.querySelector(
       `[${SCROLL_AREA_VIEWPORT_ATTR}]`
     ) as HTMLElement | null;
@@ -56,31 +65,55 @@ export const useOptimizedView = (totalItems: number) => {
     if (!scrollElement) return INITIAL_RANGE;
 
     const { scrollTop, clientHeight } = scrollElement;
-    const totalScrollHeight = scrollTop + clientHeight;
+    const viewportEnd = scrollTop + clientHeight;
 
     let start = 0;
     let end = 0;
     let accumulatedHeight = 0;
+    let prevAccumulatedHeight = 0;
 
     for (let i = 0; i < itemHeights.length; i++) {
-      if (start === 0 && accumulatedHeight > scrollTop) {
-        start = Math.max(0, i - BUFFER_SIZE);
+      const currentHeight = itemHeights[i];
+      accumulatedHeight += currentHeight;
+
+      const itemTop = prevAccumulatedHeight;
+      const itemBottom = accumulatedHeight;
+      const isItemVisible =
+        (itemTop <= viewportEnd && itemBottom >= scrollTop) ||
+        (itemTop <= scrollTop && itemBottom >= viewportEnd);
+
+      if (isItemVisible && start === 0) {
+        if (i === 0 || scrollTop <= itemTop) {
+          start = 0;
+        } else {
+          start = i;
+        }
       }
 
-      accumulatedHeight += itemHeights[i];
-
-      if (accumulatedHeight > totalScrollHeight) {
-        end = Math.min(itemHeights.length, i + 1 + BUFFER_SIZE);
+      if (itemTop > viewportEnd && end === 0) {
+        end = i + 1;
         break;
       }
+
+      prevAccumulatedHeight = accumulatedHeight;
     }
 
-    return { start, end };
+    if (end === 0) {
+      end = itemHeights.length;
+    }
+
+    const finalStart = Math.max(0, start - bufferSize);
+    const finalEnd = Math.min(itemHeights.length, end + bufferSize);
+
+    return {
+      start: finalStart,
+      end: finalEnd,
+    };
   }, [itemHeights]);
 
   const handleScroll = useCallback(() => {
-    setVisibleRange(calculateVisibleRange());
-  }, [calculateVisibleRange]);
+    setVisibleRange(calculateVisibleRangeChunked());
+  }, [calculateVisibleRangeChunked]);
 
   return {
     visibleRange,

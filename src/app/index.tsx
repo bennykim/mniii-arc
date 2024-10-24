@@ -2,7 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
 import { AppProvider, ThemeProvider } from "@/app/providers";
-import DashboardPage from "@/pages/dashboard";
+import DashboardPage from "@/pages/DashboardPage";
 import { STORAGE_KEY, THEME } from "@/shared/config/constants";
 
 import "./styles/global.css";
