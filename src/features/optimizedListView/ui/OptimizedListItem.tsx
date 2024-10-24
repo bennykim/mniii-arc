@@ -39,7 +39,7 @@ export function OptimizedListItem({
     <li
       ref={contentRef}
       className={cn(
-        "flex items-center justify-center cursor-pointer h-[200px] bg-gray-100",
+        "flex items-center justify-center cursor-pointer bg-gray-100",
         className,
         {
           "h-[300px] bg-lime-100": isExpanded,

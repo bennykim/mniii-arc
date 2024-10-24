@@ -7,7 +7,7 @@ import {
 } from "@/shared/ui/shadcn/card";
 
 export function OptimizedListWidget() {
-  const listLength = 1000;
+  const listLength = 30;
   const items = Array.from({ length: listLength }, (_, i) => i);
 
   return (

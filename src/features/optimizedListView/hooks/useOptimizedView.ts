@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { SCROLL_AREA_VIEWPORT_ATTR } from "@/shared/config/constants";
 
@@ -8,14 +8,19 @@ type UseOptimizedViewProps = {
   totalItems: number;
   itemHeight: number;
   bufferSize?: number;
+  threshold?: number;
+  onLoadMore?: () => void;
 };
 
 export const useOptimizedView = ({
   totalItems,
   itemHeight,
   bufferSize = 2,
+  threshold = 0.9,
+  onLoadMore,
 }: UseOptimizedViewProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const isLoadingRef = useRef(false);
 
   const [visibleRange, setVisibleRange] = useState(INITIAL_RANGE);
   const [itemHeights, setItemHeights] = useState<number[]>(() =>
@@ -24,6 +29,27 @@ export const useOptimizedView = ({
   const [expandedItems, setExpandedItems] = useState<boolean[]>(() =>
     new Array(totalItems).fill(false)
   );
+
+  useEffect(() => {
+    setItemHeights((prev) => {
+      if (prev.length < totalItems) {
+        return [
+          ...prev,
+          ...new Array(totalItems - prev.length).fill(itemHeight),
+        ];
+      }
+      return prev;
+    });
+
+    setExpandedItems((prev) => {
+      if (prev.length < totalItems) {
+        return [...prev, ...new Array(totalItems - prev.length).fill(false)];
+      }
+      return prev;
+    });
+
+    isLoadingRef.current = false;
+  }, [totalItems, itemHeight]);
 
   const totalHeight = useMemo(
     () => itemHeights.reduce((sum, height) => sum + height, 0),
@@ -109,11 +135,26 @@ export const useOptimizedView = ({
       start: finalStart,
       end: finalEnd,
     };
-  }, [itemHeights]);
+  }, [itemHeights, bufferSize]);
 
   const handleScroll = useCallback(() => {
-    setVisibleRange(calculateVisibleRangeChunked());
-  }, [calculateVisibleRangeChunked]);
+    const newRange = calculateVisibleRangeChunked();
+    setVisibleRange(newRange);
+
+    const scrollElement = containerRef.current?.querySelector(
+      `[${SCROLL_AREA_VIEWPORT_ATTR}]`
+    ) as HTMLElement | null;
+
+    if (scrollElement && !isLoadingRef.current) {
+      const { scrollTop, clientHeight, scrollHeight } = scrollElement;
+      const scrollPercentage = (scrollTop + clientHeight) / scrollHeight;
+
+      if (onLoadMore && scrollPercentage > threshold) {
+        isLoadingRef.current = true;
+        onLoadMore();
+      }
+    }
+  }, [calculateVisibleRangeChunked, onLoadMore, threshold]);
 
   return {
     visibleRange,
