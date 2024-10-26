@@ -160,12 +160,12 @@ export const useOptimizedView = ({
     visibleRange,
     containerRef,
     expandedItems,
-    handleScroll,
     totalHeight,
+    itemHeights,
+    handleScroll,
     getItemOffset,
     updateItemHeight,
     toggleItemExpanded,
-    itemHeights,
     isItemExpanded,
   };
 };

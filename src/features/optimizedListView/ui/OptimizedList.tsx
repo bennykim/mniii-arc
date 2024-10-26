@@ -1,35 +1,16 @@
+import { type FakerTextDataItem } from "@/entities/faker/api/base";
 import { useOptimizedView } from "@/features/optimizedListView/hooks/useOptimizedView";
+import { OptimizedListItem } from "@/features/optimizedListView/ui";
 import { ScrollArea } from "@/shared/ui/shadcn/scroll-area";
-import { Loader2 } from "lucide-react";
-import { useCallback, useState } from "react";
-import { OptimizedListItem } from "./OptimizedListItem";
 
-const LOAD_MORE_COUNT = 20;
 const DEFAULT_ITEM_HEIGHT = 150;
 
 type OptimizedListProps = {
-  items: number[];
+  data: FakerTextDataItem[];
+  onLoadMore: () => void;
 };
 
-export function OptimizedList({ items }: OptimizedListProps) {
-  const [totalItems, setTotalItems] = useState(items);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const onLoadMore = useCallback(() => {
-    setIsLoading(true);
-
-    setTimeout(() => {
-      setTotalItems((prevItems) => [
-        ...prevItems,
-        ...Array.from(
-          { length: LOAD_MORE_COUNT },
-          (_, i) => prevItems.length + i
-        ),
-      ]);
-      setIsLoading(false);
-    }, 1000);
-  }, []);
-
+export function OptimizedList({ data, onLoadMore }: OptimizedListProps) {
   const {
     visibleRange,
     containerRef,
@@ -40,7 +21,7 @@ export function OptimizedList({ items }: OptimizedListProps) {
     toggleItemExpanded,
     isItemExpanded,
   } = useOptimizedView({
-    totalItems: totalItems.length,
+    totalItems: data.length,
     itemHeight: DEFAULT_ITEM_HEIGHT,
     bufferSize: 3,
     onLoadMore,
@@ -52,28 +33,29 @@ export function OptimizedList({ items }: OptimizedListProps) {
       className="relative w-full h-full"
       onScrollCapture={handleScroll}
     >
-      <ul className="relative divide-y-2" style={{ height: totalHeight }}>
-        {totalItems
-          .slice(visibleRange.start, visibleRange.end)
-          .map((item, index) => (
+      <ul className="relative" style={{ height: totalHeight }}>
+        {data.slice(visibleRange.start, visibleRange.end).map((item, index) => {
+          const actualIndex = visibleRange.start + index;
+          return (
             <OptimizedListItem
-              key={item}
-              index={item}
-              className={`absolute left-0 right-0 h-[${DEFAULT_ITEM_HEIGHT}px]`}
+              key={item.order}
+              order={item.order}
               style={{
-                top: getItemOffset(visibleRange.start + index),
+                position: "absolute",
+                left: 0,
+                right: 0,
+                top: getItemOffset(actualIndex),
+                minHeight: DEFAULT_ITEM_HEIGHT,
               }}
+              data={item}
               updateItemHeight={updateItemHeight}
               toggleItemExpanded={toggleItemExpanded}
-              isExpanded={isItemExpanded(item)}
+              isExpanded={isItemExpanded(actualIndex)}
+              enableAnimation
             />
-          ))}
+          );
+        })}
       </ul>
-      {isLoading && (
-        <div className="absolute bottom-0 left-0 right-0 flex justify-center items-center h-[100px] z-50 mx-auto">
-          <Loader2 className="w-8 h-8 text-gray-500 animate-spin" />
-        </div>
-      )}
     </ScrollArea>
   );
 }
