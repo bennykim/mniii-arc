@@ -1,16 +1,22 @@
 import { type FakerTextDataItem } from "@/entities/faker/api/base";
 import { useOptimizedView } from "@/features/optimizedListView/hooks/useOptimizedView";
 import { OptimizedListItem } from "@/features/optimizedListView/ui";
+import { ENTRY_TYPE } from "@/shared/config/constants";
 import { ScrollArea } from "@/shared/ui/shadcn/scroll-area";
 
 const DEFAULT_ITEM_HEIGHT = 150;
 
 type OptimizedListProps = {
   data: FakerTextDataItem[];
+  entryType: (typeof ENTRY_TYPE)[keyof typeof ENTRY_TYPE];
   onLoadMore: () => void;
 };
 
-export function OptimizedList({ data, onLoadMore }: OptimizedListProps) {
+export function OptimizedList({
+  data,
+  onLoadMore,
+  entryType = ENTRY_TYPE.APPEND,
+}: OptimizedListProps) {
   const {
     visibleRange,
     containerRef,
@@ -25,6 +31,7 @@ export function OptimizedList({ data, onLoadMore }: OptimizedListProps) {
     itemHeight: DEFAULT_ITEM_HEIGHT,
     bufferSize: 3,
     onLoadMore,
+    entryType,
   });
 
   return (
@@ -45,7 +52,7 @@ export function OptimizedList({ data, onLoadMore }: OptimizedListProps) {
                 left: 0,
                 right: 0,
                 top: getItemOffset(actualIndex),
-                minHeight: DEFAULT_ITEM_HEIGHT,
+                minHeight: `${DEFAULT_ITEM_HEIGHT}px`,
               }}
               data={item}
               updateItemHeight={updateItemHeight}

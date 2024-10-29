@@ -10,6 +10,16 @@ export const SORT_DIRECTION = {
   DESC: "desc",
 };
 
+export const ENTRY_TYPE = {
+  APPEND: "append",
+  PREPEND: "prepend",
+} as const;
+
+export const POSITION = {
+  TOP: "top",
+  BOTTOM: "bottom",
+} as const;
+
 export const STORAGE_KEY = "ui-theme";
 export const THEME = {
   LIGHT: "light",

@@ -1,6 +1,8 @@
+import {
+  ENTRY_TYPE,
+  SCROLL_AREA_VIEWPORT_ATTR,
+} from "@/shared/config/constants";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-
-import { SCROLL_AREA_VIEWPORT_ATTR } from "@/shared/config/constants";
 
 const INITIAL_RANGE = { start: 0, end: 4 };
 
@@ -10,6 +12,7 @@ type UseOptimizedViewProps = {
   bufferSize?: number;
   threshold?: number;
   onLoadMore?: () => void;
+  entryType?: (typeof ENTRY_TYPE)[keyof typeof ENTRY_TYPE];
 };
 
 export const useOptimizedView = ({
@@ -18,9 +21,11 @@ export const useOptimizedView = ({
   bufferSize = 2,
   threshold = 0.9,
   onLoadMore,
+  entryType = ENTRY_TYPE.APPEND,
 }: UseOptimizedViewProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const isLoadingRef = useRef(false);
+  const previousTotalRef = useRef(totalItems);
 
   const [visibleRange, setVisibleRange] = useState(INITIAL_RANGE);
   const [itemHeights, setItemHeights] = useState<number[]>(() =>
@@ -31,25 +36,48 @@ export const useOptimizedView = ({
   );
 
   useEffect(() => {
+    if (
+      entryType === ENTRY_TYPE.PREPEND &&
+      totalItems > previousTotalRef.current
+    ) {
+      const scrollElement = containerRef.current?.querySelector(
+        `[${SCROLL_AREA_VIEWPORT_ATTR}]`
+      ) as HTMLElement | null;
+
+      if (scrollElement) {
+        const currentScrollTop = scrollElement.scrollTop;
+        const newItemsCount = totalItems - previousTotalRef.current;
+        const heightDiff = newItemsCount * itemHeight;
+
+        requestAnimationFrame(() => {
+          scrollElement.scrollTop = currentScrollTop + heightDiff;
+        });
+      }
+    }
+
     setItemHeights((prev) => {
       if (prev.length < totalItems) {
-        return [
-          ...prev,
-          ...new Array(totalItems - prev.length).fill(itemHeight),
-        ];
+        const newItems = new Array(totalItems - prev.length).fill(itemHeight);
+        return entryType === ENTRY_TYPE.PREPEND
+          ? [...newItems, ...prev]
+          : [...prev, ...newItems];
       }
       return prev;
     });
 
     setExpandedItems((prev) => {
       if (prev.length < totalItems) {
-        return [...prev, ...new Array(totalItems - prev.length).fill(false)];
+        const newItems = new Array(totalItems - prev.length).fill(false);
+        return entryType === ENTRY_TYPE.PREPEND
+          ? [...newItems, ...prev]
+          : [...prev, ...newItems];
       }
       return prev;
     });
 
+    previousTotalRef.current = totalItems;
     isLoadingRef.current = false;
-  }, [totalItems, itemHeight]);
+  }, [totalItems, itemHeight, entryType]);
 
   const totalHeight = useMemo(
     () => itemHeights.reduce((sum, height) => sum + height, 0),
@@ -68,16 +96,16 @@ export const useOptimizedView = ({
   );
 
   const updateItemHeight = useCallback((index: number, newHeight: number) => {
-    setItemHeights((prevHeights) => {
-      const newHeights = [...prevHeights];
+    setItemHeights((prev) => {
+      const newHeights = [...prev];
       newHeights[index] = newHeight;
       return newHeights;
     });
   }, []);
 
   const toggleItemExpanded = useCallback((index: number) => {
-    setExpandedItems((prevExpanded) => {
-      const newExpanded = [...prevExpanded];
+    setExpandedItems((prev) => {
+      const newExpanded = [...prev];
       newExpanded[index] = !newExpanded[index];
       return newExpanded;
     });

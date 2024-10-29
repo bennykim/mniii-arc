@@ -51,7 +51,7 @@ export function OptimizedListItem({
     <li
       ref={contentRef}
       className={cn(
-        `flex flex-col p-1`,
+        `flex flex-col items-center`,
         enableAnimation && "transition-all duration-300 ease-in-out",
         className,
         {
@@ -64,7 +64,7 @@ export function OptimizedListItem({
       style={style}
       onClick={() => toggleItemExpanded(order)}
     >
-      <article className="p-2">
+      <article className="my-auto">
         <Card
           className={cn("cursor-pointer", {
             "bg-chart-2": isExpanded,
@@ -72,9 +72,7 @@ export function OptimizedListItem({
         >
           <CardHeader>
             <header className="space-y-2">
-              <h3 className="text-xl font-semibold">
-                {order}. {data.title}
-              </h3>
+              <h3 className="text-xl font-semibold">{data.title}</h3>
               <div className="flex items-center gap-2 text-sm text-gray-600">
                 <address className="not-italic">
                   <span className="font-medium">By: </span>

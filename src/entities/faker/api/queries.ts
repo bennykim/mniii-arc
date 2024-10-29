@@ -54,3 +54,40 @@ export const useGetFakerTexts = (params: UseGetFakerTextsParams) => {
       })),
   });
 };
+
+export const generateRandomNumber = (min: number, max: number) =>
+  Math.floor(Math.random() * (max - min + 1)) + min;
+
+type UseDynamicPrependTextsParams = {
+  characters: number;
+};
+
+export const useDynamicPrependTexts = (
+  params: UseDynamicPrependTextsParams
+) => {
+  const quantity = useRef(generateRandomNumber(1, 3));
+
+  const queryKey = [
+    "faker",
+    "prepend-texts",
+    {
+      quantity: quantity.current,
+      characters: params.characters,
+    },
+  ];
+
+  return useQuery<FakerTextResponse, Error, FakerTextDataItem[]>({
+    queryKey,
+    queryFn: () =>
+      apiService.getTexts({
+        quantity: quantity.current,
+        characters: params.characters,
+      }),
+    refetchInterval: generateRandomNumber(1000 * 5, 1000 * 10),
+    select: (data) =>
+      data.data.map((item, index) => ({
+        ...item,
+        order: index,
+      })),
+  });
+};
