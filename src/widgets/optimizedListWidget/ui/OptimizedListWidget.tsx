@@ -11,10 +11,14 @@ import { cn } from "@/shared/lib/utils";
 import {
   Card,
   CardContent,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/shared/ui/shadcn/card";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+
+const PREPEND_BATCH_SIZE = 20;
+const LOADING_DELAY = 1000;
 
 const LoadingIndicator = () => (
   <Card className="w-full h-40 max-w-4xl mx-auto mt-8">
@@ -47,12 +51,28 @@ const FetchIndicator = ({
   </div>
 );
 
+type NewItemsIndicatorProps = {
+  latestData: FakerTextDataItem[];
+};
+
+const NewItemsIndicator = ({ latestData }: NewItemsIndicatorProps) => {
+  return (
+    <div className="flex items-center justify-end w-full h-12">
+      <p className="text-sm text-gray-500">
+        {latestData.length} new items added
+      </p>
+    </div>
+  );
+};
+
 export function OptimizedListWidget() {
   const [page, setPage] = useState(1);
   const [accumData, setAccumData] = useState<FakerTextDataItem[]>([]);
+  const [latestData, setLatestData] = useState<FakerTextDataItem[]>([]);
   const [entryType, setEntryType] = useState<
     (typeof ENTRY_TYPE)[keyof typeof ENTRY_TYPE]
   >(ENTRY_TYPE.APPEND);
+  const [isPrependFetching, setIsPrependFetching] = useState(false);
 
   const {
     data: appendData,
@@ -63,19 +83,44 @@ export function OptimizedListWidget() {
     quantity: 20,
     characters: 500,
   });
-  const { data: prependData, isFetching: isPrependFetching } =
-    useDynamicPrependTexts({
-      characters: 500,
-    });
+  const { data: prependData } = useDynamicPrependTexts({
+    characters: 400,
+  });
 
   const handleLoadMore = () => {
     setPage((prev) => prev + 1);
   };
 
+  const handleLoadLatest = useCallback(async () => {
+    if (latestData.length === 0) return false;
+
+    setEntryType(ENTRY_TYPE.PREPEND);
+    setIsPrependFetching(true);
+
+    // delay for loading indicator
+    await new Promise((resolve) => setTimeout(resolve, LOADING_DELAY));
+
+    setAccumData((prev) => {
+      const itemsToAdd = latestData.slice(-PREPEND_BATCH_SIZE);
+      const remainingLatest = latestData.slice(0, -PREPEND_BATCH_SIZE);
+      setLatestData(remainingLatest);
+
+      const offsetOrder = itemsToAdd.length;
+      const adjustedPrev = prev.map((item) => ({
+        ...item,
+        order: item.order + offsetOrder,
+      }));
+      return [...itemsToAdd, ...adjustedPrev];
+    });
+
+    setIsPrependFetching(false);
+
+    return latestData.length > 0;
+  }, [latestData]);
+
   useEffect(() => {
     if (prependData) {
-      setEntryType(ENTRY_TYPE.PREPEND);
-      setAccumData((prev) => {
+      setLatestData((prev) => {
         const shiftedPrev = prev.map((item) => ({
           ...item,
           order: item.order + prependData.length,
@@ -113,11 +158,15 @@ export function OptimizedListWidget() {
         <FetchIndicator position={POSITION.TOP} enabled={isPrependFetching} />
         <OptimizedList
           data={accumData}
-          onLoadMore={handleLoadMore}
           entryType={entryType}
+          onLoadMore={handleLoadMore}
+          onLoadLatest={handleLoadLatest}
         />
         <FetchIndicator position={POSITION.BOTTOM} enabled={isAppendFetching} />
       </CardContent>
+      <CardFooter>
+        <NewItemsIndicator latestData={latestData} />
+      </CardFooter>
     </Card>
   );
 }
