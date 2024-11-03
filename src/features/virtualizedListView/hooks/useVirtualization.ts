@@ -1,20 +1,18 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import { VIRTUALIZATION } from "@/features/virtualizedListView/lib/constants";
 import {
-  ENTRY_TYPE,
-  SCROLL_AREA_VIEWPORT_ATTR,
-} from "@/shared/config/constants";
-
-const INITIAL_RANGE = { start: 0, end: 4 } as const;
-const DEFAULT_BUFFER_SIZE = 2;
-const DEFAULT_THRESHOLD = 0.9;
+  createArrayWithValue,
+  getScrollElement,
+} from "@/features/virtualizedListView/lib/helpers";
+import { ENTRY_TYPE } from "@/widgets/virtualizedListWidget/lib/constants";
 
 type VisibleRange = {
   start: number;
   end: number;
 };
 
-type UseOptimizedViewProps = {
+type UseVirtualizationProps = {
   totalItems: number;
   itemHeight: number;
   bufferSize?: number;
@@ -24,7 +22,7 @@ type UseOptimizedViewProps = {
   onLoadLatest?: () => Promise<boolean>;
 };
 
-type UseOptimizedViewReturn = {
+type UseVirtualizationReturn = {
   visibleRange: VisibleRange;
   containerRef: React.RefObject<HTMLDivElement>;
   expandedItems: boolean[];
@@ -37,30 +35,22 @@ type UseOptimizedViewReturn = {
   isItemExpanded: (index: number) => boolean;
 };
 
-const createArrayWithValue = <T>(length: number, value: T): T[] =>
-  new Array(length).fill(value);
-
-const getScrollElement = (
-  containerRef: React.RefObject<HTMLDivElement>
-): HTMLElement | null =>
-  containerRef.current?.querySelector(
-    `[${SCROLL_AREA_VIEWPORT_ATTR}]`
-  ) as HTMLElement | null;
-
-export const useOptimizedView = ({
+export const useVirtualization = ({
   totalItems,
   itemHeight,
-  bufferSize = DEFAULT_BUFFER_SIZE,
-  threshold = DEFAULT_THRESHOLD,
+  bufferSize = VIRTUALIZATION.DEFAULT_BUFFER_SIZE,
+  threshold = VIRTUALIZATION.DEFAULT_THRESHOLD,
   entryType = ENTRY_TYPE.APPEND,
   onLoadMore,
   onLoadLatest,
-}: UseOptimizedViewProps): UseOptimizedViewReturn => {
+}: UseVirtualizationProps): UseVirtualizationReturn => {
   const containerRef = useRef<HTMLDivElement>(null);
   const isLoadingRef = useRef(false);
   const previousTotalRef = useRef(totalItems);
 
-  const [visibleRange, setVisibleRange] = useState<VisibleRange>(INITIAL_RANGE);
+  const [visibleRange, setVisibleRange] = useState<VisibleRange>(
+    VIRTUALIZATION.INITIAL_RANGE
+  );
   const [itemHeights, setItemHeights] = useState<number[]>(() =>
     createArrayWithValue(totalItems, itemHeight)
   );
@@ -146,7 +136,7 @@ export const useOptimizedView = ({
 
   const calculateVisibleRangeChunked = useCallback((): VisibleRange => {
     const scrollElement = getScrollElement(containerRef);
-    if (!scrollElement) return INITIAL_RANGE;
+    if (!scrollElement) return VIRTUALIZATION.INITIAL_RANGE;
 
     const { scrollTop, clientHeight } = scrollElement;
     const viewportEnd = scrollTop + clientHeight;

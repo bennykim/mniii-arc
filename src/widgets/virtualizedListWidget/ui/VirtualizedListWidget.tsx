@@ -1,13 +1,11 @@
-import { Loader2, LoaderPinwheel } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
 
-import { FakerTextDataItem } from "@/entities/faker/api/base";
 import {
   useDynamicPrependTexts,
   useGetFakerTexts,
 } from "@/entities/faker/api/queries";
-import { OptimizedList } from "@/features/optimizedListView/ui";
-import { ENTRY_TYPE, POSITION } from "@/shared/config/constants";
-import { cn } from "@/shared/lib/utils";
+import { type FakerTextDataItem } from "@/entities/faker/model/types";
+import { VirtualizedList } from "@/features/virtualizedListView/ui";
 import {
   Card,
   CardContent,
@@ -15,57 +13,19 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/ui/shadcn/card";
-import { useCallback, useEffect, useState } from "react";
+import {
+  ENTRY_TYPE,
+  LOADING_DELAY,
+  POSITION,
+  PREPEND_BATCH_SIZE,
+} from "@/widgets/virtualizedListWidget/lib/constants";
+import {
+  FetchIndicator,
+  LoadingIndicator,
+  NewItemsIndicator,
+} from "@/widgets/virtualizedListWidget/ui/components";
 
-const PREPEND_BATCH_SIZE = 20;
-const LOADING_DELAY = 1000;
-
-const LoadingIndicator = () => (
-  <Card className="w-full h-40 max-w-4xl mx-auto mt-8">
-    <div className="flex items-center justify-center h-full">
-      <LoaderPinwheel size={22} className="animate-spin" />
-    </div>
-  </Card>
-);
-
-type FetchIndicatorProps = {
-  position: (typeof POSITION)[keyof typeof POSITION];
-  enabled: boolean;
-};
-
-const FetchIndicator = ({
-  position = POSITION.BOTTOM,
-  enabled = false,
-}: FetchIndicatorProps) => (
-  <div
-    className={cn(
-      "absolute left-0 right-0 flex justify-center items-center h-[100px] z-50 mx-auto",
-      {
-        "-top-[56px]": position === POSITION.TOP,
-        "-bottom-[36px]": position === POSITION.BOTTOM,
-        hidden: !enabled,
-      }
-    )}
-  >
-    <Loader2 className="w-5 h-5 text-pink-500 animate-spin" />
-  </div>
-);
-
-type NewItemsIndicatorProps = {
-  latestData: FakerTextDataItem[];
-};
-
-const NewItemsIndicator = ({ latestData }: NewItemsIndicatorProps) => {
-  return (
-    <div className="flex items-center justify-end w-full h-12">
-      <p className="text-sm text-gray-500">
-        {latestData.length} new items added
-      </p>
-    </div>
-  );
-};
-
-export function OptimizedListWidget() {
+export function VirtualizedListWidget() {
   const [page, setPage] = useState(1);
   const [accumData, setAccumData] = useState<FakerTextDataItem[]>([]);
   const [latestData, setLatestData] = useState<FakerTextDataItem[]>([]);
@@ -97,7 +57,7 @@ export function OptimizedListWidget() {
     setEntryType(ENTRY_TYPE.PREPEND);
     setIsPrependFetching(true);
 
-    // delay for loading indicator
+    // NOTE: Artificial delay added for development purposes
     await new Promise((resolve) => setTimeout(resolve, LOADING_DELAY));
 
     setAccumData((prev) => {
@@ -156,7 +116,7 @@ export function OptimizedListWidget() {
       </CardHeader>
       <CardContent className="h-[600px] relative">
         <FetchIndicator position={POSITION.TOP} enabled={isPrependFetching} />
-        <OptimizedList
+        <VirtualizedList
           data={accumData}
           entryType={entryType}
           onLoadMore={handleLoadMore}

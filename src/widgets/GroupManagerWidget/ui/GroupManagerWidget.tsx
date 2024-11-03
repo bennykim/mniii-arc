@@ -16,7 +16,7 @@ import {
   UpdateItemForm,
 } from "@/features/itemManagement/ui";
 import { SORT_DIRECTION } from "@/shared/config/constants";
-import { useSortedData } from "@/shared/hooks/useSortedData";
+import { useSortedData } from "@/shared/hooks";
 import { cn } from "@/shared/lib/utils";
 import {
   Accordion,

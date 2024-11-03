@@ -5,8 +5,8 @@ import {
   TabsTrigger,
 } from "@/shared/ui/shadcn/tabs";
 import { GroupManagerWidget } from "@/widgets/groupManagerWidget/ui";
-import { OptimizedListWidget } from "@/widgets/optimizedListWidget/ui";
 import { TimelineWidget } from "@/widgets/timelineWidget/ui";
+import { VirtualizedListWidget } from "@/widgets/virtualizedListWidget/ui";
 
 function DashboardPage() {
   return (
@@ -25,7 +25,7 @@ function DashboardPage() {
             <TimelineWidget />
           </TabsContent>
           <TabsContent value="OptimizedList">
-            <OptimizedListWidget />
+            <VirtualizedListWidget />
           </TabsContent>
         </Tabs>
       </div>

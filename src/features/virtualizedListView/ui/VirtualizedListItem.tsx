@@ -1,13 +1,14 @@
 import { memo, useCallback, useEffect, useRef } from "react";
 
-import { type FakerTextDataItem } from "@/entities/faker/api/base";
+import { type FakerTextDataItem } from "@/entities/faker/model/types";
+import {
+  ItemContent,
+  ItemHeader,
+} from "@/features/virtualizedListView/ui/components";
 import { cn } from "@/shared/lib/utils";
 import { Card, CardContent, CardHeader } from "@/shared/ui/shadcn/card";
 
-const ANIMATION_DURATION = 300;
-const MAX_EXPANDED_HEIGHT = 1000;
-
-type OptimizedListItemProps = {
+type VirtualizedListItemProps = {
   order: number;
   className?: string;
   style: React.CSSProperties;
@@ -35,18 +36,7 @@ const getContainerClassNames = (
     }
   );
 
-const getContentClassNames = (enableAnimation: boolean, isExpanded: boolean) =>
-  cn(
-    "mt-2 overflow-hidden",
-    enableAnimation &&
-      `transition-all duration-${ANIMATION_DURATION} ease-in-out`,
-    {
-      "max-h-0 opacity-0": !isExpanded,
-      [`max-h-[${MAX_EXPANDED_HEIGHT}px] opacity-100`]: isExpanded,
-    }
-  );
-
-export const OptimizedListItem = memo(function OptimizedListItem({
+export const VirtualizedListItem = memo(function VirtualizedListItem({
   order,
   className,
   style,
@@ -55,7 +45,7 @@ export const OptimizedListItem = memo(function OptimizedListItem({
   toggleItemExpanded,
   isExpanded,
   enableAnimation = false,
-}: OptimizedListItemProps) {
+}: VirtualizedListItemProps) {
   const contentRef = useRef<HTMLLIElement>(null);
 
   const updateHeight = useCallback(() => {
@@ -114,48 +104,3 @@ export const OptimizedListItem = memo(function OptimizedListItem({
     </li>
   );
 });
-
-const ItemHeader = memo(function ItemHeader({
-  title,
-  author,
-  genre,
-}: {
-  title: string;
-  author: string;
-  genre: string;
-}) {
-  return (
-    <header className="space-y-2">
-      <h3 className="text-xl font-semibold">{title}</h3>
-      <div className="flex items-center gap-2 text-sm text-gray-600">
-        <address className="not-italic">
-          <span className="font-medium">By: </span>
-          {author}
-        </address>
-        <span aria-hidden="true">•</span>
-        <span>
-          <span className="font-medium">Genre: </span>
-          {genre}
-        </span>
-      </div>
-    </header>
-  );
-});
-
-const ItemContent = memo(function ItemContent({
-  content,
-  isExpanded,
-  enableAnimation,
-}: {
-  content: string;
-  isExpanded: boolean;
-  enableAnimation: boolean;
-}) {
-  return (
-    <div className={getContentClassNames(enableAnimation, isExpanded)}>
-      <p className="leading-relaxed prose text-gray-700">{content}</p>
-    </div>
-  );
-});
-
-export default OptimizedListItem;
