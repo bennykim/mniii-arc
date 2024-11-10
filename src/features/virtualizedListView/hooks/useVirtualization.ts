@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 import { VIRTUALIZATION } from "@/features/virtualizedListView/lib/constants";
 import {
@@ -58,7 +58,7 @@ export const useVirtualization = ({
     createArrayWithValue(totalItems, false)
   );
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const handlePrependScroll = () => {
       const scrollElement = getScrollElement(containerRef);
       if (!scrollElement) return;
@@ -67,9 +67,7 @@ export const useVirtualization = ({
       const newItemsCount = totalItems - previousTotalRef.current;
       const heightDiff = newItemsCount * itemHeight;
 
-      requestAnimationFrame(() => {
-        scrollElement.scrollTop = currentScrollTop + heightDiff;
-      });
+      scrollElement.scrollTop = currentScrollTop + heightDiff;
     };
 
     const updateArrays = () => {
