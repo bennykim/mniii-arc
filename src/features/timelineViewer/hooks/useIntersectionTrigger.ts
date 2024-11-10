@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from 'react';
 
 type IntersectionCallback = () => void;
 
 export const useIntersectionTrigger = (
   callback: IntersectionCallback,
-  options?: IntersectionObserverInit
+  options?: IntersectionObserverInit,
 ) => {
   const triggerRef = useRef<HTMLDivElement>(null);
 
@@ -15,14 +15,14 @@ export const useIntersectionTrigger = (
         callback();
       }
     },
-    [callback]
+    [callback],
   );
 
   useEffect(() => {
     const currentTriggerElement = triggerRef.current;
     const observer = new IntersectionObserver(handleIntersection, {
       root: null,
-      rootMargin: "20px",
+      rootMargin: '20px',
       threshold: 1.0,
       ...options,
     });

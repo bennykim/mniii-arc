@@ -1,7 +1,7 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { apiService, type RealTime } from "@/entities/history/api/base";
-import { KEY_STATUS } from "@/shared/config/constants";
+import { apiService, type RealTime } from '@/entities/history/api/base';
+import { KEY_STATUS } from '@/shared/config/constants';
 
 export const useUpdateStatusMutation = () => {
   const queryClient = useQueryClient();
@@ -15,7 +15,7 @@ export const useUpdateStatusMutation = () => {
     },
 
     onError: (error) => {
-      console.error("Failed to update status:", error);
+      console.error('Failed to update status:', error);
     },
   });
 };

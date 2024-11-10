@@ -4,15 +4,15 @@ import {
   type InfiniteData,
   type QueryKey,
   type UseInfiniteQueryResult,
-} from "@tanstack/react-query";
+} from '@tanstack/react-query';
 
 import {
   apiService,
   type Direction,
   type HistoryResponse,
-} from "@/entities/history/api/base";
-import { KEY_HISTORY, KEY_STATUS } from "@/shared/config/constants";
-import { toUIHistory } from "@/shared/lib/transform";
+} from '@/entities/history/api/base';
+import { KEY_HISTORY, KEY_STATUS } from '@/shared/config/constants';
+import { toUIHistory } from '@/shared/lib/transform';
 
 type UIHistoryRespons = {
   data: UIHistories;
@@ -26,7 +26,7 @@ type UseInfiniteHistoryQueryParams = {
 };
 
 export const useGetInfiniteHistoryQuery = (
-  params: UseInfiniteHistoryQueryParams
+  params: UseInfiniteHistoryQueryParams,
 ): UseInfiniteQueryResult<
   InfiniteData<UIHistoryRespons, string | null>,
   Error

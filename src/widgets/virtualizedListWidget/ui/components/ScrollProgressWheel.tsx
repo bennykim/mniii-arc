@@ -1,13 +1,14 @@
-import { getScrollElement } from "@/features/virtualizedListView/lib/helpers";
-import { scroll } from "framer-motion/dom";
-import { memo, useCallback, useEffect } from "react";
+import { scroll } from 'framer-motion/dom';
+import { memo, useCallback, useEffect } from 'react';
+
+import { getScrollElement } from '@/features/virtualizedListView/lib/helpers';
 
 const SVG_CONFIG = {
   SIZE: 50,
   VIEWBOX_SIZE: 100,
   CENTER: 50,
   RADIUS: 30,
-  STROKE_WIDTH: "30%",
+  STROKE_WIDTH: '30%',
 } as const;
 
 interface ScrollProgressWheelProps {
@@ -18,12 +19,12 @@ interface ScrollProgressWheelProps {
 
 export const ScrollProgressWheel = memo(function ScrollProgressWheel({
   scrollContainerRef,
-  backgroundColor = "stroke-gray-200",
-  progressColor = "stroke-pink-500",
+  backgroundColor = 'stroke-gray-200',
+  progressColor = 'stroke-pink-500',
 }: ScrollProgressWheelProps) {
   const updateProgressWheel = useCallback((progress: number) => {
     const progressWheel = document.querySelector(
-      "[data-scroll-progress]"
+      '[data-scroll-progress]',
     ) as SVGCircleElement | null;
 
     if (progressWheel) {
@@ -48,7 +49,7 @@ export const ScrollProgressWheel = memo(function ScrollProgressWheel({
     cx: SVG_CONFIG.CENTER,
     cy: SVG_CONFIG.CENTER,
     r: SVG_CONFIG.RADIUS,
-    pathLength: "1",
+    pathLength: '1',
     strokeWidth: SVG_CONFIG.STROKE_WIDTH,
     style: { strokeDashoffset: 0 },
   };
@@ -69,7 +70,7 @@ export const ScrollProgressWheel = memo(function ScrollProgressWheel({
         data-scroll-progress
         style={{
           ...circleProps.style,
-          strokeDasharray: "0, 1",
+          strokeDasharray: '0, 1',
         }}
       />
     </svg>

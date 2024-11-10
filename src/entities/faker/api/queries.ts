@@ -1,12 +1,13 @@
-import { apiService } from "@/entities/faker/api/base";
+import { useQuery } from '@tanstack/react-query';
+import { useRef } from 'react';
+
+import { apiService } from '@/entities/faker/api/base';
 import {
   type FakerTextDataItem,
   type FakerTextResponse,
   type GetFakerTextsParams,
-} from "@/entities/faker/model/types";
-import { useDelay } from "@/shared/hooks";
-import { useQuery } from "@tanstack/react-query";
-import { useRef } from "react";
+} from '@/entities/faker/model/types';
+import { useDelay } from '@/shared/hooks';
 
 const CHARACTERS = {
   MIN: 500,
@@ -27,12 +28,12 @@ export const useGetFakerTexts = (params: UseGetFakerTextsParams) => {
     generateRandomCharacters({
       min: params.characters,
       max: params.characters * 3,
-    })
+    }),
   );
 
   const queryKey = [
-    "faker",
-    "texts",
+    'faker',
+    'texts',
     {
       quantity: params.quantity,
       characters: charactersRef.current,
@@ -64,14 +65,14 @@ type UseDynamicPrependTextsParams = {
 };
 
 export const useDynamicPrependTexts = (
-  params: UseDynamicPrependTextsParams
+  params: UseDynamicPrependTextsParams,
 ) => {
   const quantity = useRef(generateRandomNumber(1, 3));
   const isReady = useDelay(5000);
 
   const queryKey = [
-    "faker",
-    "prepend-texts",
+    'faker',
+    'prepend-texts',
     {
       quantity: quantity.current,
       characters: params.characters,

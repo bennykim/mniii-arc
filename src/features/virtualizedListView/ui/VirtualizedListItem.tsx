@@ -1,12 +1,12 @@
-import { memo, useCallback, useEffect, useRef } from "react";
+import { memo, useCallback, useEffect, useRef } from 'react';
 
-import { type FakerTextDataItem } from "@/entities/faker/model/types";
+import { type FakerTextDataItem } from '@/entities/faker/model/types';
 import {
   ItemContent,
   ItemHeader,
-} from "@/features/virtualizedListView/ui/components";
-import { cn } from "@/shared/lib/utils";
-import { Card, CardContent, CardHeader } from "@/shared/ui/shadcn/card";
+} from '@/features/virtualizedListView/ui/components';
+import { cn } from '@/shared/lib/utils';
+import { Card, CardContent, CardHeader } from '@/shared/ui/shadcn/card';
 
 type VirtualizedListItemProps = {
   order: number;
@@ -22,18 +22,18 @@ type VirtualizedListItemProps = {
 const getContainerClassNames = (
   enableAnimation: boolean,
   isExpanded: boolean,
-  className?: string
+  className?: string,
 ) =>
   cn(
-    "flex flex-col items-center py-1",
-    enableAnimation && "transition-all duration-300 ease-in-out",
+    'flex flex-col items-center py-1',
+    enableAnimation && 'transition-all duration-300 ease-in-out',
     className,
     {
-      "z-10": isExpanded,
-      "opacity-100": isExpanded,
-      "opacity-90": !isExpanded,
-      "transform-gpu": enableAnimation,
-    }
+      'z-10': isExpanded,
+      'opacity-100': isExpanded,
+      'opacity-90': !isExpanded,
+      'transform-gpu': enableAnimation,
+    },
   );
 
 export const VirtualizedListItem = memo(function VirtualizedListItem({
@@ -81,8 +81,8 @@ export const VirtualizedListItem = memo(function VirtualizedListItem({
     >
       <article className="my-auto">
         <Card
-          className={cn("cursor-pointer", {
-            "bg-chart-2": isExpanded,
+          className={cn('cursor-pointer', {
+            'bg-chart-2': isExpanded,
           })}
         >
           <CardHeader>

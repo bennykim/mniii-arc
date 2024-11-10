@@ -1,4 +1,4 @@
-import { cn } from "@/shared/lib/utils";
+import { cn } from '@/shared/lib/utils';
 
 type TypographyPProps = {
   text: string;
@@ -7,7 +7,7 @@ type TypographyPProps = {
 
 export function TypographyP({ text, className }: TypographyPProps) {
   return (
-    <p className={cn("leading-7 [&:not(:first-child)]:mt-6", className)}>
+    <p className={cn('leading-7 [&:not(:first-child)]:mt-6', className)}>
       {text}
     </p>
   );

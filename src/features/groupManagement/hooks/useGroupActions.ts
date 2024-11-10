@@ -1,15 +1,15 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 import {
   useCreateGroupMutation,
   useDeleteGroupMutation,
   useUpdateGroupMutation,
-} from "@/entities/group/api";
-import { useToast } from "@/shared/hooks/use-toast";
+} from '@/entities/group/api';
+import { useToast } from '@/shared/hooks/use-toast';
 
 export const useGroupActions = () => {
   const { toast } = useToast();
-  const [newGroupTitle, setNewGroupTitle] = useState("");
+  const [newGroupTitle, setNewGroupTitle] = useState('');
 
   const createGroup = useCreateGroupMutation();
   const updateGroup = useUpdateGroupMutation();
@@ -22,17 +22,17 @@ export const useGroupActions = () => {
           title: newGroupTitle,
           list: [],
         });
-        setNewGroupTitle("");
+        setNewGroupTitle('');
         toast({
-          title: "Group Created",
-          description: "New group has been created successfully.",
+          title: 'Group Created',
+          description: 'New group has been created successfully.',
         });
       } catch (error) {
         console.error(error);
         toast({
-          title: "Create Failed",
-          description: "An error occurred while creating the group.",
-          variant: "destructive",
+          title: 'Create Failed',
+          description: 'An error occurred while creating the group.',
+          variant: 'destructive',
         });
       }
     }
@@ -45,15 +45,15 @@ export const useGroupActions = () => {
         title: newTitle,
       });
       toast({
-        title: "Group Updated",
-        description: "The group has been updated successfully.",
+        title: 'Group Updated',
+        description: 'The group has been updated successfully.',
       });
     } catch (error) {
       console.error(error);
       toast({
-        title: "Update Failed",
-        description: "An error occurred while updating the group.",
-        variant: "destructive",
+        title: 'Update Failed',
+        description: 'An error occurred while updating the group.',
+        variant: 'destructive',
       });
     }
   };
@@ -62,15 +62,15 @@ export const useGroupActions = () => {
     try {
       await deleteGroup.mutateAsync(groupId);
       toast({
-        title: "Group Deleted",
-        description: "The group has been deleted successfully.",
+        title: 'Group Deleted',
+        description: 'The group has been deleted successfully.',
       });
     } catch (error) {
       console.error(error);
       toast({
-        title: "Delete Failed",
-        description: "An error occurred while deleting the group.",
-        variant: "destructive",
+        title: 'Delete Failed',
+        description: 'An error occurred while deleting the group.',
+        variant: 'destructive',
       });
     }
   };

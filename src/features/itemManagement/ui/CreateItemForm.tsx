@@ -1,8 +1,8 @@
-import { Plus } from "lucide-react";
+import { Plus } from 'lucide-react';
 
-import { useItemActions } from "@/features/itemManagement/hooks/useItemActions";
-import { Button } from "@/shared/ui/shadcn/button";
-import { Input } from "@/shared/ui/shadcn/input";
+import { useItemActions } from '@/features/itemManagement/hooks/useItemActions';
+import { Button } from '@/shared/ui/shadcn/button';
+import { Input } from '@/shared/ui/shadcn/input';
 
 type CreateItemFormProps = {
   groupId: string;
@@ -17,9 +17,9 @@ export function CreateItemForm({ groupId }: CreateItemFormProps) {
 
     try {
       handleCreateItem();
-      setNewItemTitle("");
+      setNewItemTitle('');
     } catch (err) {
-      console.error("Failed to create item.", err);
+      console.error('Failed to create item.', err);
     }
   };
 

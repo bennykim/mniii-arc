@@ -12,9 +12,9 @@ export const getISODateString = (date: Date = new Date()): string => {
 
 export const formatDateLocale = (
   date: string | Date,
-  locale: string = "en-US"
+  locale: string = 'en-US',
 ): string => {
-  return toUTCDate(date).toLocaleString(locale, { timeZone: "UTC" });
+  return toUTCDate(date).toLocaleString(locale, { timeZone: 'UTC' });
 };
 
 export const addMinutes = (date: Date, minutes: number): Date => {
@@ -24,7 +24,7 @@ export const addMinutes = (date: Date, minutes: number): Date => {
 export const addRandomMinutes = (
   date: Date,
   min: number = 2,
-  range: number = 4
+  range: number = 4,
 ): Date => {
   const minutesToAdd = min + Math.floor(Math.random() * range);
   return addMinutes(toUTCDate(date), minutesToAdd);

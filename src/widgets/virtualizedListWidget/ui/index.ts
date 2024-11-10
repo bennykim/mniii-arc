@@ -1,1 +1,1 @@
-export * from "./VirtualizedListWidget";
+export * from './VirtualizedListWidget';

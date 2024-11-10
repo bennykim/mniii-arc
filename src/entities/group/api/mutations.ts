@@ -1,11 +1,10 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { apiService } from "@/entities/group/api/base";
-import { KEY_GROUP, KEY_GROUPS } from "@/shared/config/constants";
-import { toServerGroup, toServerGroupExceptId } from "@/shared/lib/transform";
-import { getISODateString } from "@/shared/lib/utcDate";
-
-import type { Group } from "@/entities/group/model/types";
+import { apiService } from '@/entities/group/api/base';
+import type { Group } from '@/entities/group/model/types';
+import { KEY_GROUP, KEY_GROUPS } from '@/shared/config/constants';
+import { toServerGroup, toServerGroupExceptId } from '@/shared/lib/transform';
+import { getISODateString } from '@/shared/lib/utcDate';
 
 type CreateGroupsContext = {
   tempId: string;
@@ -27,7 +26,7 @@ export const useCreateGroupMutation = () => {
   const mutation = useMutation<
     Group,
     Error,
-    Omit<UIGroup, "id" | "createdAt">,
+    Omit<UIGroup, 'id' | 'createdAt'>,
     CreateGroupsContext
   >({
     mutationFn: (newGroup) =>
@@ -55,7 +54,7 @@ export const useCreateGroupMutation = () => {
       queryClient.setQueryData<Group[]>([KEY_GROUPS], (oldData) => {
         return (
           oldData?.map((group) =>
-            group.id === context?.tempId ? createdGroup : group
+            group.id === context?.tempId ? createdGroup : group,
           ) ?? []
         );
       });
@@ -66,7 +65,7 @@ export const useCreateGroupMutation = () => {
         queryClient.setQueryData([KEY_GROUPS], context.previousGroups);
       }
 
-      console.log("Failed to create group:", err);
+      console.log('Failed to create group:', err);
     },
 
     onSettled: () => {
@@ -98,7 +97,7 @@ export const useUpdateGroupMutation = () => {
       queryClient.setQueryData<Group[]>([KEY_GROUPS], (oldData) => {
         return (
           oldData?.map((group) =>
-            group.id === newGroup.id ? newGroupData : group
+            group.id === newGroup.id ? newGroupData : group,
           ) ?? []
         );
       });
@@ -112,7 +111,7 @@ export const useUpdateGroupMutation = () => {
       queryClient.setQueryData<Group[]>([KEY_GROUPS], (oldData) => {
         return (
           oldData?.map((group) =>
-            group.id === updatedGroup.id ? updatedGroup : group
+            group.id === updatedGroup.id ? updatedGroup : group,
           ) ?? []
         );
       });
@@ -126,7 +125,7 @@ export const useUpdateGroupMutation = () => {
       if (context?.previousGroup) {
         queryClient.setQueryData<Group>(
           [KEY_GROUP, variables.id],
-          context.previousGroup
+          context.previousGroup,
         );
       }
       console.error(`Failed to update group with id ${variables.id}:`, err);
@@ -157,7 +156,7 @@ export const useDeleteGroupMutation = () => {
 
       queryClient.setQueryData<Group[]>(
         [KEY_GROUPS],
-        (old) => old?.filter((group) => group.id !== deletedGroupId) ?? []
+        (old) => old?.filter((group) => group.id !== deletedGroupId) ?? [],
       );
 
       queryClient.removeQueries({ queryKey: [KEY_GROUP, deletedGroupId] });

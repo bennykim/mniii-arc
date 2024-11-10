@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { apiService } from "@/entities/history/api/base";
-import { useHistoryStore } from "@/entities/history/store";
-import { toUIHistory } from "@/shared/lib/transform";
-
-import type { History } from "@/entities/history/model/types";
+import { apiService } from '@/entities/history/api/base';
+import type { History } from '@/entities/history/model/types';
+import { useHistoryStore } from '@/entities/history/store';
+import { toUIHistory } from '@/shared/lib/transform';
 
 type UseRealtimeConnectionProps = {
   isEnabled: boolean;

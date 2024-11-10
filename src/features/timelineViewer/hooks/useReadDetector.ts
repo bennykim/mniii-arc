@@ -1,6 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
-import { useHistoryStore } from "@/entities/history/store";
+import { useHistoryStore } from '@/entities/history/store';
 
 export const useReadDetector = (id: string) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -14,7 +14,7 @@ export const useReadDetector = (id: string) => {
           observer.unobserve(entry.target);
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.5 },
     );
 
     const currentRef = ref.current;

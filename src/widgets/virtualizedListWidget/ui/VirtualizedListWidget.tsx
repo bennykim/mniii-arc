@@ -1,30 +1,30 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import {
   useDynamicPrependTexts,
   useGetFakerTexts,
-} from "@/entities/faker/api/queries";
-import { type FakerTextDataItem } from "@/entities/faker/model/types";
-import { VirtualizedList } from "@/features/virtualizedListView/ui";
+} from '@/entities/faker/api/queries';
+import { type FakerTextDataItem } from '@/entities/faker/model/types';
+import { VirtualizedList } from '@/features/virtualizedListView/ui';
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/shared/ui/shadcn/card";
+} from '@/shared/ui/shadcn/card';
 import {
   ENTRY_TYPE,
   LOADING_DELAY,
   POSITION,
   PREPEND_BATCH_SIZE,
-} from "@/widgets/virtualizedListWidget/lib/constants";
+} from '@/widgets/virtualizedListWidget/lib/constants';
 import {
   FetchIndicator,
   LoadingIndicator,
   NewItemsIndicator,
   ScrollProgressWheel,
-} from "@/widgets/virtualizedListWidget/ui/components";
+} from '@/widgets/virtualizedListWidget/ui/components';
 
 export function VirtualizedListWidget() {
   const cardContentRef = useRef<HTMLDivElement>(null);

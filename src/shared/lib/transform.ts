@@ -1,6 +1,6 @@
-import type { Group } from "@/entities/group/model/types";
-import type { History } from "@/entities/history/model/types";
-import type { Item } from "@/entities/item/model/types";
+import type { Group } from '@/entities/group/model/types';
+import type { History } from '@/entities/history/model/types';
+import type { Item } from '@/entities/item/model/types';
 
 export const toUIItem = (item: Item): UIItem => ({
   id: item.id,
@@ -35,15 +35,15 @@ export const toServerGroup = (group: UIGroup): Group => ({
 });
 
 export const toServerGroupExceptId = (
-  group: Omit<UIGroup, "id" | "createdAt">
-): Omit<Group, "id" | "createdAt"> => ({
+  group: Omit<UIGroup, 'id' | 'createdAt'>,
+): Omit<Group, 'id' | 'createdAt'> => ({
   name: group.title,
   items: group.list.map(toServerItem),
 });
 
 export const toServerItemExceptId = (
-  group: Omit<UIItem, "id" | "createdAt">
-): Omit<Item, "id" | "createdAt"> => ({
+  group: Omit<UIItem, 'id' | 'createdAt'>,
+): Omit<Item, 'id' | 'createdAt'> => ({
   name: group.title,
 });
 

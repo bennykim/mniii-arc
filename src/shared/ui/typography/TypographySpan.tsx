@@ -1,4 +1,4 @@
-import { cn } from "@/shared/lib/utils";
+import { cn } from '@/shared/lib/utils';
 
 type TypographySpanProps = {
   text: string;
@@ -6,5 +6,5 @@ type TypographySpanProps = {
 };
 
 export function TypographySpan({ text, className }: TypographySpanProps) {
-  return <span className={cn("leading-4", className)}>{text}</span>;
+  return <span className={cn('leading-4', className)}>{text}</span>;
 }

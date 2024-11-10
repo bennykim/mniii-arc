@@ -1,5 +1,5 @@
-import { type FakerTextDataItem } from "@/entities/faker/model/types";
-import { cn } from "@/shared/lib/utils";
+import { type FakerTextDataItem } from '@/entities/faker/model/types';
+import { cn } from '@/shared/lib/utils';
 
 type NewItemsIndicatorProps = {
   latestData: FakerTextDataItem[];
@@ -13,8 +13,8 @@ export const NewItemsIndicator = ({
   return (
     <div
       className={cn(
-        "flex items-center justify-end w-full h-12 gap-2 relative",
-        className
+        'flex items-center justify-end w-full h-12 gap-2 relative',
+        className,
       )}
     >
       {latestData.length > 0 && (

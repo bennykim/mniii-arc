@@ -1,10 +1,10 @@
-import { LoaderPinwheel, Save, X } from "lucide-react";
-import { useState } from "react";
+import { LoaderPinwheel, Save, X } from 'lucide-react';
+import { useState } from 'react';
 
-import { useItemStore } from "@/entities/item/store";
-import { useItemActions } from "@/features/itemManagement/hooks/useItemActions";
-import { Button } from "@/shared/ui/shadcn/button";
-import { Input } from "@/shared/ui/shadcn/input";
+import { useItemStore } from '@/entities/item/store';
+import { useItemActions } from '@/features/itemManagement/hooks/useItemActions';
+import { Button } from '@/shared/ui/shadcn/button';
+import { Input } from '@/shared/ui/shadcn/input';
 
 type UpdateItemFormProps = {
   groupId: string;
@@ -12,7 +12,7 @@ type UpdateItemFormProps = {
 
 export function UpdateItemForm({ groupId }: UpdateItemFormProps) {
   const { editingItem: item, editItem } = useItemStore();
-  const [newTitle, setNewTitle] = useState(item?.title || "");
+  const [newTitle, setNewTitle] = useState(item?.title || '');
   const { handleUpdateItem, isUpdatePending } = useItemActions(groupId);
 
   const onCancel = () => {

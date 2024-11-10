@@ -1,6 +1,6 @@
-import { LoaderPinwheel } from "lucide-react";
+import { LoaderPinwheel } from 'lucide-react';
 
-import { Card } from "@/shared/ui/shadcn/card";
+import { Card } from '@/shared/ui/shadcn/card';
 
 export const LoadingIndicator = () => (
   <Card className="w-full h-40 max-w-4xl mx-auto mt-8">

@@ -2,12 +2,12 @@ import {
   useGetInfiniteHistoryQuery,
   useGetStatusQuery,
   useUpdateStatusMutation,
-} from "@/entities/history/api";
+} from '@/entities/history/api';
 import {
   DEFAULT_LIMIT,
   STATUS_OFF,
   STATUS_ON,
-} from "@/shared/config/constants";
+} from '@/shared/config/constants';
 
 export const useInfiniteTimeline = (limit: number = DEFAULT_LIMIT) => {
   const infiniteQuery = useGetInfiniteHistoryQuery({ limit });

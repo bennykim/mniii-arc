@@ -1,14 +1,14 @@
-import { initGroupsDB, initHistoryDB } from "@/mocks/db";
-import { groupHandlers } from "@/mocks/handlers/groupHandlers";
-import { historyHandlers } from "@/mocks/handlers/historyHandlers";
-import { itemHandlers } from "@/mocks/handlers/itemHandlers";
+import { initGroupsDB, initHistoryDB } from '@/mocks/db';
+import { groupHandlers } from '@/mocks/handlers/groupHandlers';
+import { historyHandlers } from '@/mocks/handlers/historyHandlers';
+import { itemHandlers } from '@/mocks/handlers/itemHandlers';
 
 async function initializeDatabases() {
   try {
     await Promise.all([initGroupsDB(), initHistoryDB()]);
-    console.log("All databases initialized successfully");
+    console.log('All databases initialized successfully');
   } catch (error) {
-    console.error("Failed to initialize databases:", error);
+    console.error('Failed to initialize databases:', error);
     throw error;
   }
 }

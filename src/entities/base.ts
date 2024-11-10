@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 export type BaseEntity = {
   id: string;
@@ -7,6 +7,6 @@ export type BaseEntity = {
 };
 
 export const http = axios.create({
-  baseURL: "/api",
+  baseURL: '/api',
   withCredentials: true,
 });

@@ -1,1 +1,1 @@
-export * from "./TimelineWidget";
+export * from './TimelineWidget';

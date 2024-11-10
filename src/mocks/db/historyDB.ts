@@ -1,5 +1,5 @@
-import { DBSchema, IDBPDatabase, openDB } from "idb";
-import { v4 as uuidv4 } from "uuid";
+import { DBSchema, IDBPDatabase, openDB } from 'idb';
+import { v4 as uuidv4 } from 'uuid';
 
 import {
   DEFAULT_INTERVAL,
@@ -7,12 +7,12 @@ import {
   DIRECTION_PREV,
   STATUS_OFF,
   STATUS_ON,
-} from "@/shared/config/constants";
+} from '@/shared/config/constants';
 import {
   addRandomMinutes,
   getISODateString,
   getTimestamp,
-} from "@/shared/lib/utcDate";
+} from '@/shared/lib/utcDate';
 
 interface HistoryItem {
   id: string;
@@ -25,7 +25,7 @@ interface HistoryDB extends DBSchema {
   history: {
     key: string;
     value: HistoryItem;
-    indexes: { "by-date": string };
+    indexes: { 'by-date': string };
   };
   status: {
     key: string;
@@ -52,7 +52,7 @@ function generateRandomData(count: number, dataLength?: number): HistoryItem[] {
     date = addRandomMinutes(date);
 
     const sentenceCount = 3 + Math.floor(Math.random() * 8);
-    let description = "";
+    let description = '';
     for (let j = 0; j < sentenceCount; j++) {
       description += `This is sentence ${j + 1}. `;
     }
@@ -69,17 +69,17 @@ function generateRandomData(count: number, dataLength?: number): HistoryItem[] {
 }
 
 export const initHistoryDB = async () => {
-  db = await openDB<HistoryDB>("HISTORY_DB", 1, {
+  db = await openDB<HistoryDB>('HISTORY_DB', 1, {
     upgrade(db) {
-      const historyStore = db.createObjectStore("history", { keyPath: "id" });
-      historyStore.createIndex("by-date", "createdAt");
-      db.createObjectStore("status", { keyPath: "id" });
+      const historyStore = db.createObjectStore('history', { keyPath: 'id' });
+      historyStore.createIndex('by-date', 'createdAt');
+      db.createObjectStore('status', { keyPath: 'id' });
     },
   });
 
   const historyStore = db
-    .transaction("history", "readwrite")
-    .objectStore("history");
+    .transaction('history', 'readwrite')
+    .objectStore('history');
   const historyCount = await historyStore.count();
 
   if (historyCount === 0 || historyCount > 0) {
@@ -91,10 +91,10 @@ export const initHistoryDB = async () => {
   }
 
   const statusStore = db
-    .transaction("status", "readwrite")
-    .objectStore("status");
+    .transaction('status', 'readwrite')
+    .objectStore('status');
   await statusStore.put({
-    id: "config",
+    id: 'config',
     realtime: STATUS_OFF,
     interval: DEFAULT_INTERVAL,
   });
@@ -103,15 +103,15 @@ export const initHistoryDB = async () => {
 export const getHistoryData = async (
   cursorId: string | null,
   limit: number,
-  direction: typeof DIRECTION_NEXT | typeof DIRECTION_PREV
+  direction: typeof DIRECTION_NEXT | typeof DIRECTION_PREV,
 ): Promise<{
   data: HistoryItem[];
   nextCursor: string | null;
   prevCursor: string | null;
 }> => {
   const historyStore = db
-    .transaction("history", "readonly")
-    .objectStore("history");
+    .transaction('history', 'readonly')
+    .objectStore('history');
 
   let data: HistoryItem[] = [];
   let nextCursor: string | null = null;
@@ -122,7 +122,7 @@ export const getHistoryData = async (
     allData.sort((a, b) =>
       direction === DIRECTION_NEXT
         ? getTimestamp(b.createdAt) - getTimestamp(a.createdAt)
-        : getTimestamp(a.createdAt) - getTimestamp(b.createdAt)
+        : getTimestamp(a.createdAt) - getTimestamp(b.createdAt),
     );
 
     if (cursorId) {
@@ -141,7 +141,7 @@ export const getHistoryData = async (
       prevCursor = cursorId;
     }
   } catch (error) {
-    console.error("Error in getHistoryData:", error);
+    console.error('Error in getHistoryData:', error);
     throw error;
   }
 
@@ -164,7 +164,7 @@ const createSSEManager = () => {
       try {
         controller.enqueue(message);
       } catch (error) {
-        console.error("Error sending message to controller:", error);
+        console.error('Error sending message to controller:', error);
         removeController(controller);
       }
     });
@@ -203,12 +203,12 @@ let intervalId: NodeJS.Timeout | null = null;
 
 export const updateStatus = async (
   realtime: typeof STATUS_ON | typeof STATUS_OFF,
-  interval: number = DEFAULT_INTERVAL
+  interval: number = DEFAULT_INTERVAL,
 ) => {
   const statusStore = db
-    .transaction("status", "readwrite")
-    .objectStore("status");
-  await statusStore.put({ id: "config", realtime, interval });
+    .transaction('status', 'readwrite')
+    .objectStore('status');
+  await statusStore.put({ id: 'config', realtime, interval });
 
   if (intervalId) {
     clearInterval(intervalId);
@@ -218,8 +218,8 @@ export const updateStatus = async (
   if (realtime === STATUS_ON) {
     intervalId = setInterval(async () => {
       const historyStore = db
-        .transaction("history", "readwrite")
-        .objectStore("history");
+        .transaction('history', 'readwrite')
+        .objectStore('history');
 
       const count = await historyStore.count();
       if (count >= 300 || sseManager.getActiveConnections() === 0) {
@@ -241,7 +241,7 @@ export const updateStatus = async (
 
 export const getStatus = async () => {
   const statusStore = db
-    .transaction("status", "readonly")
-    .objectStore("status");
-  return await statusStore.get("config");
+    .transaction('status', 'readonly')
+    .objectStore('status');
+  return await statusStore.get('config');
 };

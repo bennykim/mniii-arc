@@ -1,12 +1,12 @@
-import { memo } from "react";
+import { memo } from 'react';
 
-import { type FakerTextDataItem } from "@/entities/faker/model/types";
-import { useVirtualization } from "@/features/virtualizedListView/hooks/useVirtualization";
-import { VIRTUALIZATION } from "@/features/virtualizedListView/lib/constants";
-import { getItemStyle } from "@/features/virtualizedListView/lib/helpers";
-import { VirtualizedListItem } from "@/features/virtualizedListView/ui";
-import { ScrollArea } from "@/shared/ui/shadcn/scroll-area";
-import { ENTRY_TYPE } from "@/widgets/virtualizedListWidget/lib/constants";
+import { type FakerTextDataItem } from '@/entities/faker/model/types';
+import { useVirtualization } from '@/features/virtualizedListView/hooks/useVirtualization';
+import { VIRTUALIZATION } from '@/features/virtualizedListView/lib/constants';
+import { getItemStyle } from '@/features/virtualizedListView/lib/helpers';
+import { VirtualizedListItem } from '@/features/virtualizedListView/ui';
+import { ScrollArea } from '@/shared/ui/shadcn/scroll-area';
+import { ENTRY_TYPE } from '@/widgets/virtualizedListWidget/lib/constants';
 
 type VirtualizedListProps = {
   data: FakerTextDataItem[];
@@ -32,7 +32,7 @@ export const VirtualizedList = memo(function ({
 
   const visibleItems = data.slice(
     virtualization.visibleRange.start,
-    virtualization.visibleRange.end
+    virtualization.visibleRange.end,
   );
 
   return (

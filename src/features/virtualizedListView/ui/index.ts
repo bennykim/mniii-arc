@@ -1,2 +1,2 @@
-export * from "./VirtualizedList";
-export * from "./VirtualizedListItem";
+export * from './VirtualizedList';
+export * from './VirtualizedListItem';

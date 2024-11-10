@@ -1,7 +1,7 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState } from 'react';
 
-import { SORT_DIRECTION } from "@/shared/config/constants";
-import { getTimestamp } from "@/shared/lib/utcDate";
+import { SORT_DIRECTION } from '@/shared/config/constants';
+import { getTimestamp } from '@/shared/lib/utcDate';
 
 type DefaultSortItem = { createdAt: string };
 

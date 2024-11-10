@@ -1,14 +1,13 @@
-import { AxiosResponse } from "axios";
+import { AxiosResponse } from 'axios';
 
-import { http } from "@/entities/base";
+import { http } from '@/entities/base';
+import type { History } from '@/entities/history/model/types';
 import {
   DIRECTION_NEXT,
   DIRECTION_PREV,
   STATUS_OFF,
   STATUS_ON,
-} from "@/shared/config/constants";
-
-import type { History } from "@/entities/history/model/types";
+} from '@/shared/config/constants';
 
 export type HistoryResponse = {
   data: History[];
@@ -32,10 +31,10 @@ export const apiService = {
     direction?: Direction;
   }): Promise<HistoryResponse> => {
     const response: AxiosResponse<HistoryResponse> = await http.get(
-      "/history",
+      '/history',
       {
         params,
-      }
+      },
     );
     return response.data;
   },
@@ -45,9 +44,9 @@ export const apiService = {
     interval?: number;
   }): Promise<{ success: boolean }> => {
     const response: AxiosResponse<{ success: boolean }> = await http.put(
-      "/status",
+      '/status',
       null,
-      { params }
+      { params },
     );
     return response.data;
   },
@@ -59,17 +58,17 @@ export const apiService = {
     const response: AxiosResponse<{
       realtime: RealTime;
       interval: number;
-    }> = await http.get("/status");
+    }> = await http.get('/status');
     return response.data;
   },
 
   createRealtimeConnection: (
-    handlers: RealTimeHandlers
+    handlers: RealTimeHandlers,
   ): {
     eventSource: EventSource;
     close: () => void;
   } => {
-    const eventSource = new EventSource("/realtime");
+    const eventSource = new EventSource('/realtime');
 
     if (handlers.onMessage) {
       eventSource.onmessage = handlers.onMessage;

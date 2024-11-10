@@ -3,10 +3,10 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@/shared/ui/shadcn/tabs";
-import { GroupManagerWidget } from "@/widgets/groupManagerWidget/ui";
-import { TimelineWidget } from "@/widgets/timelineWidget/ui";
-import { VirtualizedListWidget } from "@/widgets/virtualizedListWidget/ui";
+} from '@/shared/ui/shadcn/tabs';
+import { GroupManagerWidget } from '@/widgets/groupManagerWidget/ui';
+import { TimelineWidget } from '@/widgets/timelineWidget/ui';
+import { VirtualizedListWidget } from '@/widgets/virtualizedListWidget/ui';
 
 function DashboardPage() {
   return (

@@ -1,4 +1,4 @@
-import { forwardRef } from "react";
+import { forwardRef } from 'react';
 
 type TimelineLoadMoreTriggerProps = {
   hasNextPage: boolean | undefined;
@@ -13,4 +13,4 @@ export const TimelineLoadMoreTrigger = forwardRef<
 
   return <div ref={ref} className="h-10" />;
 });
-TimelineLoadMoreTrigger.displayName = "LoadMoreTrigger";
+TimelineLoadMoreTrigger.displayName = 'LoadMoreTrigger';

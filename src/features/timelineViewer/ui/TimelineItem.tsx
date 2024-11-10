@@ -1,15 +1,15 @@
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff } from 'lucide-react';
 
-import { useHistoryStore } from "@/entities/history/store";
-import { useReadDetector } from "@/features/timelineViewer/hooks";
-import { formatDateLocale, getTimestamp } from "@/shared/lib/utcDate";
+import { useHistoryStore } from '@/entities/history/store';
+import { useReadDetector } from '@/features/timelineViewer/hooks';
+import { formatDateLocale, getTimestamp } from '@/shared/lib/utcDate';
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/shared/ui/shadcn/card";
+} from '@/shared/ui/shadcn/card';
 
 type TimelineItemProps = {
   item: UIHistory;
@@ -19,7 +19,7 @@ export function TimelineItem({ item }: TimelineItemProps) {
   const timelineItemref = useReadDetector(item.id);
   const { readState } = useHistoryStore();
   const timestamp = getTimestamp(item.createdAt);
-  const localDate = formatDateLocale(item.createdAt, "ko-KR");
+  const localDate = formatDateLocale(item.createdAt, 'ko-KR');
   const isRead = readState[item.id];
 
   return (

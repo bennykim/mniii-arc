@@ -1,6 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
-import { getISODateString } from "@/shared/lib/utcDate";
+import { getISODateString } from '@/shared/lib/utcDate';
 
 interface UseLastReadItemProps {
   scrollAreaRef: React.RefObject<HTMLDivElement>;
@@ -22,7 +22,7 @@ export const useLastReadItem = ({
 
     const handleIntersection = (
       entries: IntersectionObserverEntry[],
-      observer: IntersectionObserver
+      observer: IntersectionObserver,
     ) => {
       entries.forEach((entry) => {
         if (!lastItemRef.current) {
@@ -30,10 +30,10 @@ export const useLastReadItem = ({
         }
 
         const entryTimestamp = entry.target.getAttribute(
-          "data-timeline-timestamp"
+          'data-timeline-timestamp',
         );
         const lastItemTimestamp = lastItemRef.current.target.getAttribute(
-          "data-timeline-timestamp"
+          'data-timeline-timestamp',
         );
 
         if (
@@ -42,7 +42,7 @@ export const useLastReadItem = ({
           lastItemTimestamp &&
           entryTimestamp < lastItemTimestamp
         ) {
-          const id = entry.target.getAttribute("data-timeline-item-id");
+          const id = entry.target.getAttribute('data-timeline-item-id');
           if (id) {
             setLastReadItemId(id);
             setLastReadTime(getISODateString());
@@ -59,7 +59,7 @@ export const useLastReadItem = ({
     });
 
     const items = scrollAreaRef.current.querySelectorAll(
-      "[data-timeline-item-id]"
+      '[data-timeline-item-id]',
     );
     items.forEach((item) => interObs.observe(item));
 

@@ -1,11 +1,10 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { apiService } from "@/entities/item/api/base";
-import { KEY_GROUP, KEY_ITEM, KEY_ITEMS } from "@/shared/config/constants";
-import { toServerItem, toServerItemExceptId } from "@/shared/lib/transform";
-import { getISODateString } from "@/shared/lib/utcDate";
-
-import type { Item } from "@/entities/item/model/types";
+import { apiService } from '@/entities/item/api/base';
+import type { Item } from '@/entities/item/model/types';
+import { KEY_GROUP, KEY_ITEM, KEY_ITEMS } from '@/shared/config/constants';
+import { toServerItem, toServerItemExceptId } from '@/shared/lib/transform';
+import { getISODateString } from '@/shared/lib/utcDate';
 
 type CreateItemContext = {
   tempId: string;
@@ -27,7 +26,7 @@ export const useCreateItemMutation = (groupId: string) => {
   return useMutation<
     Item,
     Error,
-    Omit<UIItem, "id" | "createdAt">,
+    Omit<UIItem, 'id' | 'createdAt'>,
     CreateItemContext
   >({
     mutationFn: (newItem) =>
@@ -59,7 +58,7 @@ export const useCreateItemMutation = (groupId: string) => {
       queryClient.setQueryData<Item[]>([KEY_ITEMS, groupId], (oldData) => {
         return (
           oldData?.map((item) =>
-            item.id === context?.tempId ? createdItem : item
+            item.id === context?.tempId ? createdItem : item,
           ) ?? []
         );
       });
@@ -69,7 +68,7 @@ export const useCreateItemMutation = (groupId: string) => {
       if (context?.previousItems) {
         queryClient.setQueryData([KEY_ITEMS, groupId], context.previousItems);
       }
-      console.error("Failed to create item:", err);
+      console.error('Failed to create item:', err);
     },
 
     onSettled: () => {
@@ -106,13 +105,13 @@ export const useUpdateItemMutation = (groupId: string) => {
       queryClient.setQueryData<Item[]>([KEY_ITEMS, groupId], (oldData) => {
         return (
           oldData?.map((item) =>
-            item.id === newItem.id ? newItemData : item
+            item.id === newItem.id ? newItemData : item,
           ) ?? []
         );
       });
       queryClient.setQueryData<Item>(
         [KEY_ITEM, groupId, newItem.id],
-        newItemData
+        newItemData,
       );
 
       return { previousItems, previousItem };
@@ -123,13 +122,13 @@ export const useUpdateItemMutation = (groupId: string) => {
       queryClient.setQueryData<Item[]>([KEY_ITEMS, groupId], (oldData) => {
         return (
           oldData?.map((item) =>
-            item.id === updatedItem.id ? updatedItem : item
+            item.id === updatedItem.id ? updatedItem : item,
           ) ?? []
         );
       });
       queryClient.setQueryData(
         [KEY_ITEM, groupId, updatedItem.id],
-        updatedItem
+        updatedItem,
       );
     },
 
@@ -137,13 +136,13 @@ export const useUpdateItemMutation = (groupId: string) => {
       if (context?.previousItems) {
         queryClient.setQueryData<Item[]>(
           [KEY_ITEMS, groupId],
-          context.previousItems
+          context.previousItems,
         );
       }
       if (context?.previousItem) {
         queryClient.setQueryData<Item>(
           [KEY_ITEM, groupId, variables.id],
-          context.previousItem
+          context.previousItem,
         );
       }
       console.error(`Failed to update item with id ${variables.id}:`, err);
@@ -162,7 +161,7 @@ export const useUpdateItemMutation = (groupId: string) => {
 export const useDeleteItemMutation = (groupId: string) => {
   const queryClient = useQueryClient();
 
-  return useMutation<Item, Error, UIItem["id"], DeleteItemContext>({
+  return useMutation<Item, Error, UIItem['id'], DeleteItemContext>({
     mutationFn: (itemId) => apiService.deleteItem(groupId, itemId),
 
     onMutate: async (deletedItemId) => {
@@ -178,7 +177,7 @@ export const useDeleteItemMutation = (groupId: string) => {
 
       queryClient.setQueryData<Item[]>(
         [KEY_ITEMS, groupId],
-        (old) => old?.filter((item) => item.id !== deletedItemId) ?? []
+        (old) => old?.filter((item) => item.id !== deletedItemId) ?? [],
       );
 
       queryClient.removeQueries({
@@ -192,7 +191,7 @@ export const useDeleteItemMutation = (groupId: string) => {
       if (context?.previousItems) {
         queryClient.setQueryData<Item[]>(
           [KEY_ITEMS, groupId],
-          context.previousItems
+          context.previousItems,
         );
       }
       console.error(`Failed to delete item with id ${deletedItemId}:`, err);

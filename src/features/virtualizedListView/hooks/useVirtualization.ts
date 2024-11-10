@@ -1,11 +1,11 @@
-import { useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
-import { VIRTUALIZATION } from "@/features/virtualizedListView/lib/constants";
+import { VIRTUALIZATION } from '@/features/virtualizedListView/lib/constants';
 import {
   createArrayWithValue,
   getScrollElement,
-} from "@/features/virtualizedListView/lib/helpers";
-import { ENTRY_TYPE } from "@/widgets/virtualizedListWidget/lib/constants";
+} from '@/features/virtualizedListView/lib/helpers';
+import { ENTRY_TYPE } from '@/widgets/virtualizedListWidget/lib/constants';
 
 type VisibleRange = {
   start: number;
@@ -49,13 +49,13 @@ export const useVirtualization = ({
   const previousTotalRef = useRef(totalItems);
 
   const [visibleRange, setVisibleRange] = useState<VisibleRange>(
-    VIRTUALIZATION.INITIAL_RANGE
+    VIRTUALIZATION.INITIAL_RANGE,
   );
   const [itemHeights, setItemHeights] = useState<number[]>(() =>
-    createArrayWithValue(totalItems, itemHeight)
+    createArrayWithValue(totalItems, itemHeight),
   );
   const [expandedItems, setExpandedItems] = useState<boolean[]>(() =>
-    createArrayWithValue(totalItems, false)
+    createArrayWithValue(totalItems, false),
   );
 
   useLayoutEffect(() => {
@@ -75,7 +75,7 @@ export const useVirtualization = ({
         if (prev.length < totalItems) {
           const newItems = createArrayWithValue(
             totalItems - prev.length,
-            defaultValue
+            defaultValue,
           );
           return entryType === ENTRY_TYPE.PREPEND
             ? [...newItems, ...prev]
@@ -102,18 +102,18 @@ export const useVirtualization = ({
 
   const totalHeight = useMemo(
     () => itemHeights.reduce((sum, height) => sum + height, 0),
-    [itemHeights]
+    [itemHeights],
   );
 
   const getItemOffset = useCallback(
     (index: number) =>
       itemHeights.slice(0, index).reduce((sum, height) => sum + height, 0),
-    [itemHeights]
+    [itemHeights],
   );
 
   const isItemExpanded = useCallback(
     (index: number) => expandedItems[index],
-    [expandedItems]
+    [expandedItems],
   );
 
   const updateItemHeight = useCallback((index: number, newHeight: number) => {
@@ -183,7 +183,7 @@ export const useVirtualization = ({
       const { scrollTop, clientHeight, scrollHeight } = scrollElement;
 
       const previousScrollTop = Number(
-        scrollElement.dataset.lastScrollTop || 0
+        scrollElement.dataset.lastScrollTop || 0,
       );
       const isScrollingUp = scrollTop < previousScrollTop;
 
@@ -211,7 +211,7 @@ export const useVirtualization = ({
           }
         } catch (error) {
           isLoadingRef.current = false;
-          console.error("Failed to load latest data:", error);
+          console.error('Failed to load latest data:', error);
         }
       }
     };

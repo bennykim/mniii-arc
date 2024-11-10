@@ -1,1 +1,1 @@
-export * from "./useHistoryStore";
+export * from './useHistoryStore';

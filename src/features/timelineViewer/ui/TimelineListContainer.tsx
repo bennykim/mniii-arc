@@ -1,18 +1,18 @@
-import { InfiniteData } from "@tanstack/react-query";
-import { LoaderPinwheel } from "lucide-react";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { InfiniteData } from '@tanstack/react-query';
+import { LoaderPinwheel } from 'lucide-react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 
-import { useHistoryStore } from "@/entities/history/store";
+import { useHistoryStore } from '@/entities/history/store';
 import {
   useIdleTimer,
   useInfiniteTimeline,
   useIntersectionTrigger,
   useLastReadItem,
-} from "@/features/timelineViewer/hooks";
-import { Timeline } from "@/features/timelineViewer/ui";
-import { DEFAULT_LIMIT } from "@/shared/config/constants";
-import { getElapsedTime } from "@/shared/lib/utils";
-import { ScrollArea } from "@/shared/ui/shadcn/scroll-area";
+} from '@/features/timelineViewer/hooks';
+import { Timeline } from '@/features/timelineViewer/ui';
+import { DEFAULT_LIMIT } from '@/shared/config/constants';
+import { getElapsedTime } from '@/shared/lib/utils';
+import { ScrollArea } from '@/shared/ui/shadcn/scroll-area';
 
 export function TimelineListContainer() {
   const {

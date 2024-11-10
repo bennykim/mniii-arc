@@ -1,5 +1,5 @@
-import { create } from "zustand";
-import { devtools } from "zustand/middleware";
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
 
 type State = {
   realtimeHistory: UIHistory[];
@@ -22,7 +22,7 @@ type Store = State & Actions;
 const createHistoryStore = () => {
   const store = (
     set: (fn: (state: State) => State) => void,
-    get: () => State
+    get: () => State,
   ): Store => ({
     realtimeHistory: [],
     readState: {},

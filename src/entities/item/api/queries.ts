@@ -1,10 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from '@tanstack/react-query';
 
-import { apiService } from "@/entities/item/api/base";
-import { KEY_ITEM, KEY_ITEMS } from "@/shared/config/constants";
-import { toUIItem, toUIItems } from "@/shared/lib/transform";
-
-import type { Item } from "@/entities/item/model/types";
+import { apiService } from '@/entities/item/api/base';
+import type { Item } from '@/entities/item/model/types';
+import { KEY_ITEM, KEY_ITEMS } from '@/shared/config/constants';
+import { toUIItem, toUIItems } from '@/shared/lib/transform';
 
 export const useGetItemsQuery = (groupId: string) => {
   const query = useQuery<Item[], Error, UIItems>({

@@ -1,44 +1,44 @@
-import { Circle, CircleCheckBig, Edit, RefreshCcw } from "lucide-react";
-import { useState } from "react";
+import { Circle, CircleCheckBig, Edit, RefreshCcw } from 'lucide-react';
+import { useState } from 'react';
 
-import { useGetGroupsQuery } from "@/entities/group/api";
-import { useGroupStore } from "@/entities/group/store";
-import { useGetItemsQuery } from "@/entities/item/api";
-import { useItemStore } from "@/entities/item/store";
+import { useGetGroupsQuery } from '@/entities/group/api';
+import { useGroupStore } from '@/entities/group/store';
+import { useGetItemsQuery } from '@/entities/item/api';
+import { useItemStore } from '@/entities/item/store';
 import {
   CreateGroupForm,
   DeleteGroupButton,
   UpdateGroupForm,
-} from "@/features/groupManagement/ui";
+} from '@/features/groupManagement/ui';
 import {
   CreateItemForm,
   DeleteItemButton,
   UpdateItemForm,
-} from "@/features/itemManagement/ui";
-import { SORT_DIRECTION } from "@/shared/config/constants";
-import { useSortedData } from "@/shared/hooks";
-import { cn } from "@/shared/lib/utils";
+} from '@/features/itemManagement/ui';
+import { SORT_DIRECTION } from '@/shared/config/constants';
+import { useSortedData } from '@/shared/hooks';
+import { cn } from '@/shared/lib/utils';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/shared/ui/shadcn/accordion";
-import { Button } from "@/shared/ui/shadcn/button";
+} from '@/shared/ui/shadcn/accordion';
+import { Button } from '@/shared/ui/shadcn/button';
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/shared/ui/shadcn/card";
+} from '@/shared/ui/shadcn/card';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/shared/ui/shadcn/dialog";
+} from '@/shared/ui/shadcn/dialog';
 import {
   Select,
   SelectContent,
@@ -46,8 +46,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/shared/ui/shadcn/select";
-import { TypographyP, TypographySpan } from "@/shared/ui/typography";
+} from '@/shared/ui/shadcn/select';
+import { TypographyP, TypographySpan } from '@/shared/ui/typography';
 
 export function GroupManagerWidget() {
   const { selectedGroup, editingGroup, selectGroup, editGroup } =
@@ -59,8 +59,8 @@ export function GroupManagerWidget() {
     isRefetching,
     refetch,
   } = useGetGroupsQuery();
-  const { data: items } = useGetItemsQuery(selectedGroup?.id ?? "");
-  const [openItems, setOpenItems] = useState<string[]>(["groups", "items"]);
+  const { data: items } = useGetItemsQuery(selectedGroup?.id ?? '');
+  const [openItems, setOpenItems] = useState<string[]>(['groups', 'items']);
 
   const { sortedData: sortedGroups, setSortDirection: setGroupSortDirection } =
     useSortedData<UIGroup>({ initialData: groups });
@@ -80,7 +80,7 @@ export function GroupManagerWidget() {
 
   const isEditing = (
     editingEntity: UIGroup | UIItem | null,
-    entity: UIGroup | UIItem
+    entity: UIGroup | UIItem,
   ) => editingEntity?.id === entity.id;
 
   return (
@@ -111,7 +111,7 @@ export function GroupManagerWidget() {
           <RefreshCcw
             size={16}
             className={cn({
-              "animate-spin": isLoading || isRefetching,
+              'animate-spin': isLoading || isRefetching,
             })}
           />
         </Button>
@@ -125,7 +125,7 @@ export function GroupManagerWidget() {
           <AccordionItem value="groups">
             <AccordionTrigger
               className="uppercase"
-              onClick={() => handleAccordionChange("groups")}
+              onClick={() => handleAccordionChange('groups')}
             >
               Groups
             </AccordionTrigger>
@@ -176,7 +176,7 @@ export function GroupManagerWidget() {
           <AccordionItem value="items">
             <AccordionTrigger
               className="uppercase"
-              onClick={() => handleAccordionChange("items")}
+              onClick={() => handleAccordionChange('items')}
             >
               Items
             </AccordionTrigger>

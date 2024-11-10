@@ -1,8 +1,8 @@
-import { Plus } from "lucide-react";
+import { Plus } from 'lucide-react';
 
-import { useGroupActions } from "@/features/groupManagement/hooks/useGroupActions";
-import { Button } from "@/shared/ui/shadcn/button";
-import { Input } from "@/shared/ui/shadcn/input";
+import { useGroupActions } from '@/features/groupManagement/hooks/useGroupActions';
+import { Button } from '@/shared/ui/shadcn/button';
+import { Input } from '@/shared/ui/shadcn/input';
 
 export function CreateGroupForm() {
   const { newGroupTitle, setNewGroupTitle, handleCreateGroup } =
@@ -13,9 +13,9 @@ export function CreateGroupForm() {
 
     try {
       handleCreateGroup();
-      setNewGroupTitle("");
+      setNewGroupTitle('');
     } catch (err) {
-      console.error("Failed to create group.", err);
+      console.error('Failed to create group.', err);
     }
   };
 

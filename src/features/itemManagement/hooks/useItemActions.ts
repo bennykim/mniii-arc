@@ -1,15 +1,15 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 import {
   useCreateItemMutation,
   useDeleteItemMutation,
   useUpdateItemMutation,
-} from "@/entities/item/api";
-import { useToast } from "@/shared/hooks/use-toast";
+} from '@/entities/item/api';
+import { useToast } from '@/shared/hooks/use-toast';
 
 export const useItemActions = (groupId: string) => {
   const { toast } = useToast();
-  const [newItemTitle, setNewItemTitle] = useState("");
+  const [newItemTitle, setNewItemTitle] = useState('');
 
   const createItem = useCreateItemMutation(groupId);
   const updateItem = useUpdateItemMutation(groupId);
@@ -21,17 +21,17 @@ export const useItemActions = (groupId: string) => {
         await createItem.mutateAsync({
           title: newItemTitle,
         });
-        setNewItemTitle("");
+        setNewItemTitle('');
         toast({
-          title: "Item Created",
-          description: "New item has been created successfully.",
+          title: 'Item Created',
+          description: 'New item has been created successfully.',
         });
       } catch (error) {
         console.error(error);
         toast({
-          title: "Create Failed",
-          description: "An error occurred while creating the item.",
-          variant: "destructive",
+          title: 'Create Failed',
+          description: 'An error occurred while creating the item.',
+          variant: 'destructive',
         });
       }
     }
@@ -44,15 +44,15 @@ export const useItemActions = (groupId: string) => {
         title: newTitle,
       });
       toast({
-        title: "Item Updated",
-        description: "The item has been updated successfully.",
+        title: 'Item Updated',
+        description: 'The item has been updated successfully.',
       });
     } catch (error) {
       console.error(error);
       toast({
-        title: "Update Failed",
-        description: "An error occurred while updating the item.",
-        variant: "destructive",
+        title: 'Update Failed',
+        description: 'An error occurred while updating the item.',
+        variant: 'destructive',
       });
     }
   };
@@ -61,15 +61,15 @@ export const useItemActions = (groupId: string) => {
     try {
       await deleteItem.mutateAsync(itemId);
       toast({
-        title: "Item Deleted",
-        description: "The item has been deleted successfully.",
+        title: 'Item Deleted',
+        description: 'The item has been deleted successfully.',
       });
     } catch (error) {
       console.error(error);
       toast({
-        title: "Delete Failed",
-        description: "An error occurred while deleting the item.",
-        variant: "destructive",
+        title: 'Delete Failed',
+        description: 'An error occurred while deleting the item.',
+        variant: 'destructive',
       });
     }
   };

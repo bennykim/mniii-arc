@@ -1,14 +1,14 @@
-import { LoaderPinwheel, Save, X } from "lucide-react";
-import { useState } from "react";
+import { LoaderPinwheel, Save, X } from 'lucide-react';
+import { useState } from 'react';
 
-import { useGroupStore } from "@/entities/group/store";
-import { useGroupActions } from "@/features/groupManagement/hooks/useGroupActions";
-import { Button } from "@/shared/ui/shadcn/button";
-import { Input } from "@/shared/ui/shadcn/input";
+import { useGroupStore } from '@/entities/group/store';
+import { useGroupActions } from '@/features/groupManagement/hooks/useGroupActions';
+import { Button } from '@/shared/ui/shadcn/button';
+import { Input } from '@/shared/ui/shadcn/input';
 
 export function UpdateGroupForm() {
   const { editingGroup: group, editGroup } = useGroupStore();
-  const [newTitle, setNewTitle] = useState(group?.title || "");
+  const [newTitle, setNewTitle] = useState(group?.title || '');
   const { handleUpdateGroup, isUpdatePending } = useGroupActions();
 
   const onCancel = () => {

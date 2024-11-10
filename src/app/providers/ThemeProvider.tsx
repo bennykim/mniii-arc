@@ -1,7 +1,7 @@
-import { Context, createContext, useEffect, useState } from "react";
+import { Context, createContext, useEffect, useState } from 'react';
 
-import { STORAGE_KEY, THEME } from "@/shared/config/constants";
-import { Switch } from "@/shared/ui/shadcn/switch";
+import { STORAGE_KEY, THEME } from '@/shared/config/constants';
+import { Switch } from '@/shared/ui/shadcn/switch';
 
 type Theme = (typeof THEME)[keyof typeof THEME];
 type ThemeProviderProps = {

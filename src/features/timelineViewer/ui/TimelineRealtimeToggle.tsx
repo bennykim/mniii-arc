@@ -1,8 +1,8 @@
-import { Power, PowerOff } from "lucide-react";
+import { Power, PowerOff } from 'lucide-react';
 
-import { useRealtimeConnection } from "@/features/timelineViewer/hooks";
-import { Button } from "@/shared/ui/shadcn/button";
-import { Label } from "@/shared/ui/shadcn/label";
+import { useRealtimeConnection } from '@/features/timelineViewer/hooks';
+import { Button } from '@/shared/ui/shadcn/button';
+import { Label } from '@/shared/ui/shadcn/label';
 
 type TimelineRealtimeToggleProps = {
   isRealtimeOn: boolean;

@@ -1,12 +1,12 @@
-import { useInfiniteTimeline } from "@/features/timelineViewer/hooks";
-import { Timeline } from "@/features/timelineViewer/ui";
-import { STATUS_ON } from "@/shared/config/constants";
+import { useInfiniteTimeline } from '@/features/timelineViewer/hooks';
+import { Timeline } from '@/features/timelineViewer/ui';
+import { STATUS_ON } from '@/shared/config/constants';
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/shared/ui/shadcn/card";
+} from '@/shared/ui/shadcn/card';
 
 export function TimelineWidget() {
   const { statusQuery, toggleRealtime } = useInfiniteTimeline();

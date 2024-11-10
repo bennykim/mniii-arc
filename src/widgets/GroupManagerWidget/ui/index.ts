@@ -1,1 +1,1 @@
-export * from "./GroupManagerWidget";
+export * from './GroupManagerWidget';

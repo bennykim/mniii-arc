@@ -1,9 +1,9 @@
-import { ChevronUp } from "lucide-react";
-import { useCallback } from "react";
+import { ChevronUp } from 'lucide-react';
+import { useCallback } from 'react';
 
-import { SCROLL_AREA_VIEWPORT_ATTR } from "@/shared/config/constants";
-import { Badge } from "@/shared/ui/shadcn/badge";
-import { Button } from "@/shared/ui/shadcn/button";
+import { SCROLL_AREA_VIEWPORT_ATTR } from '@/shared/config/constants';
+import { Badge } from '@/shared/ui/shadcn/badge';
+import { Button } from '@/shared/ui/shadcn/button';
 
 type TimelineScrollToTopProps = {
   scrollAreaRef: React.RefObject<HTMLDivElement>;
@@ -17,12 +17,12 @@ export function TimelineScrollToTop({
   const scrollToTop = useCallback(() => {
     if (scrollAreaRef.current) {
       const viewport = scrollAreaRef.current.querySelector(
-        `[${SCROLL_AREA_VIEWPORT_ATTR}]`
+        `[${SCROLL_AREA_VIEWPORT_ATTR}]`,
       );
       if (viewport) {
         viewport.scrollTo({
           top: 0,
-          behavior: "smooth",
+          behavior: 'smooth',
         });
       }
     }
@@ -43,7 +43,7 @@ export function TimelineScrollToTop({
           variant="destructive"
           className="absolute -top-2 -right-2 px-2 min-w-[1rem] h-6 flex items-center justify-center rounded-full"
         >
-          {unreadCount > 99 ? "99+" : unreadCount}
+          {unreadCount > 99 ? '99+' : unreadCount}
         </Badge>
       )}
     </div>

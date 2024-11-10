@@ -1,10 +1,10 @@
-import { TimelineItem } from "./TimelineItem";
-import { TimelineItemSkeleton } from "./TimelineItemSkeleton";
-import { TimelineListContainer } from "./TimelineListContainer";
-import { TimelineLoadMoreTrigger } from "./TimelineLoadMoreTrigger";
-import { TimelineReadUpToHere } from "./TimelineReadUpToHere";
-import { TimelineRealtimeToggle } from "./TimelineRealtimeToggle";
-import { TimelineScrollToTop } from "./TimelineScrollToTop";
+import { TimelineItem } from './TimelineItem';
+import { TimelineItemSkeleton } from './TimelineItemSkeleton';
+import { TimelineListContainer } from './TimelineListContainer';
+import { TimelineLoadMoreTrigger } from './TimelineLoadMoreTrigger';
+import { TimelineReadUpToHere } from './TimelineReadUpToHere';
+import { TimelineRealtimeToggle } from './TimelineRealtimeToggle';
+import { TimelineScrollToTop } from './TimelineScrollToTop';
 
 export const Timeline = {
   List: {

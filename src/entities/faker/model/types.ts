@@ -12,7 +12,7 @@ export type FakerTextDataItem = {
 };
 
 export type FakerTextResponse = {
-  status: "OK" | "ERROR";
+  status: 'OK' | 'ERROR';
   code: number;
   locale: string;
   seed: string | null;
