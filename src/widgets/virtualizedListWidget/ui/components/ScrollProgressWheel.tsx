@@ -20,7 +20,7 @@ interface ScrollProgressWheelProps {
 export const ScrollProgressWheel = memo(function ScrollProgressWheel({
   scrollContainerRef,
   backgroundColor = 'stroke-gray-200',
-  progressColor = 'stroke-pink-500',
+  progressColor = 'stroke-chart-2',
 }: ScrollProgressWheelProps) {
   const updateProgressWheel = useCallback((progress: number) => {
     const progressWheel = document.querySelector(

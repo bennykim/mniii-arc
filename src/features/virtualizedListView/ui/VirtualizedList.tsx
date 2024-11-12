@@ -11,6 +11,7 @@ import { ENTRY_TYPE } from '@/widgets/virtualizedListWidget/lib/constants';
 type VirtualizedListProps = {
   data: FakerTextDataItem[];
   entryType?: (typeof ENTRY_TYPE)[keyof typeof ENTRY_TYPE];
+  hasLatestData?: boolean;
   onLoadMore: () => void;
   onLoadLatest?: () => Promise<boolean>;
 };
@@ -18,6 +19,7 @@ type VirtualizedListProps = {
 export const VirtualizedList = memo(function ({
   data,
   entryType = ENTRY_TYPE.APPEND,
+  hasLatestData,
   onLoadMore,
   onLoadLatest,
 }: VirtualizedListProps) {
@@ -26,6 +28,7 @@ export const VirtualizedList = memo(function ({
     itemHeight: VIRTUALIZATION.DEFAULT_ITEM_HEIGHT,
     bufferSize: VIRTUALIZATION.DEFAULT_BUFFER_SIZE,
     entryType,
+    hasLatestData,
     onLoadMore,
     onLoadLatest,
   });

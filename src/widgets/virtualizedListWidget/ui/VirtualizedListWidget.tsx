@@ -150,6 +150,7 @@ export function VirtualizedListWidget() {
         <VirtualizedList
           data={accumData}
           entryType={entryType}
+          hasLatestData={latestData.length > 0}
           onLoadMore={handleLoadMore}
           onLoadLatest={handleLoadLatest}
         />

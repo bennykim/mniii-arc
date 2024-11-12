@@ -1,4 +1,11 @@
-import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 import { VIRTUALIZATION } from '@/features/virtualizedListView/lib/constants';
 import {
@@ -18,6 +25,7 @@ type UseVirtualizationProps = {
   bufferSize?: number;
   threshold?: number;
   entryType?: (typeof ENTRY_TYPE)[keyof typeof ENTRY_TYPE];
+  hasLatestData?: boolean;
   onLoadMore?: () => void;
   onLoadLatest?: () => Promise<boolean>;
 };
@@ -41,6 +49,7 @@ export const useVirtualization = ({
   bufferSize = VIRTUALIZATION.DEFAULT_BUFFER_SIZE,
   threshold = VIRTUALIZATION.DEFAULT_THRESHOLD,
   entryType = ENTRY_TYPE.APPEND,
+  hasLatestData,
   onLoadMore,
   onLoadLatest,
 }: UseVirtualizationProps): UseVirtualizationReturn => {
@@ -99,6 +108,31 @@ export const useVirtualization = ({
     previousTotalRef.current = totalItems;
     isLoadingRef.current = false;
   }, [totalItems, itemHeight, entryType]);
+
+  useEffect(() => {
+    const checkTopAndLatestData = async () => {
+      const scrollElement = getScrollElement(containerRef);
+      if (!scrollElement || isLoadingRef.current || !onLoadLatest) return;
+
+      const { scrollTop } = scrollElement;
+      const isAtTop = scrollTop === 0;
+
+      if (isAtTop && hasLatestData) {
+        isLoadingRef.current = true;
+        try {
+          const hasMoreData = await onLoadLatest();
+          if (!hasMoreData) {
+            isLoadingRef.current = false;
+          }
+        } catch (error) {
+          isLoadingRef.current = false;
+          console.error('Failed to load latest data:', error);
+        }
+      }
+    };
+
+    checkTopAndLatestData();
+  }, [hasLatestData, onLoadLatest]);
 
   const totalHeight = useMemo(
     () => itemHeights.reduce((sum, height) => sum + height, 0),
