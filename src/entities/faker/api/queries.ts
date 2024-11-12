@@ -5,6 +5,7 @@ import { apiService } from '@/entities/faker/api/base';
 import {
   type FakerTextDataItem,
   type FakerTextResponse,
+  type GetFakerImagesParams,
   type GetFakerTextsParams,
 } from '@/entities/faker/model/types';
 import { useDelay } from '@/shared/hooks';
@@ -23,7 +24,10 @@ interface UseGetFakerTextsParams extends GetFakerTextsParams {
   page: number;
 }
 
-export const useGetFakerTexts = (params: UseGetFakerTextsParams) => {
+export const useGetFakerTexts = (
+  params: UseGetFakerTextsParams,
+  options?: { enabled?: boolean },
+) => {
   const charactersRef = useRef(
     generateRandomCharacters({
       min: params.characters,
@@ -49,6 +53,42 @@ export const useGetFakerTexts = (params: UseGetFakerTextsParams) => {
         characters: charactersRef.current,
       }),
     refetchInterval: false,
+    enabled: options?.enabled,
+    select: (data) =>
+      data.data.map((item, index) => ({
+        ...item,
+        order: index + (params.page - 1) * params.quantity,
+      })),
+  });
+};
+
+interface UseGetFakerImagesParams extends GetFakerImagesParams {
+  page: number;
+}
+
+export const useGetFakerImages = (
+  params: UseGetFakerImagesParams,
+  options?: { enabled?: boolean },
+) => {
+  const queryKey = [
+    'faker',
+    'images',
+    {
+      quantity: params.quantity,
+      height: params.height,
+      page: params.page,
+    },
+  ];
+
+  return useQuery<FakerTextResponse, Error, FakerTextDataItem[]>({
+    queryKey,
+    queryFn: () =>
+      apiService.getImages({
+        quantity: params.quantity,
+        height: params.height,
+      }),
+    refetchInterval: false,
+    enabled: options?.enabled,
     select: (data) =>
       data.data.map((item, index) => ({
         ...item,

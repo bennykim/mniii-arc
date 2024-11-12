@@ -1,10 +1,12 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 
 import { VIRTUALIZATION } from '@/features/virtualizedListView/lib/constants';
 import { cn } from '@/shared/lib/utils';
+import { Skeleton } from '@/shared/ui/shadcn/skeleton';
 
 type ItemContentProps = {
-  content: string;
+  url?: string;
+  content?: string;
   isExpanded: boolean;
   enableAnimation: boolean;
 };
@@ -22,13 +24,30 @@ const getContentClassNames = (enableAnimation: boolean, isExpanded: boolean) =>
   );
 
 export const ItemContent = memo(function ItemContent({
+  url,
   content,
   isExpanded,
   enableAnimation,
 }: ItemContentProps) {
+  const [isLoading, setIsLoading] = useState(!!url);
+
   return (
     <div className={getContentClassNames(enableAnimation, isExpanded)}>
-      <p className="leading-relaxed prose text-gray-700">{content}</p>
+      {content && <p className="text-sm text-gray-600">{content}</p>}
+      {isLoading && (
+        <Skeleton
+          className="w-full rounded-md bg-slate-400"
+          style={{ height: 300 }}
+        />
+      )}
+      {url && (
+        <img
+          src={url}
+          alt="random-image"
+          className="w-full"
+          onLoad={() => setIsLoading(false)}
+        />
+      )}
     </div>
   );
 });

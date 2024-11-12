@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import {
   useDynamicPrependTexts,
+  useGetFakerImages,
   useGetFakerTexts,
 } from '@/entities/faker/api/queries';
 import { type FakerTextDataItem } from '@/entities/faker/model/types';
@@ -36,15 +37,37 @@ export function VirtualizedListWidget() {
   >(ENTRY_TYPE.APPEND);
   const [isPrependFetching, setIsPrependFetching] = useState(false);
 
+  const isEnabledTextData = page > 0 && page % 2 === 1;
+  const isEnabledImageData = page > 0 && page % 2 === 0;
+
   const {
-    data: appendData,
-    isLoading,
-    isFetching: isAppendFetching,
-  } = useGetFakerTexts({
-    page,
-    quantity: 20,
-    characters: 500,
-  });
+    data: appendTextData,
+    isLoading: isTextLoading,
+    isFetching: isTextFetching,
+  } = useGetFakerTexts(
+    {
+      page,
+      quantity: 20,
+      characters: 500,
+    },
+    {
+      enabled: isEnabledTextData,
+    },
+  );
+  const {
+    data: appendImageData,
+    isLoading: isImageLoading,
+    isFetching: isImageFetching,
+  } = useGetFakerImages(
+    {
+      page,
+      quantity: 20,
+      height: 300,
+    },
+    {
+      enabled: isEnabledImageData,
+    },
+  );
   const { data: prependData } = useDynamicPrependTexts({
     characters: 400,
   });
@@ -93,15 +116,20 @@ export function VirtualizedListWidget() {
   }, [prependData]);
 
   useEffect(() => {
-    if (appendData) {
+    const newData = page % 2 === 1 ? appendTextData : appendImageData;
+
+    if (newData) {
       setEntryType(ENTRY_TYPE.APPEND);
       setAccumData((prev) => {
         const lookup: Record<number, boolean> = {};
         prev.forEach((item) => (lookup[item.order] = true));
-        return [...prev, ...appendData.filter((item) => !lookup[item.order])];
+        return [...prev, ...newData.filter((item) => !lookup[item.order])];
       });
     }
-  }, [appendData]);
+  }, [appendTextData, appendImageData, page]);
+
+  const isLoading = isTextLoading || isImageLoading;
+  const isFetching = isTextFetching || isImageFetching;
 
   if (isLoading && accumData.length === 0) {
     return <LoadingIndicator />;
@@ -125,7 +153,7 @@ export function VirtualizedListWidget() {
           onLoadMore={handleLoadMore}
           onLoadLatest={handleLoadLatest}
         />
-        <FetchIndicator position={POSITION.BOTTOM} enabled={isAppendFetching} />
+        <FetchIndicator position={POSITION.BOTTOM} enabled={isFetching} />
       </CardContent>
       <CardFooter>
         <NewItemsIndicator latestData={latestData} />

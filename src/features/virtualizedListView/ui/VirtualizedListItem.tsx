@@ -1,6 +1,9 @@
 import { memo, useCallback, useEffect, useRef } from 'react';
 
-import { type FakerTextDataItem } from '@/entities/faker/model/types';
+import {
+  type FakerImageDataItem,
+  type FakerTextDataItem,
+} from '@/entities/faker/model/types';
 import {
   ItemContent,
   ItemHeader,
@@ -12,7 +15,7 @@ type VirtualizedListItemProps = {
   order: number;
   className?: string;
   style: React.CSSProperties;
-  data: FakerTextDataItem;
+  data: FakerTextDataItem | FakerImageDataItem;
   toggleItemExpanded: (index: number) => void;
   updateItemHeight: (index: number, height: number) => void;
   isExpanded: boolean;
@@ -79,25 +82,33 @@ export const VirtualizedListItem = memo(function VirtualizedListItem({
       style={style}
       onClick={handleClick}
     >
-      <article className="my-auto">
+      <article className="w-full my-auto">
         <Card
           className={cn('cursor-pointer', {
             'bg-chart-2': isExpanded,
           })}
         >
           <CardHeader>
-            <ItemHeader
-              title={data.title}
-              author={data.author}
-              genre={data.genre}
-            />
+            {'content' in data ? (
+              <ItemHeader title={data.title} author={data.author} />
+            ) : (
+              <ItemHeader title={data.title} description={data.description} />
+            )}
           </CardHeader>
           <CardContent>
-            <ItemContent
-              content={data.content}
-              isExpanded={isExpanded}
-              enableAnimation={enableAnimation}
-            />
+            {'content' in data ? (
+              <ItemContent
+                content={data.content}
+                isExpanded={isExpanded}
+                enableAnimation={enableAnimation}
+              />
+            ) : (
+              <ItemContent
+                url={data.url}
+                isExpanded={isExpanded}
+                enableAnimation={enableAnimation}
+              />
+            )}
           </CardContent>
         </Card>
       </article>

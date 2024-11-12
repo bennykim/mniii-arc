@@ -19,3 +19,24 @@ export type FakerTextResponse = {
   total: number;
   data: FakerTextDataItem[];
 };
+
+export type GetFakerImagesParams = {
+  quantity: number;
+  height: number;
+};
+
+export type FakerImageDataItem = {
+  order: number;
+  title: string;
+  description: string;
+  url: string;
+};
+
+export type FakerImageResponse = {
+  status: 'OK' | 'ERROR';
+  code: number;
+  locale: string;
+  seed: string | null;
+  total: number;
+  data: FakerImageDataItem[];
+};
