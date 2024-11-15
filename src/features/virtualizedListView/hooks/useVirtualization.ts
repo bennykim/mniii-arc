@@ -19,7 +19,7 @@ type VisibleRange = {
   end: number;
 };
 
-type UseVirtualizationProps = {
+export type UseVirtualizationProps = {
   totalItems: number;
   itemHeight: number;
   bufferSize?: number;
