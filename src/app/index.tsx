@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { AppProvider, ThemeProvider } from '@/app/providers';
 import DashboardPage from '@/pages/DashboardPage';
 import { STORAGE_KEY, THEME } from '@/shared/config/constants';
+import { FullscreenImage as DashboardBackground } from '@/shared/ui/FullscreenImage';
 
 import './styles/global.css';
 
@@ -20,6 +21,12 @@ enableMocking().then(() => {
       <ThemeProvider defaultTheme={THEME.DARK} storageKey={STORAGE_KEY}>
         <AppProvider>
           <DashboardPage />
+          <DashboardBackground
+            src="/images/wood-cladding-painted-blue.jpg"
+            srcSet="/images/wood-cladding-painted-blue.webp"
+            alt="Blue painted wood cladding texture"
+            fitMode="cover"
+          />
         </AppProvider>
       </ThemeProvider>
     </StrictMode>,

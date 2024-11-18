@@ -10,7 +10,7 @@ import { VirtualizedListWidget } from '@/widgets/virtualizedListWidget/ui';
 
 function DashboardPage() {
   return (
-    <div className="h-screen bg-gradient-to-t from-blue-600 to-yellow-50 dark:to-blue-600 dark:from-yellow-50">
+    <div className="h-screen">
       <div className="container p-4 mx-auto">
         <Tabs defaultValue="GroupManager">
           <TabsList>

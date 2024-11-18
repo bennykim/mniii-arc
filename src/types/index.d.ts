@@ -26,3 +26,8 @@ type UIHistory = {
 };
 
 type UIHistories = UIHistory[];
+
+declare module '*.webp' {
+  const src: string;
+  export default src;
+}
