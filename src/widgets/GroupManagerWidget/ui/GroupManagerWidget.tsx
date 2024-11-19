@@ -84,7 +84,7 @@ export function GroupManagerWidget() {
   ) => editingEntity?.id === entity.id;
 
   return (
-    <Card className="w-full max-w-4xl mx-auto mt-8">
+    <Card className="w-full max-w-4xl mx-auto mt-8 glass">
       <CardHeader className="flex flex-row items-center">
         <CardTitle className="flex-1">Group Management</CardTitle>
         <Select
@@ -96,7 +96,7 @@ export function GroupManagerWidget() {
           <SelectTrigger className="w-[180px]" data-cy="sort-trigger">
             <SelectValue placeholder="Select a sort" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="bg-light-grey-blue">
             <SelectGroup>
               <SelectItem value={SORT_DIRECTION.ASC} data-cy="select-asc">
                 {SORT_DIRECTION.ASC}
@@ -107,7 +107,11 @@ export function GroupManagerWidget() {
             </SelectGroup>
           </SelectContent>
         </Select>
-        <Button variant="outline" className="m-3" onClick={() => refetch()}>
+        <Button
+          variant="outline"
+          className="m-3 bg-light-grey-blue"
+          onClick={() => refetch()}
+        >
           <RefreshCcw
             size={16}
             className={cn({
@@ -223,7 +227,9 @@ export function GroupManagerWidget() {
       <CardFooter>
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant="outline">View Response</Button>
+            <Button variant="outline" className="bg-light-grey-blue">
+              View Response
+            </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>

@@ -24,6 +24,7 @@ export function TimelineItem({ item }: TimelineItemProps) {
 
   return (
     <Card
+      className="bg-light-grey-blue"
       ref={timelineItemref}
       data-timeline-item-id={item.id}
       data-timeline-timestamp={timestamp}

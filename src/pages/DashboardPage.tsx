@@ -13,10 +13,25 @@ function DashboardPage() {
     <div className="h-screen">
       <div className="container p-4 mx-auto">
         <Tabs defaultValue="GroupManager">
-          <TabsList>
-            <TabsTrigger value="GroupManager">Group Manager</TabsTrigger>
-            <TabsTrigger value="Timeline">Timeline</TabsTrigger>
-            <TabsTrigger value="OptimizedList">Optimized List</TabsTrigger>
+          <TabsList className="glass">
+            <TabsTrigger
+              className="data-[state=active]:bg-light-grey-blue"
+              value="GroupManager"
+            >
+              Group Manager
+            </TabsTrigger>
+            <TabsTrigger
+              className="data-[state=active]:bg-light-grey-blue"
+              value="Timeline"
+            >
+              Timeline
+            </TabsTrigger>
+            <TabsTrigger
+              className="data-[state=active]:bg-light-grey-blue"
+              value="OptimizedList"
+            >
+              Optimized List
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="GroupManager">
             <GroupManagerWidget />

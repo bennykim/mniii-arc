@@ -12,7 +12,7 @@ export function TimelineWidget() {
   const { statusQuery, toggleRealtime } = useInfiniteTimeline();
 
   return (
-    <Card className="w-full max-w-4xl mx-auto mt-8">
+    <Card className="w-full max-w-4xl mx-auto mt-8 glass">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>Timeline Dashboard</CardTitle>
         <Timeline.Controls.RealtimeToggle

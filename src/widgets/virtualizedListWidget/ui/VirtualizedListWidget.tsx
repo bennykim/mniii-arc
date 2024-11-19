@@ -140,13 +140,13 @@ export function VirtualizedListWidget() {
   }
 
   return (
-    <Card className="w-full max-w-4xl mx-auto mt-8">
+    <Card className="w-full max-w-4xl mx-auto mt-8 glass">
       <CardHeader className="relative flex flex-row items-center justify-between">
         <CardTitle>Optimized List</CardTitle>
         <ScrollProgressWheel scrollContainerRef={cardContentRef} />
       </CardHeader>
       <CardContent className="h-[600px] relative" ref={cardContentRef}>
-        <FetchIndicator position={POSITION.TOP} enabled={isPrependFetching} />
+        <FetchIndicator position={POSITION.TOP} enabled={!isPrependFetching} />
         <VirtualizedList
           data={accumData}
           entryType={entryType}

@@ -16,7 +16,7 @@ export const FetchIndicator = ({
     className={cn(
       'absolute left-0 right-0 flex justify-center items-center h-[100px] z-50 mx-auto',
       {
-        '-top-[56px]': position === POSITION.TOP,
+        '-top-[66px]': position === POSITION.TOP,
         '-bottom-[36px]': position === POSITION.BOTTOM,
         hidden: !enabled,
       },
