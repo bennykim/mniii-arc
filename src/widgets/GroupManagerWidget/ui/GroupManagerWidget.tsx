@@ -96,7 +96,7 @@ export function GroupManagerWidget() {
           <SelectTrigger className="w-[180px]" data-cy="sort-trigger">
             <SelectValue placeholder="Select a sort" />
           </SelectTrigger>
-          <SelectContent className="bg-light-grey-blue">
+          <SelectContent className="bg-light-grey-blue  dark:bg-light-grey-blue-dark">
             <SelectGroup>
               <SelectItem value={SORT_DIRECTION.ASC} data-cy="select-asc">
                 {SORT_DIRECTION.ASC}
@@ -109,7 +109,7 @@ export function GroupManagerWidget() {
         </Select>
         <Button
           variant="outline"
-          className="m-3 bg-light-grey-blue"
+          className="m-3 bg-light-grey-blue  dark:bg-light-grey-blue-dark"
           onClick={() => refetch()}
         >
           <RefreshCcw
@@ -227,7 +227,10 @@ export function GroupManagerWidget() {
       <CardFooter>
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant="outline" className="bg-light-grey-blue">
+            <Button
+              variant="outline"
+              className="bg-light-grey-blue  dark:bg-light-grey-blue-dark"
+            >
               View Response
             </Button>
           </DialogTrigger>

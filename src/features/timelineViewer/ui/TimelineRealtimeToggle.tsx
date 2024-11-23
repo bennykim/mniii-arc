@@ -27,7 +27,7 @@ export function TimelineRealtimeToggle({
       <Button
         variant="outline"
         size="icon"
-        className="bg-light-grey-blue"
+        className="bg-light-grey-blue  dark:bg-light-grey-blue-dark"
         onClick={() => toggleRealtime(!isRealtimeOn)}
         disabled={isLoading}
       >

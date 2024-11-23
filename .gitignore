@@ -26,3 +26,9 @@ dist-ssr
 
 # Coverages
 coverage/
+
+#lighthouse
+.lighthouseci
+
+#cursor
+.cursorrules

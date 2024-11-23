@@ -84,9 +84,12 @@ export const VirtualizedListItem = memo(function VirtualizedListItem({
     >
       <article className="w-full my-auto">
         <Card
-          className={cn('cursor-pointer bg-light-grey-blue', {
-            'bg-chart-2 border-none': isExpanded,
-          })}
+          className={cn(
+            'cursor-pointer bg-light-grey-blue  dark:bg-light-grey-blue-dark',
+            {
+              'bg-chart-2 border-none': isExpanded,
+            },
+          )}
         >
           <CardHeader>
             {'content' in data ? (

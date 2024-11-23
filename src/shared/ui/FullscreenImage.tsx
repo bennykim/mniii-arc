@@ -1,6 +1,6 @@
 import { useEffect, useState, type CSSProperties } from 'react';
 
-interface FullscreenImageProps {
+type FullscreenImageProps = {
   src: string;
   srcSet?: string;
   alt: string;
@@ -9,7 +9,7 @@ interface FullscreenImageProps {
   containerStyle?: CSSProperties;
   onError?: () => void;
   zIndex?: number;
-}
+};
 
 export function FullscreenImage({
   src,

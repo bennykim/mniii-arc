@@ -146,7 +146,7 @@ export function VirtualizedListWidget() {
         <ScrollProgressWheel scrollContainerRef={cardContentRef} />
       </CardHeader>
       <CardContent className="h-[600px] relative" ref={cardContentRef}>
-        <FetchIndicator position={POSITION.TOP} enabled={!isPrependFetching} />
+        <FetchIndicator position={POSITION.TOP} enabled={isPrependFetching} />
         <VirtualizedList
           data={accumData}
           entryType={entryType}

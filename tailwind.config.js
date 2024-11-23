@@ -11,7 +11,10 @@ export default {
         glass: '4px',
       },
       backgroundColor: {
-        'light-grey-blue': 'rgba(225, 235, 245, 0.95)',
+        'light-grey-blue': {
+          DEFAULT: 'rgba(225, 235, 245, 0.95)',
+          dark: 'rgba(30, 41, 59, 0.95)',
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',
