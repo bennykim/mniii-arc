@@ -22,6 +22,6 @@ export const FetchIndicator = ({
       },
     )}
   >
-    <Loader2 className="w-5 h-5 text-pink-500 animate-spin" />
+    <Loader2 className="w-5 h-5 text-pink-500 animate-spin" strokeWidth={3} />
   </div>
 );

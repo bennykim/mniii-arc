@@ -77,31 +77,37 @@ export function VirtualizedListWidget() {
   };
 
   const handleLoadLatest = useCallback(async () => {
-    if (latestData.length === 0) return false;
+    if (latestData.length === 0 || isPrependFetching) {
+      return false;
+    }
 
-    setEntryType(ENTRY_TYPE.PREPEND);
-    setIsPrependFetching(true);
+    try {
+      setEntryType(ENTRY_TYPE.PREPEND);
+      setIsPrependFetching(true);
 
-    // NOTE: Artificial delay added for development purposes
-    await new Promise((resolve) => setTimeout(resolve, LOADING_DELAY));
+      await new Promise((resolve) => setTimeout(resolve, LOADING_DELAY));
 
-    setAccumData((prev) => {
       const itemsToAdd = latestData.slice(-PREPEND_BATCH_SIZE);
       const remainingLatest = latestData.slice(0, -PREPEND_BATCH_SIZE);
-      setLatestData(remainingLatest);
-
       const offsetOrder = itemsToAdd.length;
-      const adjustedPrev = prev.map((item) => ({
-        ...item,
-        order: item.order + offsetOrder,
-      }));
-      return [...itemsToAdd, ...adjustedPrev];
-    });
 
-    setIsPrependFetching(false);
+      setLatestData(remainingLatest);
+      setAccumData((prev) => {
+        const adjustedPrev = prev.map((item) => ({
+          ...item,
+          order: item.order + offsetOrder,
+        }));
+        return [...itemsToAdd, ...adjustedPrev];
+      });
 
-    return latestData.length > 0;
-  }, [latestData]);
+      return true;
+    } catch (error) {
+      console.error('Error in handleLoadLatest:', error);
+      return false;
+    } finally {
+      setIsPrependFetching(false);
+    }
+  }, [latestData, isPrependFetching]);
 
   useEffect(() => {
     if (prependData) {
@@ -142,7 +148,7 @@ export function VirtualizedListWidget() {
   return (
     <Card className="w-full max-w-4xl mx-auto mt-8 glass">
       <CardHeader className="relative flex flex-row items-center justify-between">
-        <CardTitle>Optimized List</CardTitle>
+        <CardTitle>Virtualized List</CardTitle>
         <ScrollProgressWheel scrollContainerRef={cardContentRef} />
       </CardHeader>
       <CardContent className="h-[600px] relative" ref={cardContentRef}>

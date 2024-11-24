@@ -11,7 +11,7 @@ import {
 import { cn } from '@/shared/lib/utils';
 import { Card, CardContent, CardHeader } from '@/shared/ui/shadcn/card';
 
-type VirtualizedListItemProps = {
+export type VirtualizedListItemProps = {
   order: number;
   className?: string;
   style: React.CSSProperties;

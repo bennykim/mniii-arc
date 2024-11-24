@@ -4,17 +4,9 @@ import { type FakerTextDataItem } from '@/entities/faker/model/types';
 import { useVirtualization } from '@/features/virtualizedListView/hooks/useVirtualization';
 import { VIRTUALIZATION } from '@/features/virtualizedListView/lib/constants';
 import { getItemStyle } from '@/features/virtualizedListView/lib/helpers';
+import { type VirtualizedListItemProps } from '@/features/virtualizedListView/ui/VirtualizedListItem';
 import { ScrollArea } from '@/shared/ui/shadcn/scroll-area';
 import { ENTRY_TYPE } from '@/widgets/virtualizedListWidget/lib/constants';
-
-type VirtualizedListItemProps = {
-  order: number;
-  style: React.CSSProperties;
-  data: FakerTextDataItem;
-  updateItemHeight: (index: number, height: number) => void;
-  toggleItemExpanded: (index: number) => void;
-  isExpanded: boolean;
-};
 
 type VirtualizedListProps = {
   data: FakerTextDataItem[];
