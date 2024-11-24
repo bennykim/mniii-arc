@@ -22,7 +22,6 @@ export function TimelineScrollToTop({
       if (viewport) {
         viewport.scrollTo({
           top: 0,
-          behavior: 'smooth',
         });
       }
     }

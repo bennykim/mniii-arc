@@ -41,6 +41,7 @@ type UseVirtualizationReturn = {
   updateItemHeight: (index: number, newHeight: number) => void;
   toggleItemExpanded: (index: number) => void;
   isItemExpanded: (index: number) => boolean;
+  scrollToTop: () => void;
 };
 
 export const useVirtualization = ({
@@ -254,6 +255,16 @@ export const useVirtualization = ({
     handleInfiniteScroll();
   }, [calculateVisibleRangeChunked, onLoadMore, onLoadLatest, threshold]);
 
+  const scrollToTop = useCallback(() => {
+    const scrollElement = getScrollElement(containerRef);
+    if (scrollElement) {
+      scrollElement.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    }
+  }, []);
+
   return {
     visibleRange,
     containerRef,
@@ -265,5 +276,6 @@ export const useVirtualization = ({
     updateItemHeight,
     toggleItemExpanded,
     isItemExpanded,
+    scrollToTop,
   };
 };

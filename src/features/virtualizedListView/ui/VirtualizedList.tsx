@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 
 import { type FakerTextDataItem } from '@/entities/faker/model/types';
 import { useVirtualization } from '@/features/virtualizedListView/hooks/useVirtualization';
@@ -8,6 +8,10 @@ import { type VirtualizedListItemProps } from '@/features/virtualizedListView/ui
 import { ScrollArea } from '@/shared/ui/shadcn/scroll-area';
 import { ENTRY_TYPE } from '@/widgets/virtualizedListWidget/lib/constants';
 
+export type VirtualizationControls = {
+  scrollToTop: () => void;
+};
+
 type VirtualizedListProps = {
   data: FakerTextDataItem[];
   entryType?: (typeof ENTRY_TYPE)[keyof typeof ENTRY_TYPE];
@@ -15,6 +19,7 @@ type VirtualizedListProps = {
   onLoadMore: () => void;
   onLoadLatest?: () => Promise<boolean>;
   children: (props: VirtualizedListItemProps) => React.ReactNode;
+  onVirtualizationReady: (controls: VirtualizationControls) => void;
 };
 
 export const VirtualizedList = memo(function ({
@@ -24,6 +29,7 @@ export const VirtualizedList = memo(function ({
   onLoadMore,
   onLoadLatest,
   children,
+  onVirtualizationReady,
 }: VirtualizedListProps) {
   const virtualization = useVirtualization({
     totalItems: data.length,
@@ -34,6 +40,12 @@ export const VirtualizedList = memo(function ({
     onLoadMore,
     onLoadLatest,
   });
+
+  useEffect(() => {
+    onVirtualizationReady({
+      scrollToTop: virtualization.scrollToTop,
+    });
+  }, [onVirtualizationReady, virtualization.scrollToTop]);
 
   const visibleItems = data.slice(
     virtualization.visibleRange.start,

@@ -11,15 +11,10 @@ export const NewItemsIndicator = ({
   className,
 }: NewItemsIndicatorProps) => {
   return (
-    <div
-      className={cn(
-        'flex items-center justify-end w-full h-12 gap-2 relative',
-        className,
-      )}
-    >
+    <div className={cn('flex items-center justify-end', className)}>
       {latestData.length > 0 && (
-        <span className="flex items-center justify-center p-2 text-xs text-white rounded-full text-secondray bg-destructive">
-          new {latestData.length}
+        <span className="flex items-center justify-center p-1 text-xs text-white rounded-full text-secondray bg-destructive min-w-6 w-fit h-fit">
+          {latestData.length}
         </span>
       )}
     </div>

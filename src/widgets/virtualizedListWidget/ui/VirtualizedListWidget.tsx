@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import {
-  useDynamicPrependTexts,
-  useGetFakerImages,
-  useGetFakerTexts,
-} from '@/entities/faker/api/queries';
+import { useDataFetching } from '../hooks/useDataFetching';
+import { ScrollControls } from './components/ScrollControls';
+
+import { useDynamicPrependTexts } from '@/entities/faker/api/queries';
 import { type FakerTextDataItem } from '@/entities/faker/model/types';
 import { Virtualized } from '@/features/virtualizedListView/ui';
+import { VirtualizationControls } from '@/features/virtualizedListView/ui/VirtualizedList';
 import {
   Card,
   CardContent,
@@ -36,45 +36,24 @@ export function VirtualizedListWidget() {
     (typeof ENTRY_TYPE)[keyof typeof ENTRY_TYPE]
   >(ENTRY_TYPE.APPEND);
   const [isPrependFetching, setIsPrependFetching] = useState(false);
+  const [virtualizationControls, setVirtualizationControls] =
+    useState<VirtualizationControls | null>(null);
 
-  const isEnabledTextData = page > 0 && page % 2 === 1;
-  const isEnabledImageData = page > 0 && page % 2 === 0;
-
-  const {
-    data: appendTextData,
-    isLoading: isTextLoading,
-    isFetching: isTextFetching,
-  } = useGetFakerTexts(
-    {
-      page,
-      quantity: 20,
-      characters: 500,
-    },
-    {
-      enabled: isEnabledTextData,
-    },
-  );
-  const {
-    data: appendImageData,
-    isLoading: isImageLoading,
-    isFetching: isImageFetching,
-  } = useGetFakerImages(
-    {
-      page,
-      quantity: 20,
-      height: 300,
-    },
-    {
-      enabled: isEnabledImageData,
-    },
-  );
+  const { appendData, isLoading, isFetching } = useDataFetching({ page });
   const { data: prependData } = useDynamicPrependTexts({
     characters: 400,
   });
 
-  const handleLoadMore = () => {
+  const handleVirtualizationReady = useCallback(
+    (controls: VirtualizationControls) => {
+      setVirtualizationControls(controls);
+    },
+    [],
+  );
+
+  const handleLoadMore = useCallback(() => {
     setPage((prev) => prev + 1);
-  };
+  }, []);
 
   const handleLoadLatest = useCallback(async () => {
     if (latestData.length === 0 || isPrependFetching) {
@@ -111,31 +90,28 @@ export function VirtualizedListWidget() {
 
   useEffect(() => {
     if (prependData) {
-      setLatestData((prev) => {
-        const shiftedPrev = prev.map((item) => ({
+      setLatestData((prev) => [
+        ...prependData,
+        ...prev.map((item) => ({
           ...item,
           order: item.order + prependData.length,
-        }));
-        return [...prependData, ...shiftedPrev];
-      });
+        })),
+      ]);
     }
   }, [prependData]);
 
   useEffect(() => {
-    const newData = page % 2 === 1 ? appendTextData : appendImageData;
-
-    if (newData) {
+    if (appendData) {
       setEntryType(ENTRY_TYPE.APPEND);
       setAccumData((prev) => {
-        const lookup: Record<number, boolean> = {};
-        prev.forEach((item) => (lookup[item.order] = true));
-        return [...prev, ...newData.filter((item) => !lookup[item.order])];
+        const lookup = new Set(prev.map((item) => item.order));
+        return [
+          ...prev,
+          ...appendData.filter((item) => !lookup.has(item.order)),
+        ];
       });
     }
-  }, [appendTextData, appendImageData, page]);
-
-  const isLoading = isTextLoading || isImageLoading;
-  const isFetching = isTextFetching || isImageFetching;
+  }, [appendData]);
 
   if (isLoading && accumData.length === 0) {
     return <LoadingIndicator />;
@@ -159,6 +135,7 @@ export function VirtualizedListWidget() {
           hasLatestData={latestData.length > 0}
           onLoadMore={handleLoadMore}
           onLoadLatest={handleLoadLatest}
+          onVirtualizationReady={handleVirtualizationReady}
         >
           {({
             order,
@@ -181,8 +158,10 @@ export function VirtualizedListWidget() {
         </Virtualized.List>
         <FetchIndicator position={POSITION.BOTTOM} enabled={isFetching} />
       </CardContent>
-      <CardFooter>
-        <NewItemsIndicator latestData={latestData} />
+      <CardFooter className="justify-end">
+        <ScrollControls controls={virtualizationControls}>
+          <NewItemsIndicator latestData={latestData} />
+        </ScrollControls>
       </CardFooter>
     </Card>
   );
