@@ -6,7 +6,7 @@ import {
   useGetFakerTexts,
 } from '@/entities/faker/api/queries';
 import { type FakerTextDataItem } from '@/entities/faker/model/types';
-import { VirtualizedList } from '@/features/virtualizedListView/ui';
+import { Virtualized } from '@/features/virtualizedListView/ui';
 import {
   Card,
   CardContent,
@@ -147,13 +147,32 @@ export function VirtualizedListWidget() {
       </CardHeader>
       <CardContent className="h-[600px] relative" ref={cardContentRef}>
         <FetchIndicator position={POSITION.TOP} enabled={isPrependFetching} />
-        <VirtualizedList
+        <Virtualized.List
           data={accumData}
           entryType={entryType}
           hasLatestData={latestData.length > 0}
           onLoadMore={handleLoadMore}
           onLoadLatest={handleLoadLatest}
-        />
+        >
+          {({
+            order,
+            style,
+            data,
+            updateItemHeight,
+            toggleItemExpanded,
+            isExpanded,
+          }) => (
+            <Virtualized.Item
+              key={order}
+              order={order}
+              style={style}
+              data={data}
+              updateItemHeight={updateItemHeight}
+              toggleItemExpanded={toggleItemExpanded}
+              isExpanded={isExpanded}
+            />
+          )}
+        </Virtualized.List>
         <FetchIndicator position={POSITION.BOTTOM} enabled={isFetching} />
       </CardContent>
       <CardFooter>

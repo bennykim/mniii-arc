@@ -4,9 +4,17 @@ import { type FakerTextDataItem } from '@/entities/faker/model/types';
 import { useVirtualization } from '@/features/virtualizedListView/hooks/useVirtualization';
 import { VIRTUALIZATION } from '@/features/virtualizedListView/lib/constants';
 import { getItemStyle } from '@/features/virtualizedListView/lib/helpers';
-import { VirtualizedListItem } from '@/features/virtualizedListView/ui';
 import { ScrollArea } from '@/shared/ui/shadcn/scroll-area';
 import { ENTRY_TYPE } from '@/widgets/virtualizedListWidget/lib/constants';
+
+type VirtualizedListItemProps = {
+  order: number;
+  style: React.CSSProperties;
+  data: FakerTextDataItem;
+  updateItemHeight: (index: number, height: number) => void;
+  toggleItemExpanded: (index: number) => void;
+  isExpanded: boolean;
+};
 
 type VirtualizedListProps = {
   data: FakerTextDataItem[];
@@ -14,6 +22,7 @@ type VirtualizedListProps = {
   hasLatestData?: boolean;
   onLoadMore: () => void;
   onLoadLatest?: () => Promise<boolean>;
+  children: (props: VirtualizedListItemProps) => React.ReactNode;
 };
 
 export const VirtualizedList = memo(function ({
@@ -22,6 +31,7 @@ export const VirtualizedList = memo(function ({
   hasLatestData,
   onLoadMore,
   onLoadLatest,
+  children,
 }: VirtualizedListProps) {
   const virtualization = useVirtualization({
     totalItems: data.length,
@@ -47,17 +57,15 @@ export const VirtualizedList = memo(function ({
       <ul className="relative" style={{ height: virtualization.totalHeight }}>
         {visibleItems.map((item, index) => {
           const actualIndex = virtualization.visibleRange.start + index;
-          return (
-            <VirtualizedListItem
-              key={item.order}
-              order={item.order}
-              style={getItemStyle(virtualization.getItemOffset(actualIndex))}
-              data={item}
-              updateItemHeight={virtualization.updateItemHeight}
-              toggleItemExpanded={virtualization.toggleItemExpanded}
-              isExpanded={virtualization.isItemExpanded(actualIndex)}
-            />
-          );
+
+          return children({
+            order: item.order,
+            style: getItemStyle(virtualization.getItemOffset(actualIndex)),
+            data: item,
+            updateItemHeight: virtualization.updateItemHeight,
+            toggleItemExpanded: virtualization.toggleItemExpanded,
+            isExpanded: virtualization.isItemExpanded(actualIndex),
+          });
         })}
       </ul>
     </ScrollArea>

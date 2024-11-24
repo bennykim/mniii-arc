@@ -35,9 +35,9 @@ function DashboardPage() {
             </TabsTrigger>
             <TabsTrigger
               className="data-[state=active]:bg-light-grey-blue  data-[state=active]:dark:bg-light-grey-blue-dark"
-              value="OptimizedList"
+              value="VirtualizedList"
             >
-              Optimized List
+              Virtualized List
             </TabsTrigger>
           </TabsList>
           <TabsContent value="Slides">
@@ -49,7 +49,7 @@ function DashboardPage() {
           <TabsContent value="Timeline">
             <TimelineWidget />
           </TabsContent>
-          <TabsContent value="OptimizedList">
+          <TabsContent value="VirtualizedList">
             <VirtualizedListWidget />
           </TabsContent>
         </Tabs>
